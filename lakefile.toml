@@ -1,0 +1,28 @@
+name = "ham-spin"
+version = "0.1.0"
+keywords = ["math"]
+defaultTargets = ["PairingBasic", "Clifford", "Spin"]
+
+[leanOptions]
+pp.unicode.fun = true
+relaxedAutoImplicit = false
+weak.linter.mathlibStandardSet = true
+maxSynthPendingDepth = 3
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.35.0"
+
+[[lean_lib]]
+name = "PairingBasic"
+srcDir = "core"
+roots = ["Pairing.Basic"]
+
+[[lean_lib]]
+name = "Clifford"
+srcDir = "clifford"
+
+[[lean_lib]]
+name = "Spin"
+srcDir = "spin"
