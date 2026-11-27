@@ -464,3 +464,40 @@ ones are `dotForm_nondegenerate`, `IsSelfDual.le_U`, `IsSelfDual.one_mem`, `IsSe
 `finrank_matchingStar_edgeSet`, `pureSpinorEquiv`, `psiCode_pairCode`,
 `fpForm_psiCode_eq_one_iff`, `psiCode_apply_eq_one_iff` and `psiCode_mem_orthogonal_fpSpan_iff`.
 None was removed.
+
+## Cameron's theorem for abelian groups of odd order (COD-299, branch `spin-audit`)
+
+From cfe1b55. Lemma 1, Lemma 2(b) and Theorem 3 of `results/audit-manuscript-extend.md` §4.1
+(organize-archive 313d6ea). `GK(A)` is built for every finite additive commutative group `A` of odd
+order, on `Option A` with `none = ∞`, in the new module `Pairing.AbelianAutomorphism`
+(`core/Pairing/AbelianAutomorphism.lean`), namespace `GK`. Oddness is the instance
+`Fact (Odd (Nat.card A))`. The `ℤ/n` development of `Pairing.Automorphism` is unchanged, and
+`GK.factor_zmod` identifies the two families at `A = ℤ/(2m - 1)`.
+
+The non-mediality witness is the corrected Lemma 2(b) of the source, not the audit's computation:
+for `a ≠ 0` and `b ∉ {0, a, -a, a/2, 2a}` the two sides are `a + 2b` and `3a + b`.
+
+### New
+
+| name | statement | location |
+|---|---|---|
+| `GK.twoEquiv`, `GK.half` and their lemmas | `x ↦ 2x` as an additive automorphism of `A`, and its inverse | `core/Pairing/AbelianAutomorphism.lean` |
+| `GK.mateFn`, `GK.factor`, `GK.factor_injective` | `F_c` pairs `∞` with `c` and `x ≠ c` with `2c - x` | `core/Pairing/AbelianAutomorphism.lean` |
+| `GK.IsAut`, `GK.autGroup`, `GK.IsAut.exists_perm`, `GK.mate_smul_eq` | the automorphisms of `GK(A)` | `core/Pairing/AbelianAutomorphism.lean` |
+| `GK.affPerm`, `GK.affPerm_smul_factor`, `GK.isAut_affPerm`, `GK.affPerm_inj` | `x ↦ α x + b` sends `F_c` to `F_(α c + b)` and determines `(α, b)` | `core/Pairing/AbelianAutomorphism.lean` |
+| `GK.edgeLabel`, `GK.localSq`, `GK.localSq_smul` | the operation `∘_v`, carried to `∘_(σ v)` by an automorphism | `core/Pairing/AbelianAutomorphism.lean` |
+| `GK.localSq_none`, `GK.isMedial_localSq_none` | Lemma 1(1), `c ∘_∞ d = (c + d)/2` is medial | `core/Pairing/AbelianAutomorphism.lean` |
+| `GK.localSq_zero`, `GK.localSq_zero_left`, `GK.localSq_zero_right` | Lemma 1(2) and 1(3), `c ∘₀ d = c + d` and `0 ∘₀ d = d ∘₀ 0 = 2d` | `core/Pairing/AbelianAutomorphism.lean` |
+| `GK.not_isMedial_localSq_zero` | Lemma 2(b), `∘₀` is not medial for `|A| ≥ 7` | `core/Pairing/AbelianAutomorphism.lean` |
+| `GK.IsAut.apply_none`, `GK.IsAut.exists_affPerm`, `GK.isAut_iff` | Theorem 3, `Aut(GK(A)) = {x ↦ α x + b}` for `|A| ≥ 7` | `core/Pairing/AbelianAutomorphism.lean` |
+| `GK.autEquiv`, `GK.card_autGroup` | `Aut(A) × A ≃ Aut(GK(A))` and `|Aut(GK(A))| = |A| |Aut(A)|` | `core/Pairing/AbelianAutomorphism.lean` |
+| `GK.affinePerm`, `GK.range_affinePerm`, `GK.autGroupMulEquiv` | `Hol(A) = (A ≃ᵃ[ℤ] A) ≃* Aut(GK(A))` for `|A| ≥ 7` | `core/Pairing/AbelianAutomorphism.lean` |
+| `GK.fact_odd_card_zmod`, `GK.factor_zmod`, `GK.isAut_zmod_iff` | at `A = ℤ/(2m - 1)`, `GK(A)` is the round-robin family | `core/Pairing/AbelianAutomorphism.lean` |
+
+`core/Pairing.lean` imports the new module.
+
+### AxiomCheck
+
+284 endpoints at cfe1b55, 306 after. The 22 new ones are the `GK.*` lines at the end of
+`AxiomCheck.lean`. 300 endpoints are on `[propext, Classical.choice, Quot.sound]` and 6 on fewer
+(`GK.affPerm_inj` is on `[propext, Quot.sound]`). None was removed.
