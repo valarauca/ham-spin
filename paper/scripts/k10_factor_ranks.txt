@@ -1,0 +1,4 @@
+perfect matchings of K_10: 945
+P1F of Remark 7.15: factors=9 perfect=True rank=8 rows_sum_to_zero=True
+GK_10: factors=9 perfect=False rank=9 rows_sum_to_zero=False
+OK
