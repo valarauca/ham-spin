@@ -1,0 +1,177 @@
+% chktex-file 12
+% chktex-file 36
+\section{Polar geometry, the quadratic form \texorpdfstring{$\QF$}{Q} and perfect \texorpdfstring{$1$}{1}-factorizations}\label{sec:polar}
+
+This section uses the form $\pr{\,,}$ on $W(V)$ to study families of perfect matchings. Section~\ref{subsec:fixed} sets up a dictionary between matchings and subspaces of $W(V)$. The fingerprint of a matching that contains given edges lies in a fixed space of the corresponding transpositions, and the fingerprints of the zero states of a family are the fingerprints orthogonal to its span. Section~\ref{subsec:quad} builds a quadratic form $\QF$ with polar form $\pr{\,,}$ from two transpositions with a common point. Section~\ref{subsec:parity} uses $\QF$ to give rank statements for pairwise Hamiltonian families, defined there, in particular for perfect $1$-factorizations.
+
+\subsection{The fingerprint pairing, polar sections and fixed spaces}\label{subsec:fixed}
+
+Write $\Phi=\varphi(\M(V))$ for the set of fingerprints. The form on $\F[\M(V)]$ with matrix $H$ descends to the quotient by its radical, and Theorem~\ref{thm:rank} carries it to $W(V)$. We write it $\pr{\,,}$.
+
+\begin{proposition}\label{prop:fpform}
+The form $\pr{\,,}$ on $W(V)$ is symmetric, nondegenerate and $S_V$-invariant, and $\pr{\varphi(P),\varphi(Q)}=H[P,Q]$. For $f\in W(V)$, $\pr{f,\varphi(Q)}=f(Q)$, the coefficient of $e_Q$ in $f$.
+\end{proposition}
+
+\begin{proof}
+If $f=\sum_{P}x_P\varphi(P)$ then $\pr{f,\varphi(Q)}=\sum_{P}x_{P}H[P,Q]=f(Q)$. The other properties come from those of $H$ and from the fact that the form on the quotient by the radical is nondegenerate.
+\end{proof}
+
+For $|V|\ge4$ the diagonal of $H$ vanishes, so $\pr{\varphi(P),\varphi(P)}=0$ and, since the fingerprints span, the form is alternating.
+
+Let $\Fam={(F_i)}_{i\in I}$ be a finite family of perfect matchings and put $R(\Fam)=\Span\{\varphi(F_i)\}$. For $P\in\M(V)$ let $\deg_\Fam(P)$ be the number of $i$ with $\Ham(P,F_i)$. A matching $P$ is a \emph{zero state} of $\Fam$ if $\deg_\Fam(P)=0$, and $Z(\Fam)$ is the set of zero states. The zero states of the round-robin factorization $\GK_{2n}$ are the subject of the separate paper mentioned at the end of Section~\ref{sec:roundrobin}, and here we describe them by linear algebra. The next theorem turns this combinatorial condition into a linear one, and we call $\Phi\cap{R(\Fam)}^\perp$ the \emph{polar section} of $\Fam$. Let $\mathrm{Stab}(\Fam)\le S_V$ be the subgroup of permutations $\sigma$ with $\rho_W(\sigma)R(\Fam)=R(\Fam)$.
+
+\begin{theorem}\label{thm:polarsection}
+Let $|V|=2n\ge2$ and let $\Fam$ be a finite family.
+\begin{enumerate}
+\item $\dim R(\Fam)+\dim {R(\Fam)}^\perp=2^{n-1}$.
+\item $P\in Z(\Fam)$ if and only if $\varphi(P)\in {R(\Fam)}^\perp$. So $\varphi(Z(\Fam))=\Phi\cap {R(\Fam)}^\perp$.
+\item If $\sigma$ permutes the members of $\Fam$, then $\sigma\in\mathrm{Stab}(\Fam)$. Every $\sigma\in\mathrm{Stab}(\Fam)$ preserves ${R(\Fam)}^\perp$ and $Z(\Fam)$, and $Z(\Fam)$ is a union of orbits of every subgroup of $\mathrm{Stab}(\Fam)$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(i) is nondegeneracy and Theorem~\ref{thm:rank}. (ii) $\pr{\varphi(P),\varphi(F_i)}=H[P,F_i]$, and $P$ is a zero state exactly when all of these vanish. (iii) $\rho_W(\sigma)\varphi(F_i)=\varphi(\sigma F_i)$, and invariance of the form carries ${R(\Fam)}^\perp$ to ${(\rho_W(\sigma)R(\Fam))}^\perp$. Then (ii) applies.
+\end{proof}
+
+For an edge $e$ put $L_e=\ker(1+\Gamma_e)\subseteq W(V)$, the fixed space of the transposition of $e$. For a set $E$ of edges put $L_E=\bigcap_{e\in E}L_e$. The next lemma describes how $1+\Gamma_e$ acts on fingerprints.
+
+\begin{lemma}\label{lem:surgery}
+Let $e=\{c,d\}$ be an edge and $P\in\M(V)$. If $e\in P$, then $(1+\Gamma_e)\varphi(P)=0$. Otherwise let $P^e$ be the matching obtained from $P$ by replacing the edges $\{c,P(c)\}$ and $\{d,P(d)\}$ with $\{c,d\}$ and $\{P(c),P(d)\}$. Then $(1+\Gamma_e)\varphi(P)=\varphi(P^e)$.
+\end{lemma}
+
+\begin{proof}
+If $e\in P$, then $\tr cdP=P$. Otherwise $P$, $\tr cdP$ and $P^e$ are the three matchings that agree with $P$ outside $\{c,P(c),d,P(d)\}$. The $3$-cycle $\tau=\tr c{P(c)}\tr cd$ sends $c$ to $d$, $d$ to $P(c)$ and $P(c)$ to $c$, so $\tau P=P^e$ and $\tau^2P=\tr cdP$. By Theorem~\ref{thm:threecycle}, $\varphi(P)+\varphi(\tr cdP)+\varphi(P^e)=0$. Since $\Gamma_e\varphi(P)=\varphi(\tr cdP)$, the claim follows.
+\end{proof}
+
+\begin{theorem}\label{thm:stars}
+Let $|V|=2n\ge2$.
+\begin{enumerate}
+\item $\varphi(P)\ne0$ for every $P$.
+\item For an edge $e=\{u,v\}$, $\varphi(P)\in L_e$ if and only if $e\in P$. For a set $E$ of edges, $\varphi(P)\in L_E$ if and only if $E\subseteq P$.
+\item $\varphi$ is injective.
+\item Let $V=\{0,\dots,2n-1\}$ and let $E_j$ be the set of the first $j$ blocks $\{2a,2a+1\}$, $a<j$, for $0\le j\le n-1$. Then $L_{E_j}$ is spanned by the $w_S$ with $S\cap\{0,\dots,j-1\}=\emptyset$, and $\dim L_{E_j}=2^{n-1-j}$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(i) The orbit of $\varphi(P)$ spans $W(V)$, which is nonzero by Theorem~\ref{thm:rank}. (ii) If $e\in P$ then $\tr uvP=P$, so $\Gamma_{uv}\varphi(P)=\varphi(P)$. Suppose $P(u)=w\ne v$ and $\Gamma_{uv}\varphi(P)=\varphi(P)$. Also $\Gamma_{uw}\varphi(P)=\varphi(P)$, and by Proposition~\ref{prop:edge}(ii), $\Gamma_{uv}\Gamma_{uw}+\Gamma_{uw}\Gamma_{uv}=1$. Applying this identity to $\varphi(P)$ gives $2\varphi(P)=\varphi(P)$, so $\varphi(P)=0$, which contradicts (i). The second statement follows. (iii) If $P\ne Q$, choose $u$ with $P(u)=v\ne Q(u)$. By (ii), $\varphi(P)\in L_{uv}$ and $\varphi(Q)\notin L_{uv}$. (iv) By definition $\partial_g=\sum_{a\le g}(1+B_a)$, and conversely $1+B_g=\partial_g+\partial_{g-1}$, with $\partial_{-1}=0$. So $L_{E_j}=\bigcap_{a<j}\ker(1+B_a)$ is the common kernel of $\partial_0,\dots,\partial_{j-1}$. Since $\partial_{g}w_S=[g\in S]w_{S\setminus\{g\}}$ by Proposition~\ref{prop:lower}, a vector $\sum c_{S}w_S$ lies in this kernel exactly when $c_S=0$ whenever $S$ meets $\{0,\dots,j-1\}$.
+\end{proof}
+
+\begin{corollary}\label{cor:LE}
+Let $|V|=2n\ge2$ and let $E$ be a set of disjoint edges.
+\begin{enumerate}
+\item If $|E|\le n-1$, then $\dim L_E=2^{n-1-|E|}$, and $L_E$ is spanned by the fingerprints of the matchings that contain $E$. In particular, for $n\ge2$ each $L_e$ has dimension $2^{n-2}$ and is spanned by the fingerprints of the matchings that contain $e$.
+\item If $|E|=n$, so that $E$ is a perfect matching, then $L_E=\F\varphi(E)$.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+(i) Take $V=\{0,\dots,2n-1\}$ and $E=E_j$. Each $X_S$ with $S\cap\{0,\dots,j-1\}=\emptyset$ contains $E_j$, so by Theorem~\ref{thm:stars}(iv) $L_{E_j}$ is spanned by fingerprints of matchings that contain $E_j$, and by Theorem~\ref{thm:stars}(ii) these fingerprints lie in $L_{E_j}$. Since $\rho_W(\sigma)\Gamma_e{\rho_W(\sigma)}^{-1}=\Gamma_{\sigma e}$, $\rho_W(\sigma)L_E=L_{\sigma E}$, and $S_V$ acts transitively on sets of $j$ disjoint edges, so the statement holds for every $E$. (ii) Choose $e\in E$. Then $L_E\subseteq L_{E\setminus\{e\}}$, which has dimension $1$ by (i), and $\varphi(E)\in L_E$ is nonzero by Theorem~\ref{thm:stars}.
+\end{proof}
+
+\subsection{The quadratic form \texorpdfstring{$\QF(u)=\pr{ABu,BAu}$}{Q(u)=<ABu,BAu>}}\label{subsec:quad}
+
+Two transpositions with a common point split $W(V)$. Fix distinct $v,x,y\in V$ with $|V|\ge4$, and put $A=1+\Gamma_{vx}$ and $B=1+\Gamma_{vy}$ on $W(V)$. We show below that $AB$ and $BA$ are complementary idempotents with images in $L_{vx}$ and $L_{vy}$, so that $W(V)=L_{vx}\oplus L_{vy}$, and that both summands are totally isotropic. A splitting of a space with a nondegenerate symmetric form into two totally isotropic halves gives the quadratic form $l+l'\mapsto\pr{l,l'}$ with polar form $\pr{\,,}$, and for this splitting it is $u\mapsto\pr{ABu,BAu}$.
+
+Each $\Gamma_e$ is an isometric involution, so it is self-adjoint, and $A$, $B$ are self-adjoint with $A^2=B^2=0$.
+
+\begin{lemma}\label{lem:TS}
+The operators $AB$ and $BA$ are adjoint to each other, $(AB)(BA)=(BA)(AB)=0$, and $AB+BA=\Gamma_{vx}\Gamma_{vy}+\Gamma_{vy}\Gamma_{vx}=1$. So $AB=AB(AB+BA)={(AB)}^2$ and likewise $BA={(BA)}^2$, and $AB$ and $BA$ are complementary idempotents.
+\end{lemma}
+
+\begin{proof}
+Adjointness follows from self-adjointness of $A$ and $B$. Then $AB^{2}A=0$ and $BA^{2}B=0$. Expanding, $AB+BA=\Gamma_{vx}\Gamma_{vy}+\Gamma_{vy}\Gamma_{vx}$ because the linear terms cancel in characteristic $2$, and this is $1$ by Proposition~\ref{prop:edge}(ii).
+\end{proof}
+
+\begin{definition}\label{def:Q}
+$\QF_{v,x,y}(u)=\pr{ABu,BAu}$ for $u\in W(V)$.
+\end{definition}
+
+\begin{proposition}\label{prop:Qpolar}
+$\QF_{v,x,y}$ is a quadratic form on $W(V)$ whose polar form is $\pr{\,,}$. Every $u$ decomposes as $u=ABu+BAu$ with $ABu\in L_{vx}$ and $BAu\in L_{vy}$, and $\QF_{v,x,y}$ vanishes on $L_{vx}$ and on $L_{vy}$.
+\end{proposition}
+
+\begin{proof}
+Using adjointness, $\QF_{v,x,y}(u+w)-\QF_{v,x,y}(u)-\QF_{v,x,y}(w)=\pr{ABu,BAw}+\pr{ABw,BAu}=\pr{u,({(BA)}^2+{(AB)}^2)w}$. Squaring $AB+BA=1$ and using $(AB)(BA)=(BA)(AB)=0$ gives ${(AB)}^2+{(BA)}^2=1$. The decomposition is $AB+BA=1$, and $ABu\in\operatorname{im}A\subseteq\ker A=L_{vx}$ because $A^2=0$, and similarly $BAu\in L_{vy}$. If $u\in L_{vx}=\ker A$, then $BAu=0$ and $\QF_{v,x,y}(u)=0$. If $u\in L_{vy}$, then $ABu=0$.
+\end{proof}
+
+\begin{theorem}\label{thm:plustype}
+Let $|V|=2n\ge4$ and let $v,x,y$ be distinct. Then $W(V)=L_{vx}\oplus L_{vy}$ with both summands totally singular for $\QF_{v,x,y}$ and of dimension $2^{n-2}$. So $(W(V),\QF_{v,x,y})$ is a nondegenerate quadratic space of Witt index $2^{n-2}$, that is, of plus type.
+\end{theorem}
+
+\begin{proof}
+By Proposition~\ref{prop:Qpolar}, $W(V)=L_{vx}+L_{vy}$ and both are totally singular. Each has dimension $2^{n-2}$ by Corollary~\ref{cor:LE}, half of $\dim W(V)=2^{n-1}$, so the sum is direct. The polar form is nondegenerate by Proposition~\ref{prop:fpform}, and a totally singular subspace of half the dimension means Witt index $2^{n-2}$.
+\end{proof}
+
+\begin{theorem}\label{thm:Qunique}
+Let $|V|=2n$ with $n\ge4$.
+\begin{enumerate}
+\item $\QF_{v,x,y}(\varphi(P))=0$ for every $P\in\M(V)$ and all distinct $v,x,y$.
+\item There is exactly one quadratic form $\QF$ on $W(V)$ with polar form $\pr{\,,}$ that vanishes on every fingerprint. It equals $\QF_{v,x,y}$ for every choice of distinct $v,x,y$, so it is $S_V$-invariant and of plus type.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(i) The three points $v,x,y$ meet at most three of the $n\ge4$ edges of $P$, so some edge $\{a,b\}$ of $P$ avoids $v,x,y$. By Corollary~\ref{cor:LE}, $L_{ab}$ is spanned by the fingerprints of the matchings that contain $\{a,b\}$. Two such matchings share an edge and are not a Hamiltonian pair, so $L_{ab}$ is totally isotropic. The operators $\Gamma_{vx}$ and $\Gamma_{vy}$ commute with $\Gamma_{ab}$ by Proposition~\ref{prop:edge}(i), so $A$ and $B$ preserve $L_{ab}$. Since $\varphi(P)\in L_{ab}$, both $AB\varphi(P)$ and $BA\varphi(P)$ lie in $L_{ab}$, and $\QF_{v,x,y}(\varphi(P))=0$. (ii) Existence is (i) with Proposition~\ref{prop:Qpolar}. Two quadratic forms with the same polar form differ by an additive map $W(V)\to\F$, which is linear. If both vanish on the spanning set $\Phi$, the difference is $0$. Since $\rho_W(\sigma)$ preserves $\pr{\,,}$ and $\Phi$, the form $\QF\circ\rho_W(\sigma)$ has the same two properties, so it equals $\QF$. Plus type is Theorem~\ref{thm:plustype}.
+\end{proof}
+
+With Theorem~\ref{thm:step4}, Theorems~\ref{thm:plustype} and~\ref{thm:Qunique} give a proof inside the matching model that, for $2n\ge8$, $D^{(n+1,n-1)}$ carries a nondegenerate $S_{2n}$-invariant quadratic form and that this form has plus type. Both facts are known. Quadratic type is~\cite[Lemma~2]{Gow16}, which Gow deduces from the criterion of Gow and Quill~\cite[Thm.~1]{GQ04}, and plus type follows from~\cite[Lemma~3]{Gow16} as explained in Section~\ref{subsec:prior}. Theorem~\ref{thm:plustype} holds for every $2n\ge4$ for the forms $\QF_{v,x,y}$, and at $2n=6$ none of them is $S_6$-invariant (Remark~\ref{rem:n3}).
+
+\begin{remark}\label{rem:n3}
+For $n\le3$ no quadratic form with polar form $\pr{\,,}$ vanishes on every fingerprint. At $n=1$ the form $\pr{\,,}=(1)$ is not alternating, so it is not the polar form of any quadratic form. At $n=2$ and $n=3$ there are three matchings that form Hamiltonian pairs with each other and whose fingerprints sum to $0$. At $n=2$ these are the three matchings of $K_4$, by Lemma~\ref{lem:four}. At $n=3$ take $\tau=(a\;\,b\;\,c)$ and $P$ matching $a,b,c$ to three points outside $\{a,b,c\}$. In the notation of the proof of Lemma~\ref{lem:six}, any two of $P,\tau P,\tau^{2}P$ differ by a $3$-cycle of $S$, so the three matchings form Hamiltonian pairs with each other, and their fingerprints sum to $0$ by Theorem~\ref{thm:threecycle}. A quadratic form with polar form $\pr{\,,}$ that vanishes on the three fingerprints would take the value $0+0+0+1+1+1\equiv1$ at their sum $0$, which is impossible.
+
+At $n=3$ the form $\QF_{v,x,y}$ still has polar form $\pr{\,,}$. Let $P$ contain the edge $\{v,p\}$. If $p=x$ then $A\varphi(P)=0$, and if $p=y$ then $B\varphi(P)=0$, so $\QF_{v,x,y}(\varphi(P))=0$. Otherwise Lemma~\ref{lem:surgery} gives $AB\varphi(P)=\varphi(Y_1)$ and $BA\varphi(P)=\varphi(Y_2)$ with $Y_1={(P^{vy})}^{vx}$ and $Y_2={(P^{vx})}^{vy}$, so $\QF_{v,x,y}(\varphi(P))=H[Y_1,Y_2]$. If $xy\in P$, then $Y_1$ and $Y_2$ share the remaining edge of $P$ and $H[Y_1,Y_2]=0$. If $P$ matches $v,x,y$ to the three other points, then $Y_1\cup Y_2$ is a $6$-cycle and $\QF_{v,x,y}(\varphi(P))=1$. So $\QF_{v,x,y}(\varphi(P))=1$ exactly when $P$ pairs $\{v,x,y\}$ with its complement, which happens for six of the fifteen matchings. Since $S_6$ acts transitively on $\M_3$ (Proposition~\ref{prop:count}), an $S_6$-invariant form takes one value on all fifteen fingerprints. Hence no $\QF_{v,x,y}$ is $S_6$-invariant. This agrees with~\cite[Lemma~2]{Gow16}, by which the spin module of $S_6$ over $\F$, here $D^{(4,2)}\cong W_3$, is not of quadratic type.
+\end{remark}
+
+\subsection{The parity theorem and perfect \texorpdfstring{$1$}{1}-factorizations}\label{subsec:parity}
+
+For a family $\Fam={(F_i)}_{i\in I}$ of perfect matchings indexed by a finite linearly ordered set $I$, let $\hp(\Fam)$ be the number of pairs $i<j$ with $\Ham(F_i,F_j)$.
+
+\begin{theorem}\label{thm:parity}
+Let $|V|=2n$ with $n\ge4$, let $\QF$ be the form of Theorem~\ref{thm:Qunique}, and let $\Fam$ be such a family.
+\begin{enumerate}
+\item $\QF\bigl(\sum_{i\in I}\varphi(F_i)\bigr)\equiv\hp(\Fam)\pmod2$.
+\item If $\hp(\Fam)$ is odd, then $\sum_i\varphi(F_i)\ne0$, and some $P\in\M(V)$ has $\deg_\Fam(P)$ odd. Equivalently, if $\sum_{i\in I}\varphi(F_i)=0$, then $\hp(\Fam)$ is even.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(i) $\QF(\sum_{i}f_i)=\sum_i\QF(f_i)+\sum_{i<j}\pr{f_i,f_j}$, with $\QF(\varphi(F_i))=0$ and $\pr{\varphi(F_i),\varphi(F_j)}=H[F_i,F_j]$. (ii) The sum is nonzero because $\QF(0)=0$. By nondegeneracy some fingerprint $\varphi(P)$ pairs to $1$ with it, and $\pr{\sum_i\varphi(F_i),\varphi(P)}\equiv\deg_\Fam(P)$.
+\end{proof}
+
+For a graph $\mathcal G$ on $V$ let $\M(\mathcal G)$ be its set of perfect matchings and $f_{\mathcal G}=\sum_{P\in\M(\mathcal G)}\varphi(P)$.
+
+\begin{corollary}\label{cor:hc}
+Let $\mathcal G$ be a graph on $V$ with $|V|=2n\ge8$. The number of Hamiltonian cycles of $\mathcal G$ is congruent to $\QF(f_{\mathcal G})$ modulo $2$. If it is odd, some $P\in\M(V)$ forms a Hamiltonian pair with an odd number of perfect matchings of $\mathcal G$.
+\end{corollary}
+
+\begin{proof}
+A Hamiltonian cycle of $\mathcal G$ has even length $2n$ and splits in exactly one way into an unordered pair of perfect matchings of $\mathcal G$, and every Hamiltonian pair of perfect matchings of $\mathcal G$ arises this way. Apply Theorem~\ref{thm:parity}.
+\end{proof}
+
+Fix an anchor vertex $v$ and a linear order on the edges at $v$. Every perfect matching of $\mathcal G$ contains exactly one edge at $v$, so $f_{\mathcal G}=\sum_{e\ni v}f_{\mathcal G,e}$, where $f_{\mathcal G,e}\in L_e$ is the sum over the perfect matchings of $\mathcal G$ through $e$. By Theorem~\ref{thm:parity}(i), $\QF(f_{\mathcal G,e})=0$, because no two matchings through $e$ are a Hamiltonian pair. So $\QF(f_{\mathcal G})=\sum_{e<e'}\pr{f_{\mathcal G,e},f_{\mathcal G,e'}}$, which is the sum over pairs of edges at the anchor that Cygan, Kratsch and Nederlof evaluate in the proof of~\cite[Lemma~3.6]{CKN18}. Since $\QF$ does not depend on $v$, this sum is the same for every anchor.
+
+A family $(F_1,\dots,F_m)$ is \emph{pairwise Hamiltonian} if $\Ham(F_s,F_t)$ holds exactly for $s\ne t$. Its Gram matrix ${(H[F_s,F_t])}_{s,t}$ then has zero diagonal and all other entries $1$. For $n\ge2$, by the definition in Section~\ref{subsec:main}, a perfect $1$-factorization~\cite{Kotzig64} of the complete graph on $V$ is a pairwise Hamiltonian family of $2n-1$ perfect matchings that partitions its edges.
+
+\begin{theorem}\label{thm:kotzig}
+Let $|V|=2n$ with $n\ge4$ and let $\Fam=(F_1,\dots,F_m)$ be pairwise Hamiltonian.
+\begin{enumerate}
+\item Every linear relation $\sum_{t}c_t\varphi(F_t)=0$ has constant coefficients.
+\item If $m\equiv2,3\pmod4$, then the $\varphi(F_t)$ are linearly independent and $\dim R(\Fam)=m$.
+\item If $n$ is even and $\Fam$ is a perfect $1$-factorization of the complete graph on $V$, then $\dim R(\Fam)=2n-1$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(i) Pair a relation with $\varphi(F_s)$. Since $H[F_s,F_t]=[s\ne t]$, this gives $\sum_{t\ne s}c_t=0$, so $c_s=\sum_{t}c_t$ for every $s$. (ii) By (i) the only possible relation is $\sum_t\varphi(F_t)=0$. Here $\hp(\Fam)=\binom m2$, which is odd exactly when $m\equiv2,3\pmod4$, and Theorem~\ref{thm:parity}(ii) excludes the relation. (iii) A perfect $1$-factorization has $m=2n-1$ pairwise Hamiltonian factors, and $\binom{2n-1}2=(2n-1)(n-1)$ is odd when $n$ is even.
+\end{proof}
+
+\begin{remark}\label{rem:K10}
+The hypothesis that $n$ is even cannot be dropped. Up to isomorphism $K_{10}$ has exactly one perfect $1$-factorization~\cite[Introduction]{DG96}. One labelled copy has the nine factors
+\begin{gather*}
+\{01,23,45,67,89\},\ \{02,14,36,58,79\},\ \{03,15,27,49,68\},\\
+\{04,13,28,57,69\},\ \{05,12,39,46,78\},\ \{06,18,24,37,59\},\\
+\{07,19,26,35,48\},\ \{08,17,29,34,56\},\ \{09,16,25,38,47\},
+\end{gather*}
+where $ij$ denotes the edge $\{i,j\}$. A computer calculation of the $9\times945$ matrix ${(H[F_t,P])}_{t,P}$ over $\F$, with $P$ running over all perfect matchings of $K_{10}$, gives rank $8=2n-2$, with rows summing to $0$. So every perfect matching of $K_{10}$ forms a Hamiltonian pair with an even number of these factors. Here $\hp(\Fam)=\binom92=36$ is even, and Theorem~\ref{thm:parity} gives no information.
+\end{remark}

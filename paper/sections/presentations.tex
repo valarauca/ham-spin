@@ -1,0 +1,149 @@
+% chktex-file 12
+% chktex-file 36
+\section{Presentations by three-cycles, Brauer operations and Temperley--Lieb}\label{sec:presentations} % chktex 8
+
+This section shows that the three-cycle relations are the only linear relations among fingerprints (Theorem~\ref{thm:presentation}). It then shows that the Brauer cup and cap maps descend to the quotients by these relations (Proposition~\ref{prop:cupcap}), and it presents $W_n$ as a quotient of a module over the Temperley--Lieb algebra at loop value $0$ (Theorem~\ref{thm:delta}). % chktex 8
+
+We write $\Theta\colon\F[\M(V)]\to W(V)$ for the equivariant surjection $e_P\mapsto\varphi(P)$. Let $R_3\subseteq\F[\M(V)]$ be the span of the \emph{three-cycle orbit sums} $e_P+e_{\tau P}+e_{\tau^{2}P}$ over all $P$ and all $3$-cycles~$\tau$.
+
+\subsection{Completeness of the three-cycle relations}\label{subsec:complete}
+
+\begin{theorem}\label{thm:presentation}
+Let $|V|=2n\ge2$ and $\Wt(V)=\F[\M(V)]/R_3$. Then $\Theta$ induces an isomorphism of $\F S_V$-modules $\Wt(V)\cong W(V)$, and
+\[
+\ker\Theta=\rad H_V=R_3 .
+\]
+For $V=\{0,\dots,2n-1\}$ and every $P\in\M_n$,
+\[
+e_P\equiv\sum_{S\subseteq G}H[P,X_{G\setminus S}]\,e_{X_S}\pmod{R_3}.
+\]
+\end{theorem}
+
+\begin{proof}
+By Theorem~\ref{thm:threecycle}, $R_3\subseteq\ker\Theta$, and $\ker\Theta=\rad H_V$ by Theorem~\ref{thm:rank}. By definition of $R_3$, $\Wt(V)$ is a three-cycle module, and it is spanned by the orbit of the class of $e_{P}$ for any $P$, which is fixed by the transpositions $\tr v{P(v)}$. Theorem~\ref{thm:upper} gives $\dim\Wt(V)\le2^{n-1}=\dim W(V)$, so the surjection $\Wt(V)\to W(V)$ is an isomorphism. For the normal form, write $\varphi(P)=\sum_{S}c_S\varphi(X_S)$ and compare the coefficients of $e_{X_{G\setminus T}}$. By Lemma~\ref{lem:HX} the coefficient of $e_{X_{G\setminus T}}$ in $\varphi(X_S)$ is $[S=T]$, so $c_T=H[P,X_{G\setminus T}]$. Hence $e_P-\sum_{S}c_{S}e_{X_S}$ lies in $\ker\Theta=R_3$.
+\end{proof}
+
+The normal form is the factorization $H[P,Q]=\sum_S H[P,X_{G\setminus S}]H[X_S,Q]$ of Cygan, Kratsch and Nederlof~\cite[Thm.~3.4]{CKN18}, read as a rewriting rule modulo the three-cycle relations.
+
+\subsection{The Brauer pairing, cups and caps}\label{subsec:brauer}
+
+The matrix $H$ is one coefficient of the following pairing, which counts the loops formed by two matchings. We call it the Brauer loop pairing, and the maps $\cupop_{ab}$ and $\capop_{ab}$ below Brauer cups and caps, after Brauer~\cite{Brauer37}. Over the polynomial ring $\F[\delta]$ put
+\[
+\pr{x,y}_\delta=\sum_{P,Q\in\M(V)}x_{P}y_Q\,\delta^{\kappa(P\cup Q)}\qquad(x,y\in\F[\M(V)]).
+\]
+
+\begin{proposition}\label{prop:brauer}
+The coefficient of $\delta^1$ in $\pr{x,y}_\delta$ is $x^{\mathsf T}H_{V}y$.
+\end{proposition}
+
+\begin{proof}
+On basis vectors this is $H[P,Q]=[\kappa(P\cup Q)=1]$.
+\end{proof}
+
+For distinct $a,b\in V$ let $\cupop_{ab}\colon\F[\M(V\setminus\{a,b\})]\to\F[\M(V)]$ send $e_Q$ to $e_{Q\cup\{ab\}}$, and let $\capop_{ab}\colon\F[\M(V)]\to\F[\M(V\setminus\{a,b\})]$ send $e_F$ to $[ab\notin F]\,e_{F/ab}$, with the matching $F/ab$ of Section~\ref{subsec:setup}. Let $R_4\subseteq\F[\M(V)]$ be the span of the \emph{four-switch sums} $e_{E\cup\{ab,cd\}}+e_{E\cup\{ac,bd\}}+e_{E\cup\{ad,bc\}}$, where $a,b,c,d$ are distinct and $E$ is a perfect matching of $V\setminus\{a,b,c,d\}$.
+
+Part (ii) of the next proposition is the input to Lemma~\ref{lem:sym3}, which makes the action of Theorem~\ref{thm:delta} well defined.
+
+\begin{proposition}\label{prop:cupcap}
+Let $a\ne b$ and $|V|\ge4$.
+\begin{enumerate}
+\item $H[Q\cup\{ab\},F]=[ab\notin F]\,H[Q,F/ab]$ for $Q\in\M(V\setminus\{a,b\})$ and $F\in\M(V)$. Hence $\cupop_{ab}$ and $\capop_{ab}$ are adjoint for the forms with matrices $H$.
+\item $R_4\subseteq R_3$, and $\cupop_{ab}(\capop_{ab}x)+x+\tr abx\in R_4$ for every $x\in\F[\M(V)]$.
+\item $\cupop_{ab}$ maps $R_3(V\setminus\{a,b\})$ into $R_3(V)$, bijections $V\to V'$ map $R_3(V)$ into $R_3(V')$, and $\capop_{ab}$ maps $R_3(V)$ into $R_3(V\setminus\{a,b\})$. So cups, caps and bijections descend to the quotients $\Wt$, and on $\Wt(V)$ the composite $\cupop_{ab}\capop_{ab}$ acts as $1+\tr ab$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(i) Apply Theorem~\ref{thm:contraction} with $A=V\setminus\{a,b\}$, which is nonempty because $|V|\ge4$, and the matching $Q\cup\{ab\}$, whose part off $A$ is the edge $ab$. If $ab\in F$, then $\{a,b\}$ is closed under both matchings and $H=0$. Otherwise the exit matching of $F$ on $A$ is $F/ab$, since the alternating path through $\{a,b\}$ is $F(a),a,b,F(b)$.
+
+(ii) A four-switch sum on $\{a,X(a),c,X(c)\}$ is the orbit sum of $X$ under the $3$-cycle $\tr a{X(a)}\tr ac$, so $R_4\subseteq R_3$. If $ab\in F$, then $\tr abF=F$ and $\capop_{ab}e_F=0$, so the element is $2e_F=0$. If $ab\notin F$, then $(F/ab)\cup\{ab\}=\tr{F(a)}bF$, and $e_F+e_{\tr{F(a)}bF}+e_{\tr abF}$ is the four-switch sum of the three matchings that agree with $F$ off $\{a,b,F(a),F(b)\}$.
+
+(iii) A $3$-cycle of $V\setminus\{a,b\}$ is a $3$-cycle of $V$ that fixes $a$ and $b$, and bijections carry $3$-cycles to $3$-cycles. For caps, $R_3=\rad H$ on both vertex sets by Theorem~\ref{thm:presentation}, and $\capop_{ab}$ maps $\rad H_V$ into $\rad H_{V\setminus\{a,b\}}$ by the adjunction (i), which needs $|V\setminus\{a,b\}|\ge2$. The last statement is (ii).
+\end{proof}
+
+\begin{remark}\label{rem:boundary}
+At $|V|=2$ part (i) fails, since $H[\{ab\},\{ab\}]=1$ while $\capop_{ab}e_{\{ab\}}=0$. This is why caps descend only for $n\ge2$.
+\end{remark}
+
+\subsection{Temperley--Lieb at \texorpdfstring{$\delta=0$}{delta=0} and the Jones--Wenzl quotient}\label{subsec:tl} % chktex 8
+
+Over $\F$ at loop value $0$ the elements $s_i=1+e_i$ of the Temperley--Lieb algebra satisfy the Coxeter relations of the symmetric group (Lemma~\ref{lem:conj}), and the Jones--Wenzl idempotent $f_3$ on three strands is $1+\tau+\tau^2$ for the $3$-cycle $\tau=s_{0}s_1$ (Proposition~\ref{prop:jw}). So the quotient by $f_3$ imposes the relation of Theorem~\ref{thm:threecycle}, and this subsection identifies the quotient with $\Cl(U_n,\qf)$. % chktex 8
+
+Let $\mathcal O$ be a commutative ring and $\delta\in\mathcal O$. The Temperley--Lieb algebra $\TL_N(\delta)$~\cite{Jones83,TL71} is generated by $e_0,\dots,e_{N-2}$ with $e_i^2=\delta e_i$, $e_{i}e_{j}e_i=e_i$ for $|i-j|=1$ and $e_{i}e_j=e_{j}e_i$ for $|i-j|\ge2$. We think of $e_i$ as acting on the strands $i$ and $i+1$ of $N$ strands numbered $0,\dots,N-1$. When $\delta^2-1$ is a unit, put % chktex 8
+\[
+f_3=1-\frac{\delta}{\delta^2-1}(e_0+e_1)+\frac{1}{\delta^2-1}(e_{0}e_1+e_{1}e_0)\in\TL_3(\delta),
+\]
+the Jones--Wenzl idempotent on three strands. % chktex 8
+
+\begin{proposition}\label{prop:jw}
+Let $\delta^2-1$ be a unit in $\mathcal O$.
+\begin{enumerate}
+\item $e_{i}f_3=f_{3}e_i=0$ for $i=0,1$, and $f_3^2=f_3$.
+\item If $\delta=-2$ and $3$ is a unit, then with $s_i=1+e_i$,
+\[
+1+s_{0}s_1+s_{1}s_0=3f_3 .
+\]
+\item Over $\F$ at $\delta=0$, $f_3=1+e_{0}e_1+e_{1}e_0=1+s_{0}s_1+s_{1}s_0$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(i) The coefficient of $e_0$ in $e_{0}f_3$ is $1-\delta^2/(\delta^2-1)+1/(\delta^2-1)=0$ after using $e_0^2=\delta e_0$ and $e_{0}e_{1}e_0=e_0$, and the coefficient of $e_{0}e_1$ is $-\delta/(\delta^2-1)+\delta/(\delta^2-1)=0$. The other identities are symmetric, and $f_3^2=f_3$ follows because $f_3-1$ is a combination of words that end in $e_0$ or $e_1$, so $(f_3-1)f_3=0$. Parts (ii) and (iii) are direct expansions, with $\delta^2-1=3$ in (ii) and $\delta^2-1=1$ in (iii).
+\end{proof}
+
+For $N\ge3$ and $0\le k\le N-3$ let $f_3^{(k)}=1+e_{k}e_{k+1}+e_{k+1}e_k\in\TL_N(0)$ be the copy of $f_3$ over $\F$ at $\delta=0$ on the strands $k$, $k+1$, $k+2$. Let $\pr{f_3}$ be the two-sided ideal of $\TL_{2n}(0)$ generated by all $f_3^{(k)}$. It is $0$ when $n=1$.
+
+\begin{lemma}\label{lem:conj}
+In $\TL_N(0)$ over $\F$ put $s_i=1+e_i$. Then $s_i^2=1$, $s_{k}e_{i}s_k=e_i$ for $|i-k|\ge2$, and $s_{i}s_{j}e_{i}s_{j}s_i=e_j$ for $|i-j|=1$. Hence ${(s_{i}s_j)}^3=1$ for $|i-j|=1$. For $0\le k\le N-4$ and $\omega_k=s_{k}s_{k+1}s_{k+2}$,
+\[
+f_3^{(k+1)}=\omega_{k}f_3^{(k)}\omega_k^{-1}.
+\]
+In particular, for $n\ge2$ the ideal $\pr{f_3}$ of $\TL_{2n}(0)$ is generated by $f_3=f_3^{(0)}$.
+\end{lemma}
+
+\begin{proof}
+In characteristic $2$, $s_i^2=1+2e_i+e_i^2=1$. If $z^2=0$ and $zx=xz$, then $(1+z)x(1+z)=x+2xz+z^{2}x=x$, which gives $s_{k}e_{i}s_k=e_i$ for $|i-k|\ge2$. Let $|i-j|=1$ and write $x=e_i$ and $y=e_j$, so $x^2=0$, $xyx=x$ and $yxy=y$. Then $(1+y)x(1+y)=x+y+xy+yx$, and multiplying on the left by $1+x$ gives $y+yx$, using $x^2=0$ and $xyx=x$. Multiplying on the right by $1+x$ gives $y+yx+yx+yx^2=y$. This proves $s_{i}s_{j}e_{i}s_{j}s_i=e_j$. Expanding $e_i=s_i+1$ in this identity gives $s_{i}s_{j}s_{i}s_{j}s_i=s_j$, hence ${(s_{i}s_j)}^3=1$. Now $\omega_k^{-1}=s_{k+2}s_{k+1}s_k$, and the two identities give $\omega_{k}e_k\omega_k^{-1}=s_{k}s_{k+1}e_{k}s_{k+1}s_k=e_{k+1}$ and $\omega_{k}e_{k+1}\omega_k^{-1}=s_k(s_{k+1}s_{k+2}e_{k+1}s_{k+2}s_{k+1})s_k=s_{k}e_{k+2}s_k=e_{k+2}$. Conjugation is an algebra automorphism, so it carries $f_3^{(k)}=1+e_{k}e_{k+1}+e_{k+1}e_k$ to $f_3^{(k+1)}$.
+\end{proof}
+
+\begin{theorem}\label{thm:tlcl}
+For $n\ge1$ there is an isomorphism of $\F$-algebras
+\[
+\TL_{2n}(0)/\pr{f_3}\xrightarrow{\ \sim\ }\Cl(U_n,\qf),\qquad e_i\mapsto1+\iota(v_{i,i+1})\quad(0\le i\le2n-2),
+\]
+whose inverse sends $\iota(v_{i,i+1})$ to $1+e_i$.
+\end{theorem}
+
+\begin{proof}
+Put $a_i=1+\iota(v_{i,i+1})$. Then $a_i^2=1+\qf(v_{i,i+1})=0$. For adjacent $i,j$ write $x=\iota(v_{i,i+1})$ and $y=\iota(v_{j,j+1})$, so $x^2=y^2=1$ and $xy+yx=\bq(v_{i,i+1},v_{j,j+1})=1$. Expanding with $x^2=1$ gives $(1+x)(1+y)(1+x)=y+(xy+yx)+xyx=y+1+xyx$, and $xyx=x(1+xy)=x+y$, so $a_{i}a_{j}a_i=1+x=a_i$. Far generators commute because their vectors are orthogonal. Hence $e_i\mapsto a_i$ defines an algebra map from $\TL_{2n}(0)$. It kills every $f_3^{(i)}=1+e_{i}e_{i+1}+e_{i+1}e_i$, because $1+(1+x)(1+y)+(1+y)(1+x)=1+xy+yx=0$ for $x=\iota(v_{i,i+1})$ and $y=\iota(v_{i+1,i+2})$. In the other direction, in $\TL_{2n}(0)/\pr{f_3}$ the elements $s_i=1+e_i$ satisfy $s_i^2=1$ and $s_{i}s_j=s_{j}s_i$ for $|i-j|\ge2$, and for $0\le i\le2n-3$
+\[
+s_{i}s_{i+1}+s_{i+1}s_i=e_{i}e_{i+1}+e_{i+1}e_i=1+f_3^{(i)}=1 .
+\]
+These are the Clifford relations on the basis $v_{0,1},\dots,v_{2n-2,2n-1}$ of $U_n$, on which $\qf$ is $1$ and whose Gram matrix for $\bq$ is the adjacency matrix of a path. By Lemma~\ref{lem:reducehom}, $\iota(v_{i,i+1})\mapsto s_i$ defines an algebra map from $\Cl(U_n,\qf)$. The two maps are inverse on generators.
+\end{proof}
+
+\subsection{The four-switch quotient}
+
+Let $\Delta(V)=\F[\M(V)]/R_4$ and $\Delta_{2n}(0)=\Delta(\{0,\dots,2n-1\})$. Since $R_4$ is $S_V$-stable, $S_V$ acts on $\Delta(V)$.
+
+\begin{lemma}\label{lem:sym3}
+For distinct $a,b,c\in V$ and every $x\in\F[\M(V)]$, $\sum_{\sigma\in S_{\{a,b,c\}}}\sigma x\in R_4$.
+\end{lemma}
+
+\begin{proof}
+Write $t=\tr ab$, $u=\tr bc$ and $\Pi=\cupop_{ab}\capop_{ab}$. Since $S_{\{a,b,c\}}=\{1,u,tu\}\cdot\{1,t\}$, the sum is $(1+t)x+(1+t)u(1+t)x$. By Proposition~\ref{prop:cupcap}(ii), $(1+t)x\equiv\Pi x$ modulo $R_4$, for every $x$. The cap of the swapped cup is the identity, $\capop_{ab}\circ u\circ\cupop_{ab}=1$, since $u(Q\cup\{ab\})$ contains $ac$ and $(u(Q\cup\{ab\}))/ab=Q$. With $y=u\Pi x$ we get $(1+t)y\equiv\Pi y=\cupop_{ab}(\capop_{ab}u\cupop_{ab})\capop_{ab}x=\Pi x$. Since $R_4$ is stable under $S_V$, $(1+t)u(1+t)x\equiv(1+t)u\Pi x=(1+t)y$, and the sum is congruent to $\Pi x+\Pi x=0$.
+\end{proof}
+
+\begin{theorem}\label{thm:delta}
+Let $n\ge2$.
+\begin{enumerate}
+\item The rule $e_i\mapsto1+\tr i{i+1}$, $0\le i\le2n-2$, defines an action of $\TL_{2n}(0)$ on $\Delta_{2n}(0)$, under which $f_3$ acts as $1+\tau_0+\tau_0^2$ for the $3$-cycle $\tau_0=\tr01\tr12$.
+\item $\pr{f_3}\Delta_{2n}(0)=R_3/R_4$.
+\item $\Theta$ induces an $S_{2n}$-isomorphism $\Delta_{2n}(0)/\pr{f_3}\Delta_{2n}(0)\cong W_n$ with $[e_P]\mapsto\varphi(P)$, and $\pr{f_3}\Delta_{2n}(0)$ is the radical of the form induced by $H$ on $\Delta_{2n}(0)$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(i) Write $x=\tr i{i+1}$ and $y=\tr{i+1}{i+2}$. Then ${(1+x)}^2=0$, and $(1+x)(1+y)(1+x)=1+x$ is equivalent to $\sum_{\sigma\in S_{\{i,i+1,i+2\}}}\sigma=0$, which holds on $\Delta_{2n}(0)$ by Lemma~\ref{lem:sym3}. The expression for $f_3$ is Proposition~\ref{prop:jw}(iii). (ii) Each $f_3^{(k)}$ acts as $1+\tau_k+\tau_k^2$ for a $3$-cycle $\tau_k$, so $\pr{f_3}\Delta_{2n}(0)\subseteq R_3/R_4$. Conversely every $3$-cycle is conjugate to $\tau_0$, and $\pr{f_3}\Delta_{2n}(0)$ is stable under $S_{2n}$, since $S_{2n}$ is generated by the transpositions $\tr i{i+1}$, through which the elements $s_i=1+e_i$ act. So for $\tau=\sigma\tau_0\sigma^{-1}$ and every $P$, $(1+\tau+\tau^2)[e_P]=\sigma(1+\tau_0+\tau_0^2)\sigma^{-1}[e_P]$ lies in $\pr{f_3}\Delta_{2n}(0)$, and these elements span $R_3/R_4$. (iii) follows from (ii), $R_4\subseteq R_3$ and Theorem~\ref{thm:presentation}.
+\end{proof}
+
+Section~\ref{subsec:specht} identifies $\Delta_{2n}(0)$ with the Specht module $S^{(n,n)}$ over $\F$, and Theorem~\ref{thm:step1}(iii) shows that on its basis of noncrossing matchings $e_i$ acts by the rule that defines the standard module of $\TL_{2n}(0)$ with no through strands (see the paragraph after Theorem~\ref{thm:step1}). With Theorems~\ref{thm:tlcl} and~\ref{thm:delta}, $W_n$ is the quotient of this standard module by the Jones--Wenzl ideal, and the algebra acting on it is $\TL_{2n}(0)/\pr{f_3}\cong\Cl(U_n,\qf)$. % chktex 8

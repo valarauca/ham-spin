@@ -1,0 +1,137 @@
+% chktex-file 12
+% chktex-file 36
+\section{The gap-swap basis, rank \texorpdfstring{$2^{n-1}$}{2\textasciicircum(n-1)} and absolute irreducibility}\label{sec:basis}
+
+For the definitions below $V=\{0,1,\dots,2n-1\}$ with $n\ge1$. The \emph{blocks} are the pairs $\{2a,2a+1\}$ for $0\le a\le n-1$, and they form the base matching $P_0$. The \emph{gaps} are the pairs $\{2g+1,2g+2\}$ for $g\in G=\{0,\dots,n-2\}$. Put
+\[
+B_a=\Gamma_{2a,2a+1},\qquad \sigma_S=\prod_{g\in S}\tr{2g+1}{2g+2}\quad(S\subseteq G),\qquad X_S=\sigma_S P_0 .
+\]
+The gap transpositions commute, so $\sigma_S\sigma_T=\sigma_{S\triangle T}$. The matching $X_S$ is obtained from $P_0$ by exchanging the two points of each gap in $S$, and the fingerprints $\varphi(X_S)$, $S\subseteq G$, form the \emph{gap-swap basis} of $W_n$ (Theorem~\ref{thm:rank}).
+
+\subsection{An upper bound for three-cycle modules}
+
+\begin{proposition}\label{prop:Bw}
+Let $M$ be a three-cycle module for $S_{2n}$ and let $m_0\in M$ satisfy $B_{a}m_0=m_0$ for every block $a$. Put $w_S=\rho_M(\sigma_S)m_0$. Then $\rho_M(\sigma_T)w_S=w_{T\triangle S}$ and
+\[
+B_{a}w_S=w_S+[a-1\in S]\,w_{S\setminus\{a-1\}}+[a\in S]\,w_{S\setminus\{a\}} .
+\]
+\end{proposition}
+
+\begin{proof}
+The first formula is $\sigma_T\sigma_S=\sigma_{T\triangle S}$. A block edge $\{2a,2a+1\}$ meets the gap edge of $g$ in one point exactly when $g\in\{a-1,a\}$, and is disjoint from it otherwise. By Proposition~\ref{prop:edge}, $B_a\rho_M(\sigma_{\{g\}})=\rho_M(\sigma_{\{g\}})B_a+[g\in\{a-1,a\}]$. Induction on $|S|$, starting from $B_{a}m_0=m_0$, gives the formula.
+\end{proof}
+
+\begin{theorem}\label{thm:upper}
+Let $|V|=2n$ and let $M$ be a three-cycle module for $S_V$ that is spanned by the orbit of a vector $m_0$ fixed by the transpositions $\tr v{P(v)}$ of some matching $P$. Then $\dim_{\F}M\le 2^{n-1}$.
+\end{theorem}
+
+\begin{proof}
+Relabel so that $V=\{0,\dots,2n-1\}$ and $P=P_0$. By Proposition~\ref{prop:Bw} the span of the $w_S$ is stable under every gap transposition and every block transposition. These are the adjacent transpositions $\tr t{t+1}$, which generate $S_{2n}$. Hence the span contains the orbit of $m_0=w_\emptyset$ and equals $M$. There are $2^{n-1}$ vectors $w_S$.
+\end{proof}
+
+\subsection{A permutation submatrix and the rank of \texorpdfstring{$H_{2n}$}{H\_2n}}
+
+Put $w_S=\varphi(X_S)\in W_n$. This is the vector of Proposition~\ref{prop:Bw} for $M=W_n$ and $m_0=\varphi(P_0)$, since $B_a\varphi(P_0)=\varphi(\tr{2a}{2a+1}P_0)=\varphi(P_0)$. Group the points as $0\mid1,2\mid3,4\mid\dots\mid2n-3,2n-2\mid2n-1$. The matchings $X_S$ are exactly the perfect matchings that join only points of adjacent groups, which is the family of Cygan, Kratsch and Nederlof~\cite[Def.~3.1, Prop.~3.2]{CKN18}.
+
+\begin{lemma}\label{lem:HX}
+For $S,T\subseteq G$, $H[X_S,X_T]=[S\triangle T=G]$.
+\end{lemma}
+
+\begin{proof}
+By invariance, $H[X_S,X_T]=H[P_0,\sigma_S\sigma_{T}P_0]=H[P_0,X_{S\triangle T}]$. Let $D\subseteq G$ with $D\ne G$ and choose a gap $g\notin D$. The set $\{0,\dots,2g+1\}$ is closed under $P_0$, and it is closed under $X_D=\sigma_{D}P_0\sigma_D$ because every gap transposition in $\sigma_D$ moves points on one side of the cut between $2g+1$ and $2g+2$. Hence $P_0\cup X_D$ is disconnected. For $D=G$ and $n\ge2$ the edges of $X_G$ are $\{0,2\}$, $\{2a-1,2a+2\}$ for $1\le a\le n-2$ and $\{2n-3,2n-1\}$, and $X_G=P_0$ when $n=1$. Contract each block to a point. The edges of $X_G$ join block $0$ to block $1$, block $a-1$ to block $a+1$, and block $n-2$ to block $n-1$, which is a connected graph on the blocks, so $P_0\cup X_G$ is connected.
+\end{proof}
+
+This is~\cite[Prop.~3.3]{CKN18} in our notation.
+
+\begin{theorem}[Cygan, Kratsch and Nederlof]\label{thm:rank}
+Let $|V|=2n\ge2$. Then $\dim_{\F}W(V)=\rank_{\F}H_V=2^{n-1}$. For $V=\{0,\dots,2n-1\}$ the vectors $w_S=\varphi(X_S)$, $S\subseteq G$, form a basis of $W_n$. The quotient $\F[\M(V)]/{\rad H_V}$ by the radical of the bilinear form with matrix $H_V$ is isomorphic to $W(V)$ as an $\F S_V$-module, through $[x]\mapsto\sum_{P}x_P\varphi(P)$.
+\end{theorem}
+
+\begin{proof}
+The upper bound is Theorem~\ref{thm:upper} for $M=W(V)$, which is spanned by the orbit of one fingerprint by Proposition~\ref{prop:count}. By Lemma~\ref{lem:HX}, the submatrix of $H$ on the rows $X_S$ and the columns $X_T$ is the permutation matrix of $S\mapsto G\setminus S$, so the $\varphi(X_S)$ are linearly independent. The map $x\mapsto\sum_{P}x_P\varphi(P)$ is an equivariant surjection onto $W(V)$ whose kernel is the radical.
+\end{proof}
+
+The rank formula is~\cite[Cor.~3.5]{CKN18}. Cygan, Kratsch and Nederlof prove the upper bound by a factorization of $H$~\cite[Thm.~3.4]{CKN18}, and the proof above takes it from Theorem~\ref{thm:threecycle} alone.
+
+\subsection{Lowering operators and the full matrix algebra}
+
+The operator $1+B_a$ sends $w_S$ to the sum of its erasures $w_{S\setminus\{h\}}$ at the gaps $h\in S\cap\{a-1,a\}$. Summing $1+B_a$ over $a\le g$ telescopes modulo $2$ and leaves only the erasure at $g$.
+
+\begin{proposition}\label{prop:lower}
+For $g\in G$ put $\partial_g=\sum_{a\le g}(1+B_a)$ and $F_g=\Gamma_{2g+1,2g+2}$. Then
+\[
+\partial_{g}w_S=[g\in S]\,w_{S\setminus\{g\}},\qquad F_{g}w_S=w_{S\triangle\{g\}},\qquad \partial_g^2=0,\qquad F_g\partial_g+\partial_{g}F_g=1 .
+\]
+The product $\Lambda=\partial_{n-2}\cdots\partial_1\partial_0$ sends $w_G$ to $w_\emptyset$ and kills every other $w_S$.
+\end{proposition}
+
+\begin{proof}
+By Proposition~\ref{prop:Bw}, $(1+B_a)w_S$ is the sum of $w_{S\setminus\{h\}}$ over $h\in S\cap\{a-1,a\}$. In $\sum_{a\le g}(1+B_a)w_S$ a term $w_{S\setminus\{h\}}$ with $h<g$ appears for $a=h$ and for $a=h+1$, and the two cancel, while the term with $h=g$ appears once. The formula for $F_g$ is Proposition~\ref{prop:Bw}, and the two relations follow on the basis. The statement on $\Lambda$ follows by applying the $\partial_g$ in increasing order of $g$.
+\end{proof}
+
+\begin{theorem}\label{thm:burnside}
+Let $|V|=2n\ge2$. The algebra generated by $\rho_W(S_V)$ is $\End_{\F}W(V)$. For every field $k$ of characteristic $2$, let $\rho_k$ be the $k$-linear extension of $\rho_W$ to $k\otimes_{\F}W(V)$. Then the algebra generated by $\rho_k(S_V)$ is $\End_k(k\otimes_{\F}W(V))$, and $k\otimes_{\F}W(V)$ is irreducible.
+\end{theorem}
+
+\begin{proof}
+It suffices to treat $V=\{0,\dots,2n-1\}$, since a bijection carries $W(V)$ to $W_n$ equivariantly. Let $w_S^*$ be the basis of the dual space with $w_S^*(w_T)=[S=T]$, and for $S,T\subseteq G$ let $w_S\otimes w_T^*$ be the matrix unit $u\mapsto w_T^*(u)\,w_S$. The algebra $\mathcal A$ generated by the $\partial_g$ and the $F_g$ lies in the algebra generated by $\rho_W(S_{2n})$, and it contains the rank-one map $\Lambda=w_\emptyset\otimes w_G^*$ of Proposition~\ref{prop:lower}. The elements $\rho_W(\sigma_S)\in\mathcal A$ carry $w_\emptyset$ to $w_S$, and $w_G^*\circ\rho_W(\sigma_{T\triangle G})=w_T^*$. So $\mathcal A$ contains every matrix unit $w_S\otimes w_T^*$, and $\mathcal A=\End_{\F}W_n$. The same matrix units span $\End_k(k\otimes_{\F}W_n)$ over $k$, and a subspace stable under the full matrix algebra is $0$ or everything.
+\end{proof}
+
+\subsection{Corollaries and Maas's matrices}
+
+\begin{corollary}\label{cor:clsurj}
+For $n\ge1$ the Clifford action $\Cl(U_n,\qf)\to\End_{\F}W_n$ of Theorem~\ref{thm:clifford} is surjective.
+\end{corollary}
+
+\begin{proof}
+Its image contains $\Gamma_{ij}=\rho_W(\tr ij)$ for all $i\ne j$, and transpositions generate $S_{2n}$. Apply Theorem~\ref{thm:burnside}.
+\end{proof}
+
+The vector $\ones$ spans the radical of $\bq$ on $U_n$, and the next proposition says how it acts.
+
+\begin{proposition}\label{prop:matchingsum}
+Let $n\ge1$ and let $P$ be any perfect matching of $\{0,\dots,2n-1\}$. Then $\sum_{e\in P}\Gamma_e=\Gamma(\ones)=(n\bmod 2)\cdot1$ on $W_n$.
+\end{proposition}
+
+\begin{proof}
+The vector $\ones$ is $\sum_{e\in P}v_e$ for every $P$. Each $\Gamma_e$ with $e\in P_0$ fixes $\varphi(P_0)$, so $\Gamma(\ones)\varphi(P_0)=n\,\varphi(P_0)$. By Theorem~\ref{thm:clifford}(iii), $\Gamma(\ones)$ commutes with every $\rho_W(\sigma)$, because $\sigma\ones=\ones$. The fingerprints $\varphi(\sigma P_0)=\rho_W(\sigma)\varphi(P_0)$ span $W_n$, so $\Gamma(\ones)=n$ on $W_n$.
+\end{proof}
+
+The next proposition shows that $W_n$ satisfies the condition on the minimal polynomial in Wales's theorem (Section~\ref{sec:threecycle}).
+
+\begin{proposition}\label{prop:minpoly}
+Let $n\ge2$, let $k$ be a field of characteristic $2$ and let $\tau$ be a $3$-cycle. The minimal polynomial of $\rho_k(\tau)$ on $k\otimes_{\F}W_n$ is $x^2+x+1$.
+\end{proposition}
+
+\begin{proof}
+By Theorem~\ref{thm:threecycle} the minimal polynomial divides $x^2+x+1$. Suppose $\rho_k(\tau)=c\cdot1$. Since $\tau$ is conjugate to $\tau^{-1}$, $c=c^{-1}$, so $c=1$ in characteristic $2$, and then $1+c+c^2=1\ne0$. So $\rho_k(\tau)$ is not a scalar.
+\end{proof}
+
+\begin{proposition}\label{prop:maas}
+Let $n\ge1$ and index the basis $w_S$ of $W_n$ by the subsets $S\subseteq G$, read as bit vectors of length $n-1$. In this basis the gap transposition $\tr{2g+1}{2g+2}$ flips bit $g$, and the block transposition $\tr{2a}{2a+1}$ acts by $1+\partial_{a-1}+\partial_a$, where $\partial_{-1}=\partial_{n-1}=0$. These are the matrices $T_{t+1}$, $0\le t\le2n-2$, of Maas's construction over $\F$~\cite[Table~1]{Maas10}, read in characteristic $2$ and with the bits ordered so that each doubling step adds the last bit. For $2n\ge4$ Maas shows that they give a basic spin representation of $\St_{2n}$ over $\F$~\cite[Cor.~13]{Maas10}.
+\end{proposition}
+
+\begin{proof}
+The action on the basis is Propositions~\ref{prop:Bw} and~\ref{prop:lower}. Over $\F$ Maas starts from the matrix $T_1=(1)$ of $\St_2$ and alternates two steps~\cite[Table~1]{Maas10}. Write $T_1,\dots,T_{m-1}$ for the matrices of $\St_m$. In characteristic $2$ the steps are as follows.
+\begin{itemize}
+\item From even $m$ to $m+1$, the doubling step of~\cite[Lemma~5]{Maas10} replaces $T_{m-1}$, and each $T_i$ with $i\le m-2$, by
+\[
+\begin{pmatrix}T_{m-1}&1\\0&T_{m-1}\end{pmatrix}\qquad\text{and}\qquad\begin{pmatrix}T_i&0\\0&T_i\end{pmatrix},
+\]
+and adds $T_m=\bigl(\begin{smallmatrix}0&1\\1&0\end{smallmatrix}\bigr)$.
+\item From odd $m$ to $m+1$, the step of~\cite[Lemma~7]{Maas10} with $p=2$ adds $T_m=J$ when $m+1\equiv0\pmod4$ and $T_m=J+1$ when $m+1\equiv2\pmod4$, where $J=\sum_{j\le m-1}jT_j$, which modulo $2$ is the sum of the $T_j$ with $j$ odd.
+\end{itemize}
+We show by induction on $n$ that for $\St_{2n}$ the matrix $T_{t+1}$ is the matrix of $\tr t{t+1}$ in the statement. For $n=1$, $T_1=(1)$ is the action of $\tr01$ on the one-dimensional space $W_1$. Suppose the claim holds for $\St_{2n-2}$, on bit vectors of length $n-2$. The doubling step adds bit $n-2$, and in its block form the first block is the bit vectors with this bit clear. A block diagonal matrix with two diagonal blocks $T$ is $T$ acting on the other bits, so the flips of bits $g\le n-3$ and the matrices $1+\partial_{a-1}+\partial_a$ with $a\le n-3$ stay as in the statement. The matrix $T_{2n-3}$ of $\tr{2n-4}{2n-3}$ was $1+\partial_{n-3}$, and
+\[
+\begin{pmatrix}1+\partial_{n-3}&1\\0&1+\partial_{n-3}\end{pmatrix}=1+\partial_{n-3}+\partial_{n-2},
+\]
+because $\partial_{n-2}$ clears bit $n-2$. The new matrix $T_{2n-2}$ flips bit $n-2$, which is the action of $\tr{2n-3}{2n-2}$. The step of~\cite[Lemma~7]{Maas10} then adds $T_{2n-1}$. Here
+\[
+J=\sum_{a=0}^{n-2}T_{2a+1}=\sum_{a=0}^{n-2}(1+\partial_{a-1}+\partial_a)=(n-1)\cdot1+\partial_{n-2},
+\]
+since each $\partial_g$ with $g\le n-3$ occurs for $a=g$ and for $a=g+1$. The extra $1$ is added exactly when $2n\equiv2\pmod4$, that is, when $n$ is odd. In both cases $T_{2n-1}=1+\partial_{n-2}$, the action of $\tr{2n-2}{2n-1}$.
+\end{proof}
+
+\begin{remark}\label{rem:maas}
+The coordinate map of the basis $w_S$ is therefore an explicit isomorphism from $W_n$ to Maas's model that carries $\tr t{t+1}$ to $T_{t+1}$. Maas calls his model a basic spin representation on the authority of Wales's theorem~\cite[Thm.~1]{Maas10}. Section~\ref{sec:spin} identifies $W_n$ with $D^{(n+1,n-1)}$ and with the reductions of the Clifford spin modules without that input.
+\end{remark}

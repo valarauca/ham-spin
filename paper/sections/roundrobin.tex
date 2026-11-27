@@ -1,0 +1,119 @@
+% chktex-file 12
+% chktex-file 36
+\section{The round-robin \texorpdfstring{$1$}{1}-factorization}\label{sec:roundrobin}
+
+Theorem~\ref{thm:kotzig} needs a perfect $1$-factorization and $n$ even, and Remark~\ref{rem:K10} shows that its parity argument gives nothing at odd $n$. The round-robin $1$-factorization $\GK_{2n}$ exists for every $n$, and it is perfect exactly when $2n-1$ is prime~\cite[Thm.~2.1]{Cameron75}. We show that its factor fingerprints are independent for every $n\ge4$ by another argument. By Lemma~\ref{lem:pairing} it suffices to find test matchings whose Hamiltonicity pattern against the factors has rank $2n-1$. The translates of the matching $P^*$ of Proposition~\ref{prop:pstar} each form a Hamiltonian pair with exactly two consecutive factors, which gives rank $2n-2$ for $n\ge2$. The translates of the matching $Q^*$ of Proposition~\ref{prop:oneQ} each form a Hamiltonian pair with exactly one factor, which gives rank $2n-1$ for $n\ge5$. The case $n=4$ comes from Theorem~\ref{thm:kotzig}(iii), since $2n-1=7$ is prime and $n$ is even. Section~\ref{subsec:aut} first determines the automorphism group, which acts on the polar section of Section~\ref{subsec:slice}.
+
+Throughout this section $q=2n-1$ with $n\ge2$, so $q$ is odd and $2$ is a unit in $\Z/q$. The vertex set is $V_n=\Z/q\cup\{\infty\}$, with $|V_n|=2n$.
+
+\subsection{Definition, affine symmetries and the automorphism group}\label{subsec:aut}
+
+For $c\in\Z/q$ let $F_c$ be the perfect matching that pairs $\infty$ with $c$ and pairs each $x\ne c$ with $2c-x$. It has no fixed point because $x=2c-x$ forces $x=c$. Distinct factors share no edge, since $\{\infty,x\}$ lies only in $F_x$ and $\{x,y\}$ only in $F_{(x+y)/2}$. So $\GK_{2n}={(F_c)}_{c\in\Z/q}$ is a $1$-factorization of $K_{2n}$, the \emph{round-robin} $1$-factorization. It is the colouring of $K_{2n}$ derived from the abelian group $\Z/q$ in the sense of Cameron~\cite[\S2]{Cameron75}, also called the patterned $1$-factorization over $\Z/q$~\cite{Traetta13}.
+
+For $a\in{(\Z/q)}^\times$ and $b\in\Z/q$ let $x\mapsto ax+b$ act on $V_n$ fixing $\infty$. It sends $F_c$ to $F_{ac+b}$. An \emph{automorphism} of $\GK_{2n}$ is a permutation of $V_n$ that maps every factor to a factor. For a vertex $v$ and labels $c,d\in\Z/q$ put $c\circ_{v}d=c$ if $c=d$, and for $c\ne d$ let $c\circ_{v}d$ be the label of the factor that contains the edge $\{F_c(v),F_d(v)\}$. A binary operation $\circ$ is \emph{medial} if $(a\circ b)\circ(c\circ d)=(a\circ c)\circ(b\circ d)$ for all $a,b,c,d$. The operation $\circ_v$ is defined from the factorization alone, so an automorphism $\sigma$ carries $\circ_v$ to $\circ_{\sigma v}$ (Lemma~\ref{lem:localsq}(i)), and it cannot move a vertex whose operation is medial to a vertex whose operation is not.
+
+\begin{lemma}\label{lem:localsq}
+Let $n\ge2$.
+\begin{enumerate}
+\item If $\sigma$ is an automorphism with $\sigma F_t=F_{\bar\sigma(t)}$ for all $t$, then $\bar\sigma(c)\circ_{\sigma v}\bar\sigma(d)=\bar\sigma(c\circ_{v}d)$.
+\item $c\circ_\infty d=(c+d)/2$, so $\circ_\infty$ is medial.
+\item For distinct nonzero $c,d$, $c\circ_{0}d=c+d$. If $q\ge7$, then $(1\circ_{0}1)\circ_0(2\circ_{0}3)=6$ and $(1\circ_{0}2)\circ_0(1\circ_{0}3)=7$, so $\circ_0$ is not medial.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(i) $\sigma$ sends the edge $\{v,F_c(v)\}$ of $F_c$ into $F_{\bar\sigma(c)}$, so $\sigma(F_c(v))=F_{\bar\sigma(c)}(\sigma v)$, and the edge $\{F_c(v),F_d(v)\}$ of $F_{c\circ_{v}d}$ goes to $\{F_{\bar\sigma(c)}(\sigma v),F_{\bar\sigma(d)}(\sigma v)\}$ in $F_{\bar\sigma(c\circ_{v}d)}$. (ii) $F_c(\infty)=c$ and $\{c,d\}\in F_{(c+d)/2}$. (iii) For $c\ne0$, $F_c(0)=2c$, and $\{2c,2d\}\in F_{c+d}$. With $q\ge7$ the residues $1,\dots,5$ are distinct and nonzero, and $1\circ_{0}1=1$, $2\circ_{0}3=5$, $1\circ_{0}5=6$, $1\circ_{0}2=3$, $1\circ_{0}3=4$, $3\circ_{0}4=7$. Finally $6\ne7$ in $\Z/q$.
+\end{proof}
+
+\begin{theorem}[Cameron]\label{thm:aut}
+Let $n\ge2$.
+\begin{enumerate}
+\item For $n\ge4$, so that $q\ge7$, the automorphisms of $\GK_{2n}$ are exactly the maps $x\mapsto ax+b$ with $a\in{(\Z/q)}^\times$ and $b\in\Z/q$, fixing $\infty$. So $\Aut(\GK_{2n})\cong\AGL(1,\Z/q)$, of order $q\,|{(\Z/q)}^\times|$.
+\item Every permutation of $V_2$ is an automorphism of $\GK_4$, so $\Aut(\GK_4)=S_4$.
+\item $|\Aut(\GK_6)|=120$, and the automorphism $(\infty\;\,0)(1\;\,4)$ of $\GK_6$ moves $\infty$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(i) We give a proof that differs from Cameron's. Translations are automorphisms, so by Lemma~\ref{lem:localsq}(i) every $\circ_v$ with $v\in\Z/q$ is isomorphic to $\circ_0$, which is not medial. Mediality is preserved by isomorphism and $\circ_\infty$ is medial, so every automorphism $\sigma$ fixes $\infty$. Then $\sigma$ sends the edge $\{\infty,t\}$ of $F_t$ to $\{\infty,\sigma t\}$, so $\sigma F_t=F_{\sigma t}$. The edge $\{u,w\}$ of $F_{(u+w)/2}$ goes to $\{\sigma u,\sigma w\}\in F_{\sigma((u+w)/2)}$, so $\sigma((u+w)/2)=(\sigma u+\sigma w)/2$. Put $\alpha=\sigma-\sigma(0)$. Taking $w=0$ gives $\alpha(u/2)=\alpha(u)/2$, and then $\alpha(u+w)=2\alpha((u+w)/2)=\alpha(u)+\alpha(w)$. Hence $\alpha$ is additive on $\Z/q$, $\alpha(x)=ax$ with $a=\alpha(1)$, and $a$ is a unit because $\alpha$ is a bijection. (ii) and (iii) are the cases of the groups $\Z/3$ and $\Z/5$ in~\cite[Thm.~2.2]{Cameron75}, where the group is $\PGL(2,3)\cong S_4$ and $\PGL(2,5)$, of order $120$. That $(\infty\;\,0)(1\;\,4)$ maps $F_0,F_1,F_2,F_3,F_4$ to $F_0,F_2,F_1,F_4,F_3$ is checked directly.
+\end{proof}
+
+Theorem~\ref{thm:aut} is the case $A=\Z/q$ of Cameron's theorem~\cite[Thm.~2.2]{Cameron75}, which gives $\Aut=\mathrm{Hol}(A)$, fixing $\infty$, for every abelian group $A$ of odd order greater than $5$, and $\PGL(2,|A|)$ when $|A|=3$ or $5$. For $A=\Z/q$ the holomorph is $\AGL(1,\Z/q)$. Traetta restates the description of the automorphisms that fix $\infty$~\cite[Prop.~4]{Traetta13}.
+
+\subsection{Test matchings and the rank of \texorpdfstring{$R(\GK_{2n})$}{R(GK\_2n)}}
+
+Write $R_\rr=R(\GK_{2n})=\Span\{\varphi(F_c)\}\subseteq W(V_n)$ and, for a matching $P$, $\deg_\rr(P)=\lvert\{c:\Ham(P,F_c)\}\rvert$.
+
+\begin{lemma}\label{lem:pairing}
+For every finite family ${(Q_s)}_s$ of matchings, $\rank_{\F}{\bigl(H[Q_s,F_t]\bigr)}_{s,t}\le\dim R_\rr$.
+\end{lemma}
+
+\begin{proof}
+The matrix has $q$ columns. A relation $\sum_t\lambda_t\varphi(F_t)=0$ paired with $\varphi(Q_s)$ gives $\sum_t\lambda_{t}H[Q_s,F_t]=0$ for every $s$. So the kernel of $\lambda\mapsto\sum_t\lambda_t\varphi(F_t)$, of dimension $q-\dim R_\rr$, lies in the kernel of the matrix, and the rank is at most $\dim R_\rr$.
+\end{proof}
+
+For $0\le k\le n-2$ put $\ell_k=\{2k+1,2k+2\}$, with labels read in $\Z/q$. The labels $1,\dots,2n-2$ are the nonzero residues.
+
+\begin{proposition}\label{prop:pstar}
+Let $n\ge2$ and $P^*=\{\{\infty,0\}\}\cup\{\ell_k:0\le k\le n-2\}$. Then $\Ham(P^*,F_t)$ holds if and only if $t\in\{n-1,n\}$.
+\end{proposition}
+
+\begin{proof}
+For $n=2$, $P^*=F_0$, and $F_0\cup F_t$ is a Hamiltonian $4$-cycle for $t\ne0$. Let $n\ge3$ and $N=n-2$. Let $x\in\{0,\dots,q-1\}$ represent $t+n-2$. The values $t=n-1$ and $t=n$ correspond to $x=2N+1$ and $x=2N+2$. For any other $t$, $0\le x\le2N$, so $x=k+k'$ with $0\le k,k'\le N$, and $(2k+1)+(2k'+2)=2x+3\equiv2t$. If $k=k'$ then $\ell_k\in F_t$, a doubled edge. Otherwise $2k+1,2k+2,2k'+1,2k'+2$ are distinct and form the alternating $4$-cycle $\ell_k$, $\{2k+2,2k'+1\}$, $\ell_{k'}$, $\{2k'+2,2k+1\}$. In both cases $P^*\cup F_t$ has a component with at most $4<2n$ vertices.
+
+For $t=n-1$, $2t\equiv-1$, so $F_{n-1}$ pairs $x$ with $q-1-x$ on the integers $0,\dots,q-1$ and pairs $\infty$ with $n-1$. The walk from $\infty$ that alternates $P^*$ and $F_{n-1}$ runs through $\infty,0,q-1,q-2,1,2,q-3,q-4,3,4,\dots$ in this order. After the $P^*$-step from $2j+1$ to $2j+2$ it takes the $F$-step to $q-3-2j$, the $P^*$-step to $q-4-2j$ and the $F$-step to $2j+3$. So it lists the low labels upwards and the high labels downwards, two at a time, until it reaches the fixed point $n-1$ of the reflection, and then it returns to $\infty$. Every vertex is visited once, so the union is one cycle. For $t=n$, the map $x\mapsto-x$ fixes $\infty$, fixes $P^*$ because it sends $\ell_k$ to $\ell_{N-k}$ and $\{\infty,0\}$ to itself, and sends $F_{n-1}$ to $F_{-(n-1)}=F_n$.
+\end{proof}
+
+\begin{theorem}\label{thm:ladder}
+For every $n\ge2$, every relation among the $\varphi(F_t)$ has constant coefficients, so $2n-2\le\dim R_\rr\le2n-1$. Moreover $\dim R_\rr=2n-1$ if and only if some matching $P$ has $\deg_\rr(P)$ odd. For $n=2,3$, $\dim R_\rr=2n-2$.
+\end{theorem}
+
+\begin{proof}
+The translate $P^*+b$ forms a Hamiltonian pair with $F_t$ exactly for $t\in\{n-1+b,n+b\}$, since $x\mapsto x+b$ sends $F_t$ to $F_{t+b}$. Pairing a relation $\sum_t\lambda_t\varphi(F_t)=0$ with $\varphi(P^*+b)$ gives $\lambda_{n-1+b}+\lambda_{n+b}=0$ for all $b$, so $\lambda$ is constant. In the language of Lemma~\ref{lem:pairing}, the matrix ${(H[P^*+s,F_t])}_{s,t}$ is the circulant of $1+x$ in $\F[x]/(x^q-1)$, of rank $q-1$. So the only possible relation is $\sum_t\varphi(F_t)=0$, and $\pr{\sum_t\varphi(F_t),\varphi(P)}\equiv\deg_\rr(P)$ together with nondegeneracy gives the equivalence. For $n=2,3$, $\dim W_n=2^{n-1}=2n-2$.
+\end{proof}
+
+\begin{proposition}\label{prop:oneQ}
+Let $n\ge5$ and $N=n-2$, and let $Q^*$ be obtained from $P^*$ by replacing $\{\infty,0\}$ and $\ell_1=\{3,4\}$ with $\{0,3\}$ and $\{\infty,4\}$,
+\[
+Q^*=\{\{0,3\},\{\infty,4\},\ell_0\}\cup\{\ell_k:2\le k\le N\}.
+\]
+Then $\Ham(Q^*,F_t)$ holds if and only if $t=n+2$. In particular $\deg_\rr(Q^*)=1$.
+\end{proposition}
+
+\begin{proof}
+Every edge of $F_t$ used below has the form $\{x,2t-x\}$ with $x\ne2t-x$.
+
+Let $t\notin\{n-1,n,n+2\}$ and let $x\in\{0,\dots,q-1\}$ represent $t+n-2$. The excluded $t$ are exactly $x\in\{2N+1,2N+2,1\}$, because $2n\equiv1$. Put $D=\{0\}\cup\{2,\dots,N\}$, the indices of the $\ell_k$ in $Q^*$. Since $N\ge3$, the sumset $D+D$ contains $0$ and every integer from $2$ to $2N$. Indeed $x=0+x$ for $2\le x\le N$, $N+1=(N-1)+2$ with $N-1\ge2$, and $x=N+(x-N)$ for $N+2\le x\le2N$. So $x=k+k'$ with $k,k'\in D$, and the argument of Proposition~\ref{prop:pstar} gives a component of $Q^*\cup F_t$ with at most $4$ vertices.
+
+For $t=n-1$, $2t\equiv q-1$, and the eight vertices $0$, $q-1$, $q-2$, $1$, $2$, $q-3$, $q-4$, $3$ form a cycle of $Q^*\cup F_{n-1}$ in this order. Its edges alternate between $F_{n-1}$ and $Q^*$, starting with $\{0,q-1\}\in F_{n-1}$. The edges from $Q^*$ are $\ell_N$, $\ell_0$, $\ell_{N-1}$ and $\{0,3\}$, with $N-1\ge2$, and each edge from $F_{n-1}$ joins two labels with sum $q-1$. The eight vertices are distinct because $q\ge9$. So $Q^*\cup F_{n-1}$ has an $8$-cycle, and $8<2n$. For $t=n$, $2t\equiv1$, and the six vertices $0$, $1$, $2$, $q-1$, $q-2$, $3$ form a cycle in this order, with edges alternating between $F_n$ and $Q^*$, and $6<2n$.
+
+For $t=n+2$, $2t\equiv5$. In $F_{n+2}$ every $x\in\Z/q$ is joined to $5-x$, or equals it when $x=n+2$, so $x$ and $5-x$ always lie in one component of $Q^*\cup F_{n+2}$. Let $C$ be the component of $0$. The edges $\{0,3\}\in Q^*$, $\{3,2\}\in F_{n+2}$, $\ell_0=\{2,1\}$, $\{1,4\}\in F_{n+2}$ and $\{4,\infty\}\in Q^*$ put $\infty,0,1,2,3,4$ in $C$, and $\{0,5\}\in F_{n+2}$ puts $5$ in $C$. For $2\le j\le N$, if $2j+1\in C$ then its partner $2j+2$ in $\ell_j$ is in $C$. For $2\le j\le N-1$ the label $5-(2j+2)\equiv2(N+2-j)+2$ is the larger endpoint of $\ell_{N+2-j}$, with $3\le N+2-j\le N$, so the smaller endpoint $2(N+2-j)+1$ is in $C$, and so is $5-(2(N+2-j)+1)\equiv2(j+1)+1$. Starting from $5=2\cdot2+1$, induction on $j$ shows that $C$ contains $2j+1$ and $2j+2$ for $2\le j\le N$, the last step giving $2N+2=q-1$ through $\ell_N$. These are the labels $5,\dots,q-1$, so $Q^*\cup F_{n+2}$ is connected and is one $2n$-cycle.
+\end{proof}
+
+\begin{theorem}\label{thm:rr}
+For every $n\ge4$, $\dim_{\F}R_\rr=2n-1$, so the fingerprints of the $2n-1$ round-robin factors are linearly independent, whether $q$ is prime or composite.
+\end{theorem}
+
+\begin{proof}
+For $n\ge5$ the translate $Q^*+b$ forms a Hamiltonian pair with $F_t$ exactly for $t=n+2+b$, so the matrix ${(H[Q^*+s,F_t])}_{s,t}$ is a permutation matrix of rank $q$, and Lemma~\ref{lem:pairing} gives $\dim R_\rr=q$. For $n=4$, $q=7$ is prime. By~\cite[Thm.~2.1]{Cameron75}, for $s\ne t$ the union $F_s\cup F_t$ consists of an $(m+1)$-cycle through $\infty$ and cycles of length $2m$, where $m$ is the order of $s-t$ in $\Z/q$. For prime $q$, $m=q$ and $F_s\cup F_t$ is a Hamiltonian cycle. So $\GK_8$ is a perfect $1$-factorization with $n$ even, and Theorem~\ref{thm:kotzig}(iii) applies.
+\end{proof}
+
+At $n=5$ this gives $\dim R(\GK_{10})=9$, while the perfect $1$-factorization of $K_{10}$ has $\dim R=8$ (Remark~\ref{rem:K10}). Theorem~\ref{thm:kotzig} gives neither number. At odd $n$ the count $\binom{2n-1}{2}$ is even, and for composite $q$, such as $q=9$, the factorization $\GK_{2n}$ is not perfect, since an element of $\Z/q$ of order $m<q$ gives two factors whose union contains an $(m+1)$-cycle~\cite[Thm.~2.1]{Cameron75}.
+
+\subsection{The polar section}\label{subsec:slice}
+
+\begin{theorem}\label{thm:slice}
+Let $n\ge4$ and $R_\rr^\perp={R(\GK_{2n})}^\perp\subseteq W(V_n)$.
+\begin{enumerate}
+\item $\dim R_\rr^\perp=2^{n-1}-(2n-1)$.
+\item $\varphi(Z(\GK_{2n}))=\Phi\cap R_\rr^\perp$.
+\item Every element of $\Aut(\GK_{2n})\cong\AGL(1,\Z/q)$ preserves $R_\rr$ and $R_\rr^\perp$, and $Z(\GK_{2n})$ is a union of $\AGL(1,\Z/q)$-orbits.
+\item If $q$ is prime, then $\sum_t\varphi(F_t)\in R_\rr\cap R_\rr^\perp$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(i) is Theorem~\ref{thm:polarsection}(i) with Theorem~\ref{thm:rr}. (ii) is Theorem~\ref{thm:polarsection}(ii). (iii) An automorphism permutes the factors, and Theorem~\ref{thm:polarsection}(iii) applies. (iv) For prime $q$ each $F_s$ forms a Hamiltonian pair with each of the other $q-1$ factors (proof of Theorem~\ref{thm:rr}), an even number, so $\pr{\sum_t\varphi(F_t),\varphi(F_s)}=0$.
+\end{proof}
+
+By Theorem~\ref{thm:rr} the vector $\sum_t\varphi(F_t)$ is nonzero, so part (iv) shows that for prime $q$ the restriction of $\pr{\,,}$ to $R_\rr$ is degenerate. The zero states of $\GK_{2n}$ are cut out of the fingerprints by an $\AGL(1,\Z/q)$-invariant subspace of codimension $2n-1$. Their further study through this polar section is left to a separate paper.

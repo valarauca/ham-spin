@@ -1,0 +1,106 @@
+% chktex-file 12
+% chktex-file 36
+\section{Local parity, the three-cycle relation and the Clifford action}\label{sec:threecycle}
+
+Wales proved that, for $m\ge5$, an irreducible representation of the double cover $\St_m$ in which an element of order $3$ lying over a $3$-cycle has a quadratic minimal polynomial is a basic spin representation~\cite[Thm.~8.1]{Wales79}. This section shows that $1+\tau+\tau^2$ annihilates the row space of $H_V$ for every $3$-cycle $\tau$, and Proposition~\ref{prop:minpoly} shows that $x^2+x+1$ is then the minimal polynomial of the action of $\tau$.
+
+Let $\F[\M(V)]$ be the $\F$-vector space with basis $e_P$, $P\in\M(V)$. For $f\in\F[\M(V)]$ write $f(Q)$ for the coefficient of $e_Q$. The \emph{fingerprint} of $P$ is the row $\varphi(P)=\sum_{Q}H[P,Q]\,e_Q$ of $H_V$, and $W(V)\subseteq\F[\M(V)]$ is the span of the fingerprints, so $W_n=W(\{0,\dots,2n-1\})$. The group $S_V$ acts on $\F[\M(V)]$ by $\rho(\sigma)e_Q=e_{\sigma Q}$. Since $H$ is invariant, $\rho(\sigma)\varphi(P)=\varphi(\sigma P)$, so $W(V)$ is a submodule, and we write $\rho_W$ for the action on it.
+
+\subsection{Four and six points}
+
+Lemmas~\ref{lem:four} and~\ref{lem:six} are the local parity statements of the title. They show that certain sums of three entries of $H_A$ vanish when $|A|$ is $4$ or $6$, and Theorem~\ref{thm:threecycle} reduces the general case to them.
+
+\begin{lemma}\label{lem:four}
+Let $|A|=4$. Two matchings $X,Y\in\M(A)$ satisfy $\Ham(X,Y)$ if and only if $X\ne Y$. Hence $\sum_{X\in\M(A)}H_A[X,Y]=0$ for every $Y\in\M(A)$.
+\end{lemma}
+
+\begin{proof}
+Two distinct matchings of four points share no edge, and their union is a $4$-cycle. A matching shares its two edges with itself. So exactly two of the three summands are $1$.
+\end{proof}
+
+\begin{lemma}\label{lem:six}
+Let $|A|=6$ and let $a,b,c,a',b',c'$ be the six points of $A$. Let $X\in\M(A)$ contain $\{a,a'\}$, $\{b,b'\}$ and $\{c,c'\}$, and let $\tau=(a\;\,b\;\,c)$. Then
+\[
+H_A[X,Y]+H_A[\tau X,Y]+H_A[\tau^{2}X,Y]=0\qquad\text{for every }Y\in\M(A).
+\]
+\end{lemma}
+
+\begin{proof}
+Put $S=\{a,b,c\}$, $T=\{a',b',c'\}$ and $X_i=\tau^{i}X$ for $i=0,1,2$. Each $X_i$ matches $S$ to $T$, and we let $x_i\colon S\to T$ be the bijection given by its edges. Since $\tau$ fixes $T$, $x_i=x_0\tau^{-i}$, so $\{x_0^{-1}x_0,x_1^{-1}x_0,x_2^{-1}x_0\}$ is the alternating group $A_3$ on $S$.
+
+The number of edges of $Y$ between $S$ and $T$ is odd, so it is $1$ or $3$. Suppose it is $3$, so that $Y$ matches $S$ to $T$ by a bijection $y$. Following the edges of $X_i$ and $Y$ alternately shows that $X_i\cup Y$ is a $6$-cycle exactly when the permutation $x_i^{-1}y$ of $S$ is a $3$-cycle. The three permutations $x_i^{-1}y=\tau^{i}x_0^{-1}y$ form the coset of $A_3$ that contains $x_0^{-1}y$. If $x_0^{-1}y\in A_3$, they are the elements of $A_3$, and two of them are $3$-cycles. Otherwise they are the three transpositions of $S$. So the number of Hamiltonian pairs among $(X_i,Y)$ is $2$ or $0$.
+
+Suppose instead that $Y$ has one edge $\{s,t\}$ with $s\in S$ and $t\in T$. Exactly one $i$ has $x_i(s)=t$, so exactly one $X_i$ contains $\{s,t\}$, and its union with $Y$ has a doubled edge. The other two $X_i$ share no edge with $Y$, and two edge-disjoint perfect matchings of six points form one $6$-cycle. The number of Hamiltonian pairs is $2$.
+\end{proof}
+
+\subsection{The three-cycle relation on \texorpdfstring{$W(V)$}{W(V)}}
+
+\begin{theorem}\label{thm:threecycle}
+Let $\tau\in S_V$ be a $3$-cycle and $P,Q\in\M(V)$. Then
+\[
+H[P,Q]+H[\tau P,Q]+H[\tau^{2}P,Q]=0.
+\]
+Equivalently $\varphi(P)+\varphi(\tau P)+\varphi(\tau^{2}P)=0$, and $1+\rho_W(\tau)+{\rho_W(\tau)}^2=0$ on $W(V)$.
+\end{theorem}
+
+\begin{proof}
+Write $\tau=(a\;\,b\;\,c)$ and let $A$ be the union of the edges of $P$ that meet $\{a,b,c\}$. At most one edge of $P$ lies inside $\{a,b,c\}$. If one does, $|A|=4$. Otherwise the three points have distinct partners outside $\{a,b,c\}$ and $|A|=6$. The set $A$ is closed under $P$ and $\tau$ fixes $V\setminus A$ pointwise, so $\tau^{i}P=(\tau^{i}P|_A)\cup P'$ with the notation of Section~\ref{subsec:contraction}. If $Q\cup P'$ has a closed cycle, all three terms vanish by Theorem~\ref{thm:contraction}(i). Otherwise Theorem~\ref{thm:contraction}(ii) replaces each term by $H_A[\tau^{i}P|_A,Q_A]$, with the same exit matching $Q_A$ for all three. If $|A|=4$, the three matchings $\tau^{i}P|_A$ are the three matchings of $A$ and Lemma~\ref{lem:four} applies. If $|A|=6$, Lemma~\ref{lem:six} applies.
+\end{proof}
+
+\subsection{Three-cycle modules and edge relations}
+
+The upper bound of Section~\ref{sec:basis} uses only Theorem~\ref{thm:threecycle}, so we isolate it.
+
+\begin{definition}\label{def:tcr}
+A \emph{three-cycle module} is an $\F$-vector space $M$ with a representation $\rho_M$ of $S_V$ such that $1+\rho_M(\tau)+{\rho_M(\tau)}^2=0$ for every $3$-cycle $\tau\in S_V$. For distinct $i,j\in V$ put $\Gamma_{ij}=\rho_M(\tr ij)$, and for an edge $e=\{i,j\}$ put $\Gamma_e=\Gamma_{ij}$.
+\end{definition}
+
+\begin{proposition}\label{prop:edge}
+In a three-cycle module the following hold.
+\begin{enumerate}
+\item $\Gamma_{ij}^2=1$ for distinct $i,j$, and $\Gamma_{ij}\Gamma_{kl}=\Gamma_{kl}\Gamma_{ij}$ for distinct $i,j,k,l$.
+\item $\Gamma_{ij}\Gamma_{jk}+\Gamma_{jk}\Gamma_{ij}=1$ for distinct $i,j,k$.
+\item $\Gamma_{ij}+\Gamma_{jk}+\Gamma_{ik}=0$ for distinct $i,j,k$, that is, $\Gamma_{ik}=\Gamma_{ij}+\Gamma_{jk}$.
+\end{enumerate}
+For edges $e$ and $f$ these combine into $\Gamma_e\Gamma_f+\Gamma_f\Gamma_e=|e\cap f|\cdot 1$, with $|e\cap f|$ read modulo $2$.
+\end{proposition}
+
+\begin{proof}
+Part (i) holds in every representation of $S_V$. For (ii), $\tau=\tr ij\tr jk$ is a $3$-cycle and $\tr jk\tr ij=\tau^{-1}=\tau^2$, so $\Gamma_{ij}\Gamma_{jk}+\Gamma_{jk}\Gamma_{ij}=\rho_M(\tau)+{\rho_M(\tau)}^2=1$ in characteristic $2$. For (iii), the group identity $\tr ij\tr jk\tr ij=\tr ik$ and (ii) give $\Gamma_{ik}=\Gamma_{ij}\Gamma_{jk}\Gamma_{ij}=(1+\Gamma_{jk}\Gamma_{ij})\Gamma_{ij}=\Gamma_{ij}+\Gamma_{jk}$. In the last statement $|e\cap f|=2$ gives $2\Gamma_e^2=0$, $|e\cap f|=1$ is (ii) and $|e\cap f|=0$ is (i).
+\end{proof}
+
+By Theorem~\ref{thm:threecycle}, $W(V)$ is a three-cycle module.
+
+\subsection{The even-weight space and the Clifford homomorphism}\label{subsec:clifford}
+
+Let $\varepsilon_v$, $v\in V$, be the standard basis of $\F^V$, let $U(V)=\{x\in\F^V:\sum_v x_v=0\}$ be the even-weight subspace, and for $i\ne j$ put $v_{ij}=\varepsilon_i+\varepsilon_j$. For an edge $e=\{i,j\}$ write $v_e=v_{ij}$. Fixing $o\in V$, every $x\in U(V)$ equals $\sum_{j\ne o}x_j v_{oj}$, so the $v_{ij}$ span $U(V)$. On $U(V)$ put
+\[
+\qf(x)=\tfrac12\wt(x)\bmod 2,\qquad \bq(x,y)=\sum_v x_{v}y_v=\lvert\supp x\cap\supp y\rvert\bmod2 ,
+\]
+where $\wt(x)=\lvert\supp x\rvert$ is the weight of $x$. Since $\wt(x+y)=\wt(x)+\wt(y)-2\lvert\supp x\cap\supp y\rvert$, we have $\qf(x+y)=\qf(x)+\qf(y)+\bq(x,y)$, so $\qf$ is a quadratic form with polar form $\bq$. The all-ones vector $\ones$ lies in $U(V)$ when $|V|$ is even, $\bq(\ones,x)=0$ for every $x\in U(V)$, and $\qf(\ones)=n\bmod 2$ when $|V|=2n$. Also $\qf(v_e)=1$ and $\bq(v_e,v_f)=|e\cap f|\bmod 2$. Let $\Cl(U(V),\qf)$ be the Clifford algebra, the quotient of the tensor algebra of $U(V)$ by the relations $x\otimes x=\qf(x)$, and $\iota\colon U(V)\to\Cl(U(V),\qf)$ the canonical map. The group $S_V$ acts on $U(V)$ by ${(\sigma x)}_k=x_{\sigma^{-1}k}$ and preserves $\qf$, so by the universal property it acts on $\Cl(U(V),\qf)$ by algebra automorphisms with $\sigma\iota(x)=\iota(\sigma x)$. For $|V|=2n$ we write $U_n=U(V)$.
+
+\begin{theorem}\label{thm:clifford}
+Let $M$ be a three-cycle module for $S_V$.
+\begin{enumerate}
+\item There is a unique linear map $\Gamma\colon U(V)\to\End_{\F}(M)$ with $\Gamma(v_{ij})=\Gamma_{ij}$ for all $i\ne j$.
+\item $\Gamma(x)\Gamma(y)+\Gamma(y)\Gamma(x)=\bq(x,y)\cdot 1$ and ${\Gamma(x)}^2=\qf(x)\cdot 1$ for all $x,y\in U(V)$.
+\item $\rho_M(\sigma)\Gamma(x){\rho_M(\sigma)}^{-1}=\Gamma(\sigma x)$ for $\sigma\in S_V$.
+\item $\Gamma$ extends to an $S_V$-equivariant algebra homomorphism $\Cl(U(V),\qf)\to\End_{\F}(M)$ with $\iota(v_e)\mapsto\Gamma_e$, where $S_V$ acts on $\End_{\F}(M)$ by conjugation.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Fix $o\in V$, put $G_j=\Gamma_{oj}$ for $j\ne o$ and $G_o=0$, and define $\Gamma(x)=\sum_j x_{j}G_j$ on $\F^V$. For $i\ne j$ both different from $o$, Proposition~\ref{prop:edge}(iii) gives $\Gamma(v_{ij})=\Gamma_{oi}+\Gamma_{oj}=\Gamma_{ij}$, and $\Gamma(v_{oj})=\Gamma_{oj}$. Uniqueness holds because the $v_{ij}$ span $U(V)$. For (ii), the anticommutator is bilinear, and on spanning vectors it equals $|e\cap f|=\bq(v_e,v_f)$ by Proposition~\ref{prop:edge}. Then ${\Gamma(x+y)}^2={\Gamma(x)}^2+{\Gamma(y)}^2+\bq(x,y)$ and $\qf(x+y)=\qf(x)+\qf(y)+\bq(x,y)$, and ${\Gamma(v_e)}^2=1=\qf(v_e)$, so induction on the number of spanning vectors in $x$ gives ${\Gamma(x)}^2=\qf(x)$. Part (iii) holds on the spanning vectors because $\sigma\tr ij\sigma^{-1}=\tr{\sigma i}{\sigma j}$ and $\sigma v_{ij}=v_{\sigma i,\sigma j}$, and both sides are linear in $x$. Part (iv) is the universal property of the Clifford algebra, and equivariance holds on the generators $\iota(x)$ by (iii).
+\end{proof}
+
+For $M=W_n$ we call the map of Theorem~\ref{thm:clifford}(iv) the \emph{Clifford action} on $W_n$.
+
+Sections~\ref{subsec:tl} and~\ref{subsec:reduction} use the following presentation of $\Cl(U_n,\qf)$ by the elements $\iota(v_{t,t+1})$.
+
+\begin{lemma}\label{lem:reducehom}
+Let $V=\{0,\dots,2n-1\}$, let $\mathcal A$ be an $\F$-algebra and let $y_0,\dots,y_{2n-2}\in\mathcal A$ satisfy $y_t^2=1$ and $y_{s}y_t+y_{t}y_s=[|s-t|=1]$ for all $s,t$. Then there is a unique algebra homomorphism $\Cl(U_n,\qf)\to\mathcal A$ with $\iota(v_{t,t+1})\mapsto y_t$.
+\end{lemma}
+
+\begin{proof}
+The $v_{t,t+1}$ form a basis of $U_n$, so there is a unique linear map $\gamma\colon U_n\to\mathcal A$ with $\gamma(v_{t,t+1})=y_t$. Its square equals $\qf$ on the basis, and its anticommutator equals $\bq$ on pairs of basis vectors, since $\bq(v_{s,s+1},v_{t,t+1})=[|s-t|=1]$ for $s\ne t$. As in the proof of Theorem~\ref{thm:clifford}(ii), ${\gamma(x)}^2=\qf(x)$ for all $x$, and the universal property applies.
+\end{proof}

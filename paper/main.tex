@@ -1,0 +1,102 @@
+\documentclass[11pt]{amsart}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{upgreek}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{needspace}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage[colorinlistoftodos,textsize=small]{todonotes}
+\usepackage[margin=1.15in]{geometry}
+\usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=green!40!black,urlcolor=blue!50!black]{hyperref}
+\hypersetup{pdftitle={Perfect matchings and the 2-modular basic spin representation of S\_2n},pdfkeywords={perfect matchings, Hamiltonian cycles, spin representations, Specht modules, Clifford algebras, Temperley\textendash{}Lieb algebras, perfect 1-factorizations}}
+
+\setlength{\emergencystretch}{3em}
+\setlist[enumerate]{label=\textup{(\roman*)}}
+\numberwithin{equation}{section}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{mainthm}{Theorem}
+\renewcommand{\themainthm}{\Alph{mainthm}}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\F}{\mathbb{F}_2}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\Fam}{\mathcal{F}}
+\newcommand{\QF}{\mathcal{Q}}
+\newcommand{\qf}{\mathsf{q}}
+\newcommand{\bq}{\mathsf{b}}
+\newcommand{\Wt}{\widetilde{W}}
+\newcommand{\Ham}{\operatorname{Ham}}
+\newcommand{\hp}{\operatorname{hp}}
+\newcommand{\rad}{\operatorname{rad}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\wt}{\operatorname{wt}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\AGL}{\operatorname{AGL}}
+\newcommand{\PGL}{\operatorname{PGL}}
+\newcommand{\GK}{\mathrm{GK}}
+\newcommand{\cupop}{\operatorname{cup}}
+\newcommand{\capop}{\operatorname{cap}}
+\newcommand{\Span}{\operatorname{span}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\TL}{\mathrm{TL}}
+\newcommand{\ones}{\mathbf{1}}
+\newcommand{\St}{\widetilde{S}}
+\newcommand{\tr}[2]{(#1\;\,#2)}
+\newcommand{\pr}[1]{\langle#1\rangle}
+\newcommand{\rr}{\mathrm{rr}}
+
+\title{Perfect matchings and the $2$-modular basic spin representation of $S_{2n}$}
+
+% \author{}      % to be supplied by the coordinator
+% \address{}     % to be supplied by the coordinator
+% \email{}       % to be supplied by the coordinator
+% \subjclass[2020]{}   % MSC codes to be chosen and checked by the coordinator
+\keywords{perfect matchings, Hamiltonian cycles, spin representations, Specht modules, Clifford algebras, Temperley--Lieb algebras, perfect $1$-factorizations} % chktex 8
+
+\date{27 November 2026}
+
+\begin{document}
+
+\begin{abstract}
+Let $H_{2n}$ be the matrix over $\F$ indexed by the perfect matchings of $K_{2n}$ whose entry at $(P,Q)$ is $1$ exactly when $P\cup Q$ is a Hamiltonian cycle. Cygan, Kratsch and Nederlof proved that $H_{2n}$ has rank $2^{n-1}$. We show that the row space $W_n$ of $H_{2n}$, with the relabelling action of $S_{2n}$, is the $2$-modular basic spin representation $D^{(n+1,n-1)}$. Every $3$-cycle $\tau$ satisfies $1+\tau+\tau^2=0$ on $W_n$, and this single relation presents $W_n$ as a quotient of the permutation module on matchings. The transpositions define a surjective algebra homomorphism onto $\End(W_n)$ from the Clifford algebra of the even-weight subspace of $\F^{2n}$ with the form $x\mapsto\wt(x)/2\bmod 2$. Over an algebraically closed field of characteristic $0$, the double cover of $S_{2n}$ acts through a Clifford algebra, and we identify $W_n$ with the reduction modulo $2$ of every finite-dimensional simple module over that algebra. We also identify $W_n$ with the first Jantzen layer of the Specht module $S^{(n,n)}$. For $n\ge4$ there is a unique quadratic form on $W_n$ whose polar form is the form induced by $H_{2n}$ and which vanishes on every row of $H_{2n}$. Its value on a sum of rows is the number of Hamiltonian pairs among them, modulo $2$. Consequences include the linear independence of the rows of $H_{2n}$ indexed by the factors of every perfect $1$-factorization of $K_{2n}$ with $n$ even and $n\ge4$, and by the factors of the round-robin $1$-factorization for every $n\ge4$.
+\end{abstract}
+
+\maketitle
+
+\input{sections/intro}
+\input{sections/matchings}
+\input{sections/threecycle}
+\input{sections/basis}
+\input{sections/presentations}
+\input{sections/spin}
+\input{sections/polar}
+\input{sections/roundrobin}
+
+\appendix
+\raggedbottom{}
+\input{sections/appendix}
+
+\bibliographystyle{amsplain}
+\bibliography{refs}
+
+\end{document}

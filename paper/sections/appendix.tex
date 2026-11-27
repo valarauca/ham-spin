@@ -1,0 +1,92 @@
+\section{Index of formalized statements}\label{app:lean}
+
+\newcommand{\us}{\_\allowbreak}
+\newcommand{\ld}[1]{\texttt{#1}}
+\newcommand{\Lrho}{\ensuremath{\uprho}}
+\newcommand{\Liota}{\ensuremath{\upiota}}
+\newcommand{\Ldelta}{\ensuremath{\updelta}}
+\newcommand{\LGamma}{\ensuremath{\Gamma}}
+\newcommand{\LTheta}{\ensuremath{\Theta}}
+\newcommand{\HS}{\textsf{HS}}
+\newcommand{\HP}{\textsf{HP}}
+
+The table lists, for each numbered statement of Sections~\ref{sec:matchings} to~\ref{sec:roundrobin}, the Lean~4 declarations that formalize it. The repository \HS{} is \texttt{valarauca/ham-spin} at commit \texttt{87df892}, and \HP{} is \texttt{valarauca/ham\_pairings} at commit \texttt{949038a}, which pins \HS{} at the same commit. Both require Mathlib \texttt{v4.35.0}. Names are given without the namespace prefixes \texttt{Pairing}, \texttt{Pairing.PerfectMatching} and \texttt{Pairing.RoundRobin.Canonical}. Greek letters in names are printed as upright Greek letters, and the subscript in \ld{f3\us{}F}\textsubscript{\texttt{2}} is the character for subscript two in the Lean source. An entry ``paper only'' means that the statement, or the part named, has no formal counterpart.
+
+The Lean files \texttt{QuadraticForm.lean}, \texttt{RoundRobin.lean}, \texttt{Automorphism.lean} and the files of \HP{} write $m$ for the number written $n$ in this paper, so that the vertex set has $2m$ elements, and the generic round-robin construction writes $n$ for the odd modulus written $q=2n-1$ here.
+
+\begingroup
+\small
+\renewcommand{\arraystretch}{1.15}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.14\textwidth}>{\raggedright\arraybackslash}p{0.6\textwidth}>{\raggedright\arraybackslash}p{0.17\textwidth}@{}}
+\toprule
+Statement & Lean declarations & Repository, SHA\\
+\midrule
+\endhead % chktex 1
+\bottomrule
+\endfoot % chktex 1
+Prop.~\ref{prop:count} & \ld{card\us{}eq\us{}doubleFactorial}, \ld{exists\us{}smul\us{}eq} & \HS{} \texttt{87df892}\\
+Def.~\ref{def:H} & \ld{Ham}, \ld{H}, \ld{ham\us{}iff\us{}cycleCount\us{}eq\us{}one}, \ld{not\us{}ham\us{}of\us{}mate\us{}eq\us{}of\us{}two\us{}lt} & \HS{} \texttt{87df892}\\
+Prop.~\ref{prop:moment} & \ld{sum\us{}pow\us{}cycleCount\us{}le}, \ld{cycleCount\us{}le\us{}contractAt}, \ld{cycleCount\us{}le\us{}contractAt\us{}add\us{}one}, \ld{contractAt\us{}injOn\us{}eq}, \ld{contractAt\us{}injOn\us{}ne} & \HS{} \texttt{87df892}\\
+Prop.~\ref{prop:invprod} & \ld{not\us{}sameCycle\us{}mate\us{}left}, \ld{not\us{}sameCycle\us{}mate\us{}right}, \ld{card\us{}reachable\us{}eq\us{}two\us{}mul}, \ld{two\us{}mul\us{}cycleCount}, \ld{ham\us{}iff\us{}partition}, \ld{ham\us{}iff\us{}cycleType} & \HS{} \texttt{87df892}\\
+Thm.~\ref{thm:contraction} & \ld{contractFun}, \ld{contractFun\us{}ne}, \ld{contract}, \ld{HasClosedCycle}, \ld{H\us{}glue\us{}of\us{}hasClosedCycle}, \ld{H\us{}glue}, \ld{ham\us{}glue\us{}iff} & \HS{} \texttt{87df892}\\
+Lem.~\ref{lem:four} & \ld{ham\us{}iff\us{}ne\us{}of\us{}card\us{}eq\us{}four}, \ld{sum\us{}H\us{}of\us{}card\us{}eq\us{}four} & \HS{} \texttt{87df892}\\
+Lem.~\ref{lem:six} & \ld{sum\us{}H\us{}orbit\us{}six}, proved by a finite check. The counting proof in the text is paper only & \HS{} \texttt{87df892}\\
+Thm.~\ref{thm:threecycle} & \ld{sum\us{}H\us{}isThreeCycle}, \ld{row\us{}sum\us{}isThreeCycle}, \ld{one\us{}add\us{}\Lrho{}W\us{}add\us{}sq} & \HS{} \texttt{87df892}\\
+Def.~\ref{def:tcr} & \ld{IsThreeCycleRep}, \ld{isThreeCycleRep\us{}\Lrho{}W} & \HS{} \texttt{87df892}\\
+Prop.~\ref{prop:edge} & \ld{ThreeCycleRep.\LGamma{}\us{}mul\us{}self}, \ld{ThreeCycleRep.\LGamma{}\us{}mul\us{}comm\us{}of\us{}disjoint}, \ld{ThreeCycleRep.\LGamma{}\us{}anticomm\us{}of\us{}adj}, \ld{ThreeCycleRep.\LGamma{}\us{}add\us{}\LGamma{}\us{}add\us{}\LGamma}, \ld{ThreeCycleRep.\LGamma{}\us{}eq\us{}add}, \ld{\LGamma{}\us{}anticomm} & \HS{} \texttt{87df892}\\
+Thm.~\ref{thm:clifford} & \ld{U}, \ld{qForm}, \ld{polar\us{}qForm}, \ld{\LGamma{}U}, \ld{\LGamma{}U\us{}unique}, \ld{gammaL\us{}anticomm}, \ld{\LGamma{}U\us{}sq}, \ld{\Lrho{}W\us{}conj\us{}gammaL}, \ld{cliffordRep}, \ld{cliffordRep\us{}\Liota{}\us{}v}, for $M=W(V)$. The case of a general $M$ is paper only & \HS{} \texttt{87df892}\\
+Lem.~\ref{lem:reducehom} & \ld{reduceHom}, \ld{reduceHom\us{}\Liota{}\us{}adjU} & \HS{} \texttt{87df892}\\
+Prop.~\ref{prop:Bw} & \ld{ThreeCycleRep.B\us{}mul\us{}sigma}, \ld{ThreeCycleRep.B\us{}wv}, \ld{ThreeCycleRep.\Lrho{}\us{}sigma\us{}wv}, \ld{B\us{}w} & \HS{} \texttt{87df892}\\
+Thm.~\ref{thm:upper} & \ld{ThreeCycleRep.span\us{}wv\us{}eq\us{}top}, \ld{ThreeCycleRep.finrank\us{}le}, \ld{finrank\us{}le\us{}of\us{}isThreeCycleRep} & \HS{} \texttt{87df892}\\
+Lem.~\ref{lem:HX} & \ld{H\us{}X\us{}eq}, \ld{not\us{}ham\us{}P0\us{}X}, \ld{ham\us{}P0\us{}X\us{}univ}, \ld{H\us{}X} & \HS{} \texttt{87df892}\\
+Thm.~\ref{thm:rank} & \ld{linearIndependent\us{}w}, \ld{wBasis}, \ld{finrank\us{}W\us{}eq\us{}of\us{}card}, \ld{rank\us{}H\us{}eq\us{}of\us{}card}, \ld{quotRadEquiv}, \ld{exists\us{}equivariant\us{}quotRad} & \HS{} \texttt{87df892}\\
+Prop.~\ref{prop:lower} & \ld{lower}, \ld{lower\us{}w}, \ld{frameF}, \ld{frameF\us{}w}, \ld{lower\us{}sq}, \ld{lower\us{}anticomm\us{}frameF}, \ld{bigLower\us{}w}, \ld{bigLower\us{}eq} & \HS{} \texttt{87df892}\\
+Thm.~\ref{thm:burnside} & \ld{adjoin\us{}frame\us{}eq\us{}top}, \ld{adjoin\us{}\Lrho{}W\us{}eq\us{}top\us{}of\us{}card}, \ld{invariant\us{}eq\us{}bot\us{}or\us{}top\us{}of\us{}card}, \ld{adjoin\us{}\Lrho{}K\us{}eq\us{}top}, \ld{\Lrho{}K\us{}invariant\us{}eq\us{}bot\us{}or\us{}top} & \HS{} \texttt{87df892}\\
+Cor.~\ref{cor:clsurj} & \ld{cliffordRep\us{}surjective} & \HS{} \texttt{87df892}\\
+Prop.~\ref{prop:matchingsum} & \ld{sum\us{}\LGamma{}\us{}matching}, \ld{cliffordRep\us{}\Liota{}\us{}ones} & \HS{} \texttt{87df892}\\
+Prop.~\ref{prop:minpoly} & \ld{minpoly\us{}\Lrho{}K\us{}threeCycle}, \ld{\Lrho{}K\us{}threeCycle\us{}ne\us{}smul\us{}one} & \HS{} \texttt{87df892}\\
+Prop.~\ref{prop:maas} & \ld{maasS}, \ld{maasSI}, \ld{maasGen}, \ld{sum\us{}blockMat}, \ld{maasGen\us{}closed}, \ld{toMatrix\us{}\Lrho{}W\us{}gap}, \ld{toMatrix\us{}B}, \ld{toMatrix\us{}\Lrho{}W\us{}adj} & \HS{} \texttt{87df892}\\
+Rem.~\ref{rem:maas} & \ld{wBasis\us{}equivFun\us{}\Lrho{}W} & \HS{} \texttt{87df892}\\
+Thm.~\ref{thm:presentation} & \ld{R3}, \ld{Q}, \ld{finrank\us{}Q\us{}le}, \ld{\LTheta{}QEquiv}, \ld{ker\us{}\LTheta{}\us{}eq\us{}R3}, \ld{mk\us{}\Ldelta{}\us{}eq\us{}sum} & \HS{} \texttt{87df892}\\
+Prop.~\ref{prop:brauer} & \ld{brauerPairing}, \ld{coeff\us{}one\us{}brauerPairing} & \HS{} \texttt{87df892}\\
+Prop.~\ref{prop:cupcap} & \ld{H\us{}cup}, \ld{hamForm\us{}cupLin}, \ld{R4}, \ld{R4\us{}le\us{}R3}, \ld{cupLin\us{}capLin\us{}add\us{}mem\us{}R4}, \ld{cupLin\us{}R3\us{}le}, \ld{capLin\us{}R3\us{}le}, \ld{congrLin\us{}R3\us{}le}, \ld{cupQ\us{}capQ} & \HS{} \texttt{87df892}\\
+Rem.~\ref{rem:boundary} & paper only & \\
+Prop.~\ref{prop:jw} & \ld{TL.e\us{}mul\us{}f3\us{}and}, \ld{TL.f3\us{}mul\us{}self}, \ld{TL.one\us{}add\us{}s\us{}mul\us{}s\us{}add\us{}s\us{}mul\us{}s}, \ld{TL.f3\us{}F}\textsubscript{\texttt{2}} & \HS{} \texttt{87df892}\\
+Lem.~\ref{lem:conj} & \ld{TL.s\us{}mul\us{}self}, \ld{TL.s\us{}mul\us{}e\us{}mul\us{}s}, \ld{TL.s\us{}mul\us{}s\us{}mul\us{}e\us{}mul\us{}s\us{}mul\us{}s}, \ld{TL.jw\us{}succ\us{}eq}. The relation ${(s_{i}s_j)}^3=1$ is paper only & \HS{} \texttt{87df892}\\
+Thm.~\ref{thm:tlcl} & \ld{TLJW.liftOfF3}, \ld{TLJW.jwQuotEquivCl}, \ld{TLJW.jwQuotEquivCl\us{}ebar}, \ld{TLJW.jwQuotEquivCl\us{}symm\us{}\Liota} & \HS{} \texttt{87df892}\\
+Lem.~\ref{lem:sym3} & \ld{capLin\us{}\Lrho{}\us{}swap\us{}cupLin}, \ld{sym3\us{}mem\us{}R4} & \HS{} \texttt{87df892}\\
+Thm.~\ref{thm:delta} & \ld{tlAct}, \ld{tlAct\us{}f3}, \ld{f3Delta\us{}eq}, \ld{deltaQuotEquivW}, \ld{deltaQuotEquivW\us{}\Lrho}, \ld{mk\us{}mem\us{}f3Delta\us{}iff} & \HS{} \texttt{87df892}\\
+Lem.~\ref{lem:schurhom} & \ld{Stilde}, \ld{Stilde.isData\us{}clifford}, \ld{schurQ}, \ld{schurG}, \ld{schurHom}, \ld{schurHom\us{}t}, \ld{stildeCl}, \ld{cliffordRep\us{}stildeCl} & \HS{} \texttt{87df892}\\
+Prop.~\ref{prop:jsystem} & \ld{finrank\us{}le\us{}of\us{}jSystem} & \HS{} \texttt{87df892}\\
+Def.~\ref{def:basicspin} & paper only & \\
+Thm.~\ref{thm:char0} & \ld{schurQ\us{}nondegenerate}, \ld{finrank\us{}le\us{}of\us{}simple} & \HS{} \texttt{87df892}\\
+Thm.~\ref{thm:vacuum} & \ld{exists\us{}vacuum}, \ld{exists\us{}injective\us{}intertwiner}, \ld{exists\us{}intertwining\us{}equiv} & \HS{} \texttt{87df892}\\
+Thm.~\ref{thm:reduction} & \ld{card\us{}eq\us{}of\us{}lattice}, \ld{finrank\us{}eq\us{}of\us{}lattice}, \ld{reduction\us{}basicSpin}, \ld{reduction\us{}irreducible} & \HS{} \texttt{87df892}\\
+Prop.~\ref{prop:lattice} & \ld{exists\us{}valuationSubring\us{}two}, \ld{T\us{}mul\us{}mem\us{}monoSpan}, \ld{exists\us{}lattice}, \ld{exists\us{}simple\us{}submodule}, \ld{cod105} & \HS{} \texttt{87df892}\\
+Lem.~\ref{lem:vP} to Rem.~\ref{rem:specht} & paper only & \\
+Prop.~\ref{prop:fpform} & \ld{fpForm}, \ld{fpForm\us{}rowW}, \ld{fpForm\us{}rowW\us{}right}, \ld{fpForm\us{}comm}, \ld{fpForm\us{}nondegenerate}, \ld{fpForm\us{}\Lrho{}W} & \HS{} \texttt{87df892}\\
+Thm.~\ref{thm:polarsection} & \ld{finrank\us{}fpSpan\us{}add\us{}finrank\us{}orthogonal}, \ld{isZeroState\us{}iff\us{}rowW\us{}mem\us{}orthogonal}, \ld{image\us{}rowW\us{}zeroStates}, \ld{mem\us{}fpSpanStab\us{}of\us{}perm}, \ld{map\us{}orthogonal\us{}of\us{}mem\us{}fpSpanStab}, \ld{isZeroState\us{}smul\us{}iff\us{}of\us{}mem\us{}fpSpanStab}, \ld{zeroStates\us{}eq\us{}iUnion\us{}orbit} & \HS{} \texttt{87df892}\\
+Lem.~\ref{lem:surgery} & paper only & \\
+Thm.~\ref{thm:stars} & \ld{rowW\us{}ne\us{}zero}, \ld{rowW\us{}mem\us{}edgeStar\us{}iff}, \ld{rowW\us{}mem\us{}matchingStar\us{}iff}, \ld{rowW\us{}injective}, \ld{matchingStar\us{}firstBlocks\us{}eq\us{}span}, \ld{finrank\us{}matchingStar\us{}firstBlocks} & \HS{} \texttt{87df892}\\
+Cor.~\ref{cor:LE} & paper only & \\
+Lem.~\ref{lem:TS} & \ld{fpForm\us{}\LGamma{}\us{}left}, \ld{one\us{}add\us{}\LGamma{}\us{}mul\us{}self}, \ld{fpForm\us{}quadT\us{}left}, \ld{quadT\us{}mul\us{}quadS}, \ld{quadS\us{}mul\us{}quadT}, \ld{quadT\us{}add\us{}quadS} & \HS{} \texttt{87df892}\\
+Def.~\ref{def:Q} & \ld{hamQuad}, \ld{hamQuad\us{}apply} & \HS{} \texttt{87df892}\\
+Prop.~\ref{prop:Qpolar} & \ld{polar\us{}hamQuad}, \ld{polarBilin\us{}hamQuad}, \ld{hamQuad\us{}add}. The decomposition and the vanishing on $L_{vx}$ and $L_{vy}$ are paper only & \HS{} \texttt{87df892}\\
+Thm.~\ref{thm:plustype} & paper only & \\
+Thm.~\ref{thm:Qunique} & \ld{hamQuad\us{}rowW}, \ld{quadraticForm\us{}eq\us{}of\us{}polarBilin}, \ld{existsUnique\us{}quadraticForm}, \ld{hamQuad\us{}eq}. Invariance and plus type are paper only & \HS{} \texttt{87df892}\\
+Rem.~\ref{rem:n3} & paper only & \\
+Thm.~\ref{thm:parity} & \ld{quadraticForm\us{}sum\us{}rowW}, \ld{hamQuad\us{}sum\us{}rowW}, \ld{sum\us{}rowW\us{}ne\us{}zero\us{}of\us{}odd}, \ld{exists\us{}odd\us{}ham\us{}of\us{}odd}, \ld{even\us{}hamPairs\us{}of\us{}sum\us{}rowW\us{}eq\us{}zero} & \HS{} \texttt{87df892}\\
+Cor.~\ref{cor:hc} & paper only & \\
+Thm.~\ref{thm:kotzig} & \ld{ker\us{}fpCoeff\us{}le}, \ld{finrank\us{}fpSpan\us{}of\us{}clique}, \ld{finrank\us{}fpSpan\us{}of\us{}p1f} & \HP{} \texttt{949038a}\\
+Rem.~\ref{rem:K10} & paper only, a computer calculation & \\
+Lem.~\ref{lem:localsq} & \ld{localSq}, \ld{localSq\us{}smul}, \ld{localSq\us{}none}, \ld{isMedial\us{}localSq\us{}none}, \ld{localSq\us{}zero}, \ld{not\us{}isMedial\us{}localSq\us{}zero} & \HS{} \texttt{87df892}\\
+Thm.~\ref{thm:aut} & \ld{IsAut}, \ld{isAut\us{}affine}, \ld{affine\us{}smul\us{}factor}, \ld{IsAut.apply\us{}none}, \ld{IsAut.exists\us{}affine}, \ld{isAut\us{}iff}, \ld{card\us{}autGroup}, \ld{autGroupMulEquiv}, \ld{autGroup\us{}two}, \ld{card\us{}autGroup\us{}three}, \ld{isAut\us{}three\us{}moebius} & \HS{} \texttt{87df892}\\
+Lem.~\ref{lem:pairing} & \ld{pairingMatrix}, \ld{rank\us{}pairingMatrix\us{}le} & \HP{} \texttt{949038a}\\
+Prop.~\ref{prop:pstar} & \ld{pStar}, \ld{ham\us{}pStar\us{}iff}, \ld{ham\us{}shift\us{}pStar\us{}iff} & \HP{} \texttt{949038a}\\
+Thm.~\ref{thm:ladder} & \ld{ham\us{}shift\us{}pStar\us{}ladder}, \ld{ker\us{}fpCoeff\us{}factor\us{}le}, \ld{finrank\us{}rrSpan\us{}of\us{}two\us{}le}, \ld{finrank\us{}rrSpan\us{}eq\us{}iff\us{}exists\us{}odd\us{}hamCount\us{}of\us{}two\us{}le}, \ld{finrank\us{}rrSpan\us{}two}, \ld{finrank\us{}rrSpan\us{}three} & \HP{} \texttt{949038a}\\
+Prop.~\ref{prop:oneQ} & \ld{oneQ}, \ld{ham\us{}oneQ\us{}iff}, \ld{hamCount\us{}oneQ}, \ld{ham\us{}shift\us{}oneQ\us{}iff} & \HP{} \texttt{949038a}\\
+Thm.~\ref{thm:rr} & \ld{ham\us{}shift\us{}oneQ\us{}biorthogonal}, \ld{finrank\us{}rrSpan\us{}of\us{}five\us{}le}, \ld{ham\us{}factor\us{}iff\us{}ne}, \ld{finrank\us{}rrSpan\us{}of\us{}prime\us{}of\us{}even}, \ld{finrank\us{}rrSpan\us{}four}, \ld{finrank\us{}rrSpan\us{}of\us{}four\us{}le} & \HP{} \texttt{949038a}\\
+Thm.~\ref{thm:slice} & \ld{finrank\us{}rrSpan}, \ld{isZeroState\us{}iff\us{}mem\us{}orthogonal\us{}rrSpan}, \ld{autGroup\us{}le\us{}fpSpanStab}, \ld{rrSpan\us{}map\us{}and\us{}isZeroState\us{}autGroupMulEquiv} & \HS{} \texttt{87df892}\\
+ & \ld{fpSum\us{}factor\us{}mem\us{}inf\us{}orthogonal} & \HP{} \texttt{949038a}\\
+\end{longtable}
+\endgroup

@@ -1,0 +1,107 @@
+% chktex-file 12
+% chktex-file 36
+\section{Introduction}\label{sec:intro}
+
+\subsection{Setup and conventions}\label{subsec:setup}
+
+Let $\M_n$ be the set of the $(2n-1)!!$ perfect matchings of the complete graph $K_{2n}$ on the vertex set $\{0,1,\dots,2n-1\}$. Two perfect matchings $P$ and $Q$ form a \emph{Hamiltonian pair} if the multigraph $P\cup Q$ is connected, where a common edge of $P$ and $Q$ counts as a cycle of length two. For $n\ge2$ this says that $P\cup Q$ is a Hamiltonian cycle of $K_{2n}$, and for $n=1$ the unique matching forms a Hamiltonian pair with itself. The \emph{Hamiltonicity matrix} $H_{2n}$ is the $\M_n\times\M_n$ matrix over $\F$ with $H_{2n}[P,Q]=1$ if $P$ and $Q$ form a Hamiltonian pair and $H_{2n}[P,Q]=0$ otherwise. Let $\F[\M_n]$ be the $\F$-vector space with basis $e_Q$, $Q\in\M_n$. The \emph{fingerprint} of $P$ is its row $\varphi(P)=\sum_{Q}H_{2n}[P,Q]\,e_Q$, and $W_n\subseteq\F[\M_n]$ is the row space of $H_{2n}$. The symmetric group $S_{2n}$ acts on matchings by relabelling vertices, $H_{2n}$ is invariant, and $W_n$ is an $\F S_{2n}$-module, isomorphic to the quotient $\F[\M_n]/{\rad H_{2n}}$ of the permutation module by the radical of the symmetric form with matrix $H_{2n}$. % chktex 40
+
+Cygan, Kratsch and Nederlof studied this matrix, which they call the Matching Connectivity matrix, in fast algorithms that decide Hamiltonicity and count Hamiltonian cycles modulo $2$, and they proved that $\rank_{\F}H_{2n}=2^{n-1}$~\cite[Cor.~3.5]{CKN18}. Over $\Q$ and over fields of odd characteristic the rank is much larger. Curticapean, Lindzey and Nederlof proved that it is $4^{2n}/\mathrm{poly}(n)$ over $\Q$ and $\Omega(1.97^{2n})$ over $\mathbb F_p$ for every odd prime $p$~\cite{CLN17}. This paper explains the small rank in characteristic $2$. The row space $W_n$ is a single irreducible module, the $2$-modular basic spin representation $D^{(n+1,n-1)}$ of $S_{2n}$.
+
+\begin{example}\label{ex:n2}
+For $n=2$ the three perfect matchings of $K_4$ form Hamiltonian pairs with each other (Lemma~\ref{lem:four}), so $H_4$ is the $3\times3$ matrix with zero diagonal and all other entries $1$. Its rows sum to $0$, its rank over $\F$ is $2$, and $W_2=D^{(3,1)}$ (Remark~\ref{rem:specht}).
+\end{example}
+
+Throughout, $\F$ is the field with two elements, a field written $k$ has characteristic $2$, and a field written $K$ has characteristic $0$, except in Proposition~\ref{prop:jsystem}, where $K$ is any field in which $2\ne0$. The vertices of $K_{2n}$ are labelled $0,1,\dots,2n-1$, and $ab$ denotes the edge $\{a,b\}$. For a statement $S$, the Iverson bracket $[S]$ is $1$ if $S$ holds and $0$ otherwise. Groups act on the left, and $\tr ij$ is the transposition of $i$ and $j$. For a matching $F$ of a set $V$ and distinct $a,b\in V$, the matching $F/ab$ of $V\setminus\{a,b\}$ joins $F(a)$ to $F(b)$ and keeps every other edge of $F$, so it is the restriction of $F$ when $ab\in F$. For a quadratic space $(U,\qf)$, $\iota\colon U\to\Cl(U,\qf)$ is the canonical map to its Clifford algebra.
+
+\subsection{Main results}\label{subsec:main}
+
+Our main result identifies $W_n$ with $D^{(n+1,n-1)}$ (Theorem~\ref{mthm:C}(ii)). The five theorems below collect what the matching model gives along the way.
+
+Let $\varepsilon_0,\dots,\varepsilon_{2n-1}$ be the standard basis of $\F^{2n}$, let $U_n\subseteq\F^{2n}$ be the subspace of even-weight vectors, and put $\qf(x)=\tfrac12\wt(x)\bmod2$ on $U_n$. Let $\Cl(U_n,\qf)$ be the Clifford algebra. For distinct $i,j$ put $v_{ij}=\varepsilon_i+\varepsilon_j\in U_n$. The group $S_{2n}$ permutes coordinates and preserves $\qf$, so it acts on $\Cl(U_n,\qf)$ by algebra automorphisms. Let $\rho_W$ denote the action of $S_{2n}$ on $W_n$.
+
+\begin{mainthm}[Three-cycle relation, Clifford action, rank and absolute irreducibility]\label{mthm:A}
+Let~${n\ge1}$.
+\begin{enumerate}
+\item For every $3$-cycle $\tau\in S_{2n}$, $1+\rho_W(\tau)+{\rho_W(\tau)}^2=0$ \textup{(Theorem~\ref{thm:threecycle})}.
+\item The assignment $\iota(v_{ij})\mapsto\rho_W(\tr ij)$ extends to a surjective $S_{2n}$-equivariant algebra homomorphism $\Cl(U_n,\qf)\to\End_{\F}(W_n)$ \textup{(Theorem~\ref{thm:clifford} and Corollary~\ref{cor:clsurj})}.
+\item $\dim_{\F}W_n=\rank_{\F}H_{2n}=2^{n-1}$ \textup{(Theorem~\ref{thm:rank})}.
+\item For every field $k$ of characteristic $2$, the image of $kS_{2n}$ is $\End_k(k\otimes_{\F}W_n)$. In particular $k\otimes_{\F}W_n$ is irreducible \textup{(Theorem~\ref{thm:burnside})}.
+\end{enumerate}
+\end{mainthm}
+
+Let $R_3\subseteq\F[\M_n]$ be the span of the three-cycle orbit sums $e_P+e_{\tau P}+e_{\tau^{2}P}$, and $R_4\subseteq R_3$ the span of the four-switch sums, which are the sums of the three perfect matchings that agree outside four given points. Put $\Delta_{2n}(0)=\F[\M_n]/R_4$. Let $\TL_{2n}(0)$ be the Temperley--Lieb algebra over $\F$ at loop value $0$, with generators $e_0,\dots,e_{2n-2}$, where $e_i$ acts on the strands $i$ and $i+1$ of $2n$ strands numbered $0,\dots,2n-1$, and let $\pr{f_3}$ be the two-sided ideal generated by the Jones--Wenzl idempotents on three consecutive strands (Section~\ref{subsec:tl}). % chktex 8
+
+\begin{mainthm}[Presentations and diagram algebras]\label{mthm:B}
+Let $n\ge2$.
+\begin{enumerate}
+\item The kernel of the map $\F[\M_n]\to W_n$, $e_P\mapsto\varphi(P)$, is $R_3=\rad H_{2n}$ \textup{(Theorem~\ref{thm:presentation})}.
+\item $\TL_{2n}(0)/\pr{f_3}\cong\Cl(U_n,\qf)$ as $\F$-algebras, with $e_i\mapsto1+\iota(v_{i,i+1})$ \textup{(Theorem~\ref{thm:tlcl})}.
+\item The rule $e_i\mapsto1+\tr i{i+1}$ defines an action of $\TL_{2n}(0)$ on $\Delta_{2n}(0)$, and $W_n\cong\Delta_{2n}(0)/\pr{f_3}\Delta_{2n}(0)$ \textup{(Theorem~\ref{thm:delta})}. With this action $\Delta_{2n}(0)$ is the standard module of $\TL_{2n}(0)$ with no through strands \textup{(Theorem~\ref{thm:step1}(iii) and the definition after it)}.
+\item Deleting two points $a,b$ and joining their partners (the Brauer cap, which is zero on matchings that contain the edge $ab$), and adding the edge $ab$ (the Brauer cup), preserve the three-cycle relations. So they induce maps between the row spaces on $2n-2$ and on $2n$ points, and $H_{2n}$ is the coefficient of $\delta^1$ in the Brauer loop pairing \textup{(Propositions~\ref{prop:brauer} and~\ref{prop:cupcap})}.
+\end{enumerate}
+\end{mainthm}
+
+Parts (i) and (ii) also hold for $n=1$, where $\pr{f_3}=0$. In $\Delta_{2n}(0)$ the $0$ is the number of through strands, and in $\TL_{2n}(0)$ it is the loop value.
+
+Let $K$ be an algebraically closed field of characteristic $0$, let $b_0,\dots,b_{2n-2}$ be the standard basis of $K^{2n-1}$, and put $Q_{\mathrm S}(x)=-\sum_{j=0}^{2n-2}x_j^2+\sum_{j=0}^{2n-3}x_{j}x_{j+1}$, the negative of the root form of type $A_{2n-1}$. The double cover $\St_{2n}$ of $S_{2n}$ acts on every module over the Clifford algebra $\Cl_K(Q_{\mathrm S})$, its generators $t_0,\dots,t_{2n-2}$ acting by $\iota(b_0),\dots,\iota(b_{2n-2})$ (Section~\ref{subsec:cover}). A finite-dimensional simple $\Cl_K(Q_{\mathrm S})$-module, regarded as a representation of $\St_{2n}$ in this way, is a \emph{Clifford spin module}.
+
+\begin{mainthm}[Clifford spin modules and Specht modules]\label{mthm:C}
+Let $n\ge1$.
+\begin{enumerate}
+\item Let $K$ be algebraically closed of characteristic $0$ and $Y$ a Clifford spin module of $\St_{2n}$ over $K$. Then $\dim_{K}Y=2^{n-1}$. Take a basis of $Y$ in which $t_0,\dots,t_{2n-2}$ act by matrices with entries in a subring $\mathcal O\subseteq K$, and a ring homomorphism $\psi\colon\mathcal O\to k$ to a field of characteristic $2$. Applying $\psi$ to these matrices gives an irreducible $k\St_{2n}$-module, isomorphic to $k\otimes_{\F}W_n$ with $\St_{2n}$ acting through $S_{2n}$. Such $Y$, bases and maps $\psi$ exist \textup{(Theorem~\ref{thm:reduction} and Proposition~\ref{prop:lattice})}.
+\item $W_n\cong D^{(n+1,n-1)}$, through a map from the Specht module $S^{(n+1,n-1)}$ that sends each polytabloid to a fingerprint. Over $\F$, $\Delta_{2n}(0)\cong S^{(n,n)}$, and $W_n$ is the first layer of the Jantzen filtration of $S^{(n,n)}$ at the prime $2$ \textup{(Theorems~\ref{thm:step1},~\ref{thm:step3} and~\ref{thm:step4})}.
+\end{enumerate}
+\end{mainthm}
+
+The form with matrix $H_{2n}$ descends to a nondegenerate form $\pr{\,,}$ on $W_n$ with $\pr{\varphi(P),\varphi(Q)}=H_{2n}[P,Q]$ (Proposition~\ref{prop:fpform}). Write $\Phi=\varphi(\M_n)$. For a finite family $\Fam={(F_i)}_{i\in I}$ of perfect matchings let $R(\Fam)=\Span\{\varphi(F_i)\}$, and call $P$ a \emph{zero state} of $\Fam$ if $P$ forms a Hamiltonian pair with no $F_i$. For a set $E$ of disjoint edges let $L_E\subseteq W_n$ be the space of vectors fixed by $\rho_W(\tr uv)$ for every $\{u,v\}\in E$.
+
+A quadratic form on a $2d$-dimensional space over $\F$ with nondegenerate polar form is of \emph{plus type} if it vanishes on a subspace of dimension $d$. A \emph{$1$-factorization} of $K_{2n}$ is a partition of its edges into $2n-1$ perfect matchings, its \emph{factors}, and it is \emph{perfect} if every two of its factors form a Hamiltonian pair.
+
+\begin{mainthm}[Polar geometry and the quadratic form]\label{mthm:D}
+Let $n\ge4$.
+\begin{enumerate}
+\item The map $\varphi$ is injective, and $\varphi(P)\in L_E$ exactly when $E\subseteq P$. For every set $E$ of disjoint edges with $|E|\le n-1$, $L_E$ has dimension $2^{n-1-|E|}$ and is spanned by the fingerprints of the matchings that contain $E$ \textup{(Theorem~\ref{thm:stars} and Corollary~\ref{cor:LE})}.
+\item For every finite family $\Fam$, the fingerprints of the zero states of $\Fam$ are the elements of $\Phi\cap{R(\Fam)}^\perp$ \textup{(Theorem~\ref{thm:polarsection})}.
+\item There is a unique quadratic form $\QF$ on $W_n$ with polar form $\pr{\,,}$ that vanishes on $\Phi$. It equals $u\mapsto\pr{ABu,BAu}$ with $A=1+\rho_W(\tr vx)$ and $B=1+\rho_W(\tr vy)$ for any distinct $v,x,y$. It is $S_{2n}$-invariant and of plus type, and for every finite family $\Fam$ the value $\QF(\sum_i\varphi(F_i))$ is the number of Hamiltonian pairs $\{F_i,F_j\}$, $i<j$, modulo $2$ \textup{(Theorems~\ref{thm:plustype},~\ref{thm:Qunique} and~\ref{thm:parity})}.
+\item Every perfect $1$-factorization $\Fam$ of $K_{2n}$ with $n$ even has $\dim_{\F}R(\Fam)=2n-1$ \textup{(Theorem~\ref{thm:kotzig})}.
+\end{enumerate}
+\end{mainthm}
+
+Parts (i) and (ii) hold for every $n\ge1$.
+
+Let $q=2n-1$ and let $\GK_{2n}={(F_c)}_{c\in\Z/q}$ be the round-robin $1$-factorization of $K_{2n}$ on $\Z/q\cup\{\infty\}$, in which $F_c$ pairs $\infty$ with $c$ and $x$ with $2c-x$.
+
+\begin{mainthm}[The round-robin $1$-factorization]\label{mthm:E}
+Let $n\ge4$. Then $\dim_{\F}R(\GK_{2n})=2n-1$, whether $q$ is prime or composite. The subspace ${R(\GK_{2n})}^\perp$ has dimension $2^{n-1}-(2n-1)$ and is stabilized by $\Aut(\GK_{2n})\cong\AGL(1,\Z/q)$, and the fingerprints of the zero states of $\GK_{2n}$ form a union of $\AGL(1,\Z/q)$-orbits \textup{(Theorems~\ref{thm:aut},~\ref{thm:rr} and~\ref{thm:slice})}.
+\end{mainthm}
+
+For $n=2,3$ the dimension of $R(\GK_{2n})$ is $2n-2$ (Theorem~\ref{thm:ladder}).
+
+\subsection{Relation to prior work}\label{subsec:prior}
+
+Benson identified the reduction modulo $2$ of the basic spin representation of $\St_{2n}$ with $D^{(n+1,n-1)}$, by reducing the two Clifford lattices $\Lambda^\pm$ over $\Z[\zeta_8,\sqrt n]$ modulo a prime over $2$~\cite[\S\S4--5, Thm.~5.1]{Benson88}. Wales proved that the $p$-modular reduction of the basic spin representation of $\St_m$ is irreducible unless $m$ is odd and divisible by $p$~\cite[Thm.~7.7]{Wales79}, and that for $m\ge5$ an irreducible representation of $\St_m$ in which an element of order $3$ lying over a $3$-cycle has a quadratic minimal polynomial is a basic spin representation~\cite[Thm.~8.1]{Wales79}. Maas gave inductive matrices for the basic spin representations over $\F$~\cite[Table~1, Cor.~13]{Maas10}, and Proposition~\ref{prop:maas} shows that they are the matrices of $S_{2n}$ on $W_n$ in the basis given by the matchings of Cygan, Kratsch and Nederlof.
+
+Gow and Quill gave a criterion for a module $D^\lambda$ with $\lambda$ of two parts to carry a nondegenerate invariant quadratic form~\cite[Thm.~1]{GQ04}, quoted as~\cite[Lemma~1]{Gow16}, and Gow deduced that $D^{(n+1,n-1)}$ carries one, that is, is of quadratic type, for every $2n\ge4$ except $2n=6$~\cite[Lemma~2]{Gow16}. For $2n\ge8$ this form has plus type, by~\cite[Lemma~3]{Gow16} applied to the restriction of $D^{(n+1,n-1)}$ to $S_{2n-1}$, which is irreducible~\cite[\S2]{Gow16}. Gow's partial orthogonal spreads~\cite[Thm.~1]{Gow16} consist of subspaces of the modules $D^{(m+1,m)}$ of the groups $S_{2m+1}$, which this paper does not treat.
+
+Cameron determined the automorphism groups of the $1$-factorizations of complete graphs defined by abelian groups of odd order~\cite[Thm.~2.2]{Cameron75}, and $\GK_{2n}$ is the one defined by $\Z/q$. Section~\ref{subsec:aut} gives a different proof for this case.
+
+In characteristic $0$ the permutation module $\mathbb C[\M_n]$ is multiplicity free, and its constituents are the Specht modules $S^{2\lambda}$ with $\lambda\vdash n$~\cite[\S4]{Lindzey14},~\cite[\S1, eq.~(2)]{Srinivasan18}. Godsil and Meagher~\cite{GM15} and Lindzey~\cite{Lindzey14} prove Erd\H{o}s--Ko--Rado theorems for perfect matchings by spectral methods in this setting, Bamberg and Klawuhn study designs in the association scheme of perfect matchings~\cite{BK26}, and Curticapean, Lindzey and Nederlof determine the rank of $H_{2n}$ over $\Q$ up to a polynomial factor, using the representation theory of the symmetric group~\cite{CLN17}. % chktex 8
+
+To our knowledge, the new ingredients are the identification of the row space of the Hamiltonicity matrix with $D^{(n+1,n-1)}$, the formula $\QF(u)=\pr{ABu,BAu}$ and its value on sums of fingerprints, the description of the matchings that contain given edges by fixed spaces and of zero states by orthogonal complements, the three-cycle and Temperley--Lieb presentations, and the rank statements for perfect $1$-factorizations and for the round-robin factorization. % chktex 8
+
+\subsection{Formalization}\label{subsec:formal}
+
+Most numbered statements of Sections~\ref{sec:matchings} to~\ref{sec:roundrobin} are formalized in Lean~4~\cite{MU21} with Mathlib~\cite{mathlib20}. The formal proofs are in the repository \texttt{valarauca/ham-spin} and, for the statements about perfect $1$-factorizations and the round-robin rank, in the repository \texttt{valarauca/ham\_pairings}. Section~\ref{subsec:specht} has no formal counterpart, because it depends on Specht modules, which Mathlib does not yet provide. Appendix~\ref{app:lean} lists the declarations behind each numbered statement and marks the statements that are proved on paper only.
+
+\subsection{Method}
+
+Contracting the vertices outside the edges of $P$ that meet the support of a $3$-cycle $\tau$ reduces $H[P,Q]+H[\tau P,Q]+H[\tau^{2}P,Q]$ to a check on four or six points, so $1+\tau+\tau^2=0$ on $W_n$ (Theorem~\ref{thm:threecycle}). This relation alone makes the transpositions satisfy the relations of $\Cl(U_n,\qf)$ (Theorem~\ref{thm:clifford}). It also bounds by $2^{n-1}$ the dimension of every module with this relation that is spanned by the orbit of one vector fixed by the transpositions of a matching (Theorem~\ref{thm:upper}). The upper bound in Theorem~\ref{mthm:A}(iii) therefore uses only Theorem~\ref{mthm:A}(i), and the permutation submatrix of Cygan, Kratsch and Nederlof gives the lower bound. A polytabloid of shape $(n+1,n-1)$ determines a perfect matching, and modulo $2$ the inner product of two polytabloids is the entry of $H_{2n}$ at their matchings (Lemma~\ref{lem:nearmatch}). Hence $W_n$ is James's quotient $D^{(n+1,n-1)}$ by its definition, and the rank theorem becomes the formula $\dim D^{(n+1,n-1)}=2^{n-1}$.
+
+For Theorem~\ref{mthm:C}(i), with $K$ algebraically closed, a finite-dimensional simple $\Cl_K(Q_{\mathrm S})$-module has dimension at most $2^{n-1}$ (Theorem~\ref{thm:char0}). In characteristic $2$, every nonzero $\Cl(U_n,\qf)$-module contains a copy of $k\otimes_{\F}W_n$, generated by a vector killed by every $1+\iota(v_{2a,2a+1})$ (Theorem~\ref{thm:vacuum}). So a reduction modulo $2$ has dimension at most that of $k\otimes_{\F}W_n$ and contains a copy of it. For Theorem~\ref{mthm:D}, the operators $A$ and $B$ satisfy $AB+BA=1$, so they split $W_n$ into the fixed spaces $L_{vx}$ and $L_{vy}$, which are totally singular for $u\mapsto\pr{ABu,BAu}$ (Theorem~\ref{thm:plustype}). For Theorem~\ref{mthm:E}, the translates of one explicit matching each form a Hamiltonian pair with exactly two consecutive factors, which gives $\dim R(\GK_{2n})\ge2n-2$, and for $n\ge5$ the translates of a second matching each form a Hamiltonian pair with exactly one factor, which gives $2n-1$. For $n=4$ the factorization $\GK_8$ is perfect, and Theorem~\ref{mthm:D}(iv) applies.
+
+\subsection{Organization}
+
+Section~\ref{sec:matchings} sets up matchings, union graphs and the contraction of a matching outside a set closed under it. Section~\ref{sec:threecycle} proves the three-cycle relation and builds the Clifford action from it. Section~\ref{sec:basis} constructs a basis of $W_n$, proves the rank formula and absolute irreducibility, and compares the matrices with those of Maas. Section~\ref{sec:presentations} gives the presentations by three-cycles, by Brauer cups and caps and by the Temperley--Lieb algebra. Section~\ref{sec:spin} identifies $W_n$ with $D^{(n+1,n-1)}$ and with the reductions of the Clifford spin modules. Section~\ref{sec:polar} studies fingerprints, fixed spaces and the form $\QF$, and Section~\ref{sec:roundrobin} treats the round-robin $1$-factorization. % chktex 8
+
+Section~\ref{sec:threecycle} uses Theorem~\ref{thm:contraction}, and Section~\ref{sec:basis} uses Section~\ref{sec:threecycle} and Proposition~\ref{prop:count}. Section~\ref{sec:presentations} uses Sections~\ref{sec:matchings} to~\ref{sec:basis}. Sections~\ref{subsec:cover} to~\ref{subsec:reduction} use Sections~\ref{sec:threecycle} and~\ref{sec:basis}. Section~\ref{subsec:specht}, which proves Theorem~\ref{mthm:C}(ii), uses Sections~\ref{sec:matchings} to~\ref{sec:presentations} and none of Sections~\ref{subsec:cover} to~\ref{subsec:reduction}, so it can be read directly after Section~\ref{sec:presentations}. Section~\ref{sec:polar} uses Sections~\ref{sec:matchings} to~\ref{sec:basis}, and Section~\ref{sec:spin} only to compare $\QF$ with the work of Gow and Quill. Section~\ref{sec:roundrobin} uses Section~\ref{sec:polar}. A reader interested in $1$-factorizations can go from Section~\ref{sec:basis} to Section~\ref{sec:polar}.
