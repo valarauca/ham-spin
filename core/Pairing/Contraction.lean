@@ -26,22 +26,6 @@ avoiding `A` and closed under `P` and `Q`.
 
 namespace Pairing
 
-private theorem reachable_map_of_adj {α β : Type*} {G : SimpleGraph α} {G' : SimpleGraph β}
-    (f : α → β) (h : ∀ a b, G.Adj a b → G'.Reachable (f a) (f b)) {a b : α}
-    (hab : G.Reachable a b) : G'.Reachable (f a) (f b) := by
-  obtain ⟨p⟩ := hab
-  induction p with
-  | nil => exact SimpleGraph.Reachable.refl _
-  | cons hadj _ ih => exact (h _ _ hadj).trans ih
-
-private theorem mem_of_reachable {α : Type*} {G : SimpleGraph α} {D : Set α}
-    (hD : ∀ v w, G.Adj v w → v ∈ D → w ∈ D) {a b : α} (hab : G.Reachable a b) (ha : a ∈ D) :
-    b ∈ D := by
-  obtain ⟨p⟩ := hab
-  induction p with
-  | nil => exact ha
-  | cons hadj _ ih => exact ih (hD _ _ hadj ha)
-
 namespace PerfectMatching
 
 section Union
@@ -298,16 +282,10 @@ theorem not_ham_glue (hC : HasClosedCycle P Q A) (hA0 : A.Nonempty) (X : Perfect
     ¬Ham (glue P A hA X) Q := by
   obtain ⟨C, ⟨v, hv⟩, hdisj, hP, hQ⟩ := hC
   obtain ⟨a, ha⟩ := hA0
-  intro hU
-  have hD : ∀ x y, ((glue P A hA X).toGraph ⊔ Q.toGraph).Adj x y →
-      x ∈ (C : Set V) → y ∈ (C : Set V) := by
-    intro x y hxy hx
-    have hxA : x ∉ A := Finset.disjoint_left.mp hdisj hx
-    rcases (sup_toGraph_adj _ _ x y).mp hxy with rfl | rfl
-    · rw [glue_mate_of_notMem P A hA X hxA]
-      exact hP x hx
-    · exact hQ x hx
-  exact Finset.disjoint_left.mp hdisj (mem_of_reachable hD (hU.preconnected v a) hv) ha
+  refine not_ham_of_closed _ Q (C : Set V) (fun x hx ↦ ?_) hQ hv
+    fun h ↦ Finset.disjoint_left.mp hdisj h ha
+  rw [glue_mate_of_notMem P A hA X (Finset.disjoint_left.mp hdisj hx)]
+  exact hP x hx
 
 /-- Sketch §1, path case: `X ∪ P' ∪ Q` is one cycle iff `X ∪ κ_Q` is one cycle on `A`. -/
 theorem ham_glue_iff (hC : ¬HasClosedCycle P Q A) (X : PerfectMatching A) :
@@ -350,12 +328,7 @@ theorem ham_glue_iff (hC : ¬HasClosedCycle P Q A) (X : PerfectMatching A) :
             (hac.trans (adj_mate_right _ _ c).reachable).trans (adj_mate_left _ _ _).reachable,
             0, Nat.zero_le _, Or.inl ?_⟩
           rw [evenPt_zero, ← coe_contractFun, ← contract_mate, glue_mate_coe]
-    have hD : ∀ v w, ((glue P A hA X).toGraph ⊔ Q.toGraph).Adj v w → v ∈ D → w ∈ D := by
-      intro v w hvw hv
-      rcases (sup_toGraph_adj _ _ v w).mp hvw with rfl | rfl
-      · exact hY v hv
-      · exact hQ v hv
-    have hb : (b : V) ∈ D := mem_of_reachable hD (hU.preconnected a b)
+    have hb : (b : V) ∈ D := mem_of_reachable_of_mate_mem _ Q hY hQ (hU.preconnected a b)
       ⟨a, SimpleGraph.Reachable.refl _, 0, Nat.zero_le _, Or.inl (evenPt_zero P Q a).symm⟩
     obtain ⟨c, hac, i, hi, hb | hb⟩ := hb
     · cases i with
@@ -390,7 +363,7 @@ theorem ham_glue_iff (hC : ¬HasClosedCycle P Q A) (X : PerfectMatching A) :
         exact (adj_mate_right _ _ w).reachable.trans hr
     have hAA : ∀ a b : A, ((glue P A hA X).toGraph ⊔ Q.toGraph).Reachable a b := by
       intro a b
-      refine reachable_map_of_adj Subtype.val (fun c d hcd ↦ ?_) (hK.preconnected a b)
+      refine reachable_map_of_forall_adj Subtype.val (fun c d hcd ↦ ?_) (hK.preconnected a b)
       rcases (sup_toGraph_adj _ _ c d).mp hcd with rfl | rfl
       · rw [← glue_mate_coe P A hA X c]
         exact (adj_mate_left _ _ _).reachable

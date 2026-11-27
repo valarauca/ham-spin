@@ -201,11 +201,8 @@ theorem reachable_of_adj_contractAt (P F : PerfectMatching V) (u : V) {v w : Res
 (`results/switching-j0-spike.md`, Identity D). -/
 theorem reachable_of_reachable_contractAt (P F : PerfectMatching V) (u : V) {v w : Rest F u}
     (h : ((contractAt P F u).toGraph ⊔ (contractAt F F u).toGraph).Reachable v w) :
-    (P.toGraph ⊔ F.toGraph).Reachable v.1 w.1 := by
-  rw [SimpleGraph.reachable_iff_reflTransGen] at h ⊢
-  exact Relation.ReflTransGen.lift' (p := (P.toGraph ⊔ F.toGraph).Adj) Subtype.val
-    (fun a b hab ↦ (SimpleGraph.reachable_iff_reflTransGen _ _).mp
-      (reachable_of_adj_contractAt P F u hab)) v w h
+    (P.toGraph ⊔ F.toGraph).Reachable v.1 w.1 :=
+  reachable_map_of_forall_adj Subtype.val (fun _ _ ↦ reachable_of_adj_contractAt P F u) h
 
 /-- The map sending a component of the contracted union to the component of `P ∪ F` that
 contains it. -/

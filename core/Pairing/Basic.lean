@@ -34,6 +34,25 @@ structure PerfectMatching (V : Type*) where
   mate_mate : ∀ v, mate (mate v) = v
   mate_ne : ∀ v, mate v ≠ v
 
+/-- A vertex set closed under the edges of `G` contains every vertex reachable from one of its
+vertices. -/
+theorem mem_of_reachable_of_forall_adj {α : Type*} {G : SimpleGraph α} {D : Set α}
+    (hD : ∀ v w, G.Adj v w → v ∈ D → w ∈ D) {a b : α} (hab : G.Reachable a b) (ha : a ∈ D) :
+    b ∈ D := by
+  obtain ⟨p⟩ := hab
+  induction p with
+  | nil => exact ha
+  | cons hadj _ ih => exact ih (hD _ _ hadj ha)
+
+/-- A map that sends each edge of `G` to a reachable pair of `G'` preserves reachability. -/
+theorem reachable_map_of_forall_adj {α β : Type*} {G : SimpleGraph α} {G' : SimpleGraph β}
+    (f : α → β) (h : ∀ a b, G.Adj a b → G'.Reachable (f a) (f b)) {a b : α}
+    (hab : G.Reachable a b) : G'.Reachable (f a) (f b) := by
+  obtain ⟨p⟩ := hab
+  induction p with
+  | nil => exact SimpleGraph.Reachable.refl _
+  | cons hadj _ ih => exact (h _ _ hadj).trans ih
+
 namespace PerfectMatching
 
 variable {V : Type*}
@@ -119,21 +138,18 @@ theorem swap_mate_smul [DecidableEq V] (P : PerfectMatching V) (x : V) :
   have h2 : P.mate v ≠ P.mate x := fun h ↦ hx (P.mate.injective h)
   rw [Equiv.swap_apply_of_ne_of_ne hx hy, Equiv.swap_apply_of_ne_of_ne h1 h2]
 
+/-- A vertex set closed under both matchings contains the component of `X ∪ Y` of each of its
+vertices. -/
+theorem mem_of_reachable_of_mate_mem (X Y : PerfectMatching V) {B : Set V}
+    (hX : ∀ v ∈ B, X.mate v ∈ B) (hY : ∀ v ∈ B, Y.mate v ∈ B) {u w : V}
+    (h : (X.toGraph ⊔ Y.toGraph).Reachable u w) (hu : u ∈ B) : w ∈ B :=
+  mem_of_reachable_of_forall_adj (fun v _ hvw hv ↦ ((SimpleGraph.sup_adj _ _ _ _).mp hvw).elim
+    (fun h' ↦ h' ▸ hX v hv) fun h' ↦ h' ▸ hY v hv) h hu
+
 /-- A vertex set closed under both matchings and missing some vertex blocks `Ham`. -/
 theorem not_ham_of_closed (X Y : PerfectMatching V) (B : Set V) (hX : ∀ v ∈ B, X.mate v ∈ B)
-    (hY : ∀ v ∈ B, Y.mate v ∈ B) {u w : V} (hu : u ∈ B) (hw : w ∉ B) : ¬Ham X Y := by
-  intro h
-  obtain ⟨p⟩ := h.preconnected u w
-  have key : ∀ {a b : V} (_ : (X.toGraph ⊔ Y.toGraph).Walk a b), a ∈ B → b ∈ B := by
-    intro a b q
-    induction q with
-    | nil => exact id
-    | cons hadj _ ih =>
-      intro ha
-      rcases (SimpleGraph.sup_adj _ _ _ _).mp hadj with h' | h'
-      · exact ih (h' ▸ hX _ ha)
-      · exact ih (h' ▸ hY _ ha)
-  exact hw (key p hu)
+    (hY : ∀ v ∈ B, Y.mate v ∈ B) {u w : V} (hu : u ∈ B) (hw : w ∉ B) : ¬Ham X Y := fun h ↦
+  hw (mem_of_reachable_of_mate_mem X Y hX hY (h.preconnected u w) hu)
 
 /-- A matching that contains an edge `{a, P a}` of `P` closes the `2`-cycle `{a, P a}` with `P`,
 so `R ∪ P` is not one cycle once some vertex lies off it (`results/hybrid-pair-incoherence.md`,

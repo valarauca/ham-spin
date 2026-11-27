@@ -184,3 +184,37 @@ uses `RRC.ham_factor_one` of `Suppression.HamCount`.
 
 ham_pairings drops its copies in 760cd71 on branch `agl-main` and records them in its
 `historic_references.md`.
+
+## Reachability closure helpers (COD-266 stage 3, branch `spin-shrink`)
+
+From fe1f6bf. The walk induction "a set closed under the edges holds each component it meets" was
+proved separately in `core/Pairing/Contraction.lean` (twice, private), in the proof of
+`PM.not_ham_of_closed`, and in four places in ham_pairings (inventory entry 25 of
+`organize-archive/results/walk-engine-inventory.md`, d13fb2c). It now lives once in
+`core/Pairing/Basic.lean`.
+
+### New
+
+| name | statement | location |
+|---|---|---|
+| `mem_of_reachable_of_forall_adj` | a set closed under the edges of `G` holds every vertex reachable from one of its vertices | `core/Pairing/Basic.lean` |
+| `reachable_map_of_forall_adj` | a map sending edges to reachable pairs preserves reachability | `core/Pairing/Basic.lean` |
+| `PM.mem_of_reachable_of_mate_mem` | a set closed under `X` and `Y` holds the component of `X ∪ Y` of each of its vertices | `core/Pairing/Basic.lean` |
+
+### Same statement, new proof
+
+| name | now proved from | last old proof |
+|---|---|---|
+| `PM.not_ham_of_closed` | `PM.mem_of_reachable_of_mate_mem` | `fe1f6bf:core/Pairing/Basic.lean:123` |
+| `PM.not_ham_glue` | `PM.not_ham_of_closed` | `fe1f6bf:core/Pairing/Contraction.lean:297` |
+| `PM.reachable_of_reachable_contractAt` | `reachable_map_of_forall_adj` | `fe1f6bf:core/Pairing/Union.lean:202` |
+
+### Removed (private)
+
+`reachable_map_of_adj` and `mem_of_reachable` of `core/Pairing/Contraction.lean`
+(`fe1f6bf:core/Pairing/Contraction.lean:29`, `:37`). Use the two new lemmas.
+
+### AxiomCheck
+
+179 endpoints, 174 on `[propext, Classical.choice, Quot.sound]` and 5 on fewer axioms. None was
+removed.
