@@ -204,6 +204,9 @@ open Pairing PerfectMatching
 #print axioms TLJW.jwQuotEquivCl
 #print axioms TLJW.jwQuotEquivCl_ebar
 #print axioms TLJW.jwQuotEquivCl_symm_ι
+#print axioms TL.jw_succ_eq
+#print axioms TL.map_jw_eq_zero
+#print axioms TLJW.liftOfF3
 #print axioms coeff_one_brauerPairing
 #print axioms H_cup
 #print axioms hamForm_cupLin
