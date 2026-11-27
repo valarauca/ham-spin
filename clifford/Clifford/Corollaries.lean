@@ -9,10 +9,10 @@ import Mathlib.FieldTheory.Minpoly.Field
 **C5 / COD-105.** For every three-cycle `τ`:
 * `ρW_threeCycle_sq_add` : `ρ(τ)² + ρ(τ) + 1 = 0`.
 * `minpoly_ρW_threeCycle` : the minimal polynomial of `ρ(τ)` is exactly `x² + x + 1`.
-* `ρW_threeCycle_ne_smul_one` : `ρ(τ)` is not a scalar.
+* `ρW_threeCycle_ne_smul_one` : `ρ(τ)` is not a scalar. Deprecated, see `ρK_threeCycle_ne_smul_one`.
 * `eq_zero_of_ρW_threeCycle_fixed` and `not_isNilpotent_ρW_threeCycle_sub_one` : `ρ(τ)` has no
   fixed vector, so it is not unipotent. For `2n = 4` this is the step the archive only checked
-  directly.
+  directly. The first is deprecated as unused.
 
 `W_n` is absolutely irreducible (`adjoin_ρW_eq_top`), so it has one composition factor, and the
 facts above hold on that factor.
@@ -40,6 +40,7 @@ theorem ρW_threeCycle_pow_three (hτ : τ.IsThreeCycle) : ρW τ ^ 3 = 1 := by
   rw [← map_pow, ← hτ.orderOf, pow_orderOf_eq_one, map_one]
 
 /-- A three-cycle fixes no nonzero vector of `W`. -/
+@[deprecated "Unused, see REVIEW.md U7 (ham_pairings main 7168bcb)" (since := "2026-11-26")]
 theorem eq_zero_of_ρW_threeCycle_fixed (hτ : τ.IsThreeCycle) {x : W V} (hx : ρW τ x = x) :
     x = 0 := by
   have h := congrArg (fun T : Module.End F₂ (W V) ↦ T x) (one_add_ρW_add_sq hτ)
@@ -65,6 +66,7 @@ theorem not_isNilpotent_ρW_threeCycle_sub_one [Nontrivial (W V)] (hτ : τ.IsTh
   exact one_ne_zero this
 
 /-- `ρ(τ)` is not a scalar. -/
+@[deprecated "Unused, see REVIEW.md U7 (ham_pairings main 7168bcb)" (since := "2026-11-26")]
 theorem ρW_threeCycle_ne_smul_one [Nontrivial (W V)] (hτ : τ.IsThreeCycle) (c : F₂) :
     ρW τ ≠ c • 1 := by
   intro h

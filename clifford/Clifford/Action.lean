@@ -7,7 +7,7 @@ import Mathlib.Tactic.NoncommRing
 
 * `gammaL_anticomm` : `{Γ(x), Γ(y)} = b(x, y) I` on `U` (polarization).
 * `gammaL_sq` : `Γ(x)² = q(x) I` on `U`.
-* `ΓU_anticomm`, `ΓU_sq` : the same identities for `Γ : U_n → End(W)` with `b = polar q`.
+* `ΓU_sq` : the same square identity for `Γ : U_n → End(W)`.
 * `cliffordRep o : Cl(U_n, q) →ₐ End(W)`, the Clifford action, with `cliffordRep_ι_v` sending
   `ι(v_e)` to `Γ_e`.
 * `ρW_conj_Γ`, `ρW_conj_gammaL` : `ρ(σ) Γ(x) ρ(σ)⁻¹ = Γ(σ x)`.
@@ -116,12 +116,6 @@ theorem gammaL_sq (o : V) {x : V → F₂} (hx : x ∈ U V) : gammaL o x * gamma
   | smul c y hy ih =>
     have hyU : y ∈ U V := (U_eq_span o) ▸ hy
     rw [map_smul, smul_mul_smul_comm, ih hyU, qfun_smul, smul_smul]
-
-/-- `{Γ(x), Γ(y)} = polar q (x, y) I`. -/
-theorem ΓU_anticomm (o : V) (x y : U V) :
-    ΓU o x * ΓU o y + ΓU o y * ΓU o x = QuadraticMap.polar (qForm V) x y • 1 := by
-  rw [polar_qForm, ΓU_apply, ΓU_apply]
-  exact gammaL_anticomm o x.2 y.2
 
 /-- `Γ(x)² = q(x) I`. -/
 theorem ΓU_sq (o : V) (x : U V) : ΓU o x * ΓU o x = qForm V x • 1 := by

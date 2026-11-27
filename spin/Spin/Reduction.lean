@@ -102,14 +102,6 @@ theorem redRep_apply (x : Cl n) :
     redRep hn ρ b R hR k ψ x = Matrix.toLin' (redHom hn ρ b R hR k ψ x) :=
   rfl
 
-theorem redHom_stildeCl_t (j : Fin (2 * n - 1)) :
-    redHom hn ρ b R hR k ψ (stildeCl n (Stilde.t j) : Cl n) = redMat ρ b R hR k ψ j := by
-  rw [stildeCl_t, adjT, redHom_ι_adjU]
-
-theorem redHom_stildeCl_z :
-    redHom hn ρ b R hR k ψ (stildeCl n (Stilde.z (2 * n)) : Cl n) = 1 := by
-  rw [stildeCl_z, map_one]
-
 omit [DecidableEq ι] [Algebra F₂ k] in
 include hn in
 /-- A subspace stable under `α(ι(v_{t,t+1}))` for every `t` is stable under all of `Cl(U_n, q)`. -/

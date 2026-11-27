@@ -79,11 +79,6 @@ def restrictHom {A Z : Type*} [Ring A] [Algebra K A] [AddCommGroup Z] [Module K 
   map_add' x y := by ext; simp
   commutes' r := by ext; simp [Algebra.algebraMap_eq_smul_one]
 
-theorem restrictHom_apply {A Z : Type*} [Ring A] [Algebra K A] [AddCommGroup Z] [Module K Z]
-    (ρ : A →ₐ[K] Module.End K Z) (N : Submodule K Z) (hN : ∀ x, ∀ y ∈ N, ρ x y ∈ N) (x : A)
-    (y : N) : (restrictHom ρ N hN x y : Z) = ρ x y :=
-  rfl
-
 /-- A nonzero finite-dimensional module contains a simple submodule. -/
 theorem exists_simple_submodule {A Z : Type*} [Ring A] [Algebra K A] [AddCommGroup Z]
     [Module K Z] [FiniteDimensional K Z] [Nontrivial Z] (ρ : A →ₐ[K] Module.End K Z) :

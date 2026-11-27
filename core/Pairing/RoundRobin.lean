@@ -121,11 +121,6 @@ theorem distinct_factors_edge_disjoint (hn : Odd n) {t s : ZMod n} (hts : t ≠ 
 def block [NeZero n] (hn : Odd n) : Finset (PerfectMatching (Option (ZMod n))) :=
   Finset.univ.map ⟨factor hn, factor_injective hn⟩
 
-/-- The members of the block are the `F_t`. -/
-theorem mem_block [NeZero n] (hn : Odd n) (P : PerfectMatching (Option (ZMod n))) :
-    P ∈ block hn ↔ ∃ t, factor hn t = P := by
-  simp [block]
-
 /-- The block has `n` members. -/
 theorem card_block [NeZero n] (hn : Odd n) : (block hn).card = n := by
   simp [block, ZMod.card]

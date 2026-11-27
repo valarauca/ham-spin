@@ -4,7 +4,6 @@ import Clifford.Corollaries
 # C4, partial (sketch §7)
 
 * `cliffordRep_surjective` : the Clifford action `Cl(U_n, q) → End(W_n)` is onto.
-* `ι_ones_commute`, `ι_ones_sq` : `ι(𝟙)` commutes with every `ι(x)`, and `ι(𝟙)² = n`.
 * `cliffordRep_ι_ones` : `Γ(𝟙) = (n mod 2) I`.
 
 The full decomposition `Cl(U_n, q) ≅ M_{2^(n-1)}(𝔽₂) ⊗ 𝔽₂[z]/(z² + n)`, and with it the
@@ -51,33 +50,6 @@ theorem cliffordRep_surjective (hn : 1 ≤ n) (o : Fin (2 * n)) :
 /-- `𝟙 ∈ U_n` as an element of the quadratic space. -/
 def onesU : U (Fin (2 * n)) :=
   ⟨ones n, ones_mem n⟩
-
-/-- `ι(𝟙)` commutes with every generator, because `b(𝟙, ·) = 0` on `U_n`. -/
-theorem ι_ones_commute (m : U (Fin (2 * n))) :
-    Commute (CliffordAlgebra.ι (qForm (Fin (2 * n))) (onesU n))
-      (CliffordAlgebra.ι (qForm (Fin (2 * n))) m) := by
-  have h := CliffordAlgebra.ι_mul_ι_add_swap (Q := qForm (Fin (2 * n))) (onesU n) m
-  have hpolar : QuadraticMap.polar (qForm (Fin (2 * n))) (onesU n) m = 0 := by
-    rw [polar_qForm]
-    have hm := m.2
-    rw [mem_U] at hm
-    simpa [dot, onesU, ones] using hm
-  rw [hpolar, map_zero] at h
-  calc CliffordAlgebra.ι (qForm (Fin (2 * n))) (onesU n) * CliffordAlgebra.ι _ m
-      = CliffordAlgebra.ι (qForm (Fin (2 * n))) (onesU n) * CliffordAlgebra.ι _ m +
-        (CliffordAlgebra.ι (qForm (Fin (2 * n))) (onesU n) * CliffordAlgebra.ι _ m +
-          CliffordAlgebra.ι _ m * CliffordAlgebra.ι (qForm (Fin (2 * n))) (onesU n)) := by
-        rw [h, add_zero]
-    _ = CliffordAlgebra.ι _ m * CliffordAlgebra.ι (qForm (Fin (2 * n))) (onesU n) := by
-        rw [← add_assoc, add_self_F₂, zero_add]
-
-/-- `ι(𝟙)² = q(𝟙) = n`. -/
-theorem ι_ones_sq :
-    CliffordAlgebra.ι (qForm (Fin (2 * n))) (onesU n) *
-        CliffordAlgebra.ι (qForm (Fin (2 * n))) (onesU n) =
-      algebraMap F₂ _ (n : F₂) := by
-  rw [CliffordAlgebra.ι_sq_scalar, qForm_apply]
-  exact congrArg _ (qfun_ones n)
 
 /-- `Γ(𝟙) = (n mod 2) I`. -/
 theorem cliffordRep_ι_ones (hn : 1 ≤ n) (o : Fin (2 * n)) :

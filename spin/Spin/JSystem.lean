@@ -37,11 +37,6 @@ theorem AntiComm.smul_right {X Z : Module.End K Y} (h : AntiComm X Z) (c : K) :
   rw [AntiComm] at *
   rw [mul_smul_comm, smul_mul_assoc, ← smul_add, h, smul_zero]
 
-theorem AntiComm.sub_right {X Z Z' : Module.End K Y} (h : AntiComm X Z) (h' : AntiComm X Z') :
-    AntiComm X (Z - Z') := by
-  rw [sub_eq_add_neg, ← neg_one_smul K Z']
-  exact h.add_right (h'.smul_right _)
-
 theorem AntiComm.apply {X Z : Module.End K Y} (h : AntiComm X Z) (y : Y) : X (Z y) = -Z (X y) := by
   rw [← Module.End.mul_apply, ← Module.End.mul_apply, eq_neg_iff_add_eq_zero,
     ← LinearMap.add_apply, h,

@@ -142,10 +142,6 @@ theorem initBits_erase_castSucc {k : ℕ} (g : Fin k) (y : Bits (k + 1)) :
   ext i
   simp [mem_initBits, Fin.castSucc_inj]
 
-theorem last_mem_erase_castSucc {k : ℕ} (g : Fin k) (y : Bits (k + 1)) :
-    Fin.last k ∈ y.erase g.castSucc ↔ Fin.last k ∈ y := by
-  simp [(Fin.castSucc_lt_last g).ne']
-
 theorem initBits_erase_last {k : ℕ} (y : Bits (k + 1)) :
     initBits (y.erase (Fin.last k)) = initBits y := by
   ext i

@@ -142,12 +142,6 @@ theorem schurHom_t (j : Fin (m - 1)) :
   rw [schurHom, Stilde.lift_t]
   rfl
 
-theorem schurHom_z :
-    ((schurHom R m (Stilde.z m) : (CliffordAlgebra (schurQ R (m - 1)))ˣ) :
-      CliffordAlgebra (schurQ R (m - 1))) = -1 := by
-  rw [schurHom, Stilde.lift_z]
-  rfl
-
 end Schur
 
 end Pairing

@@ -11,8 +11,10 @@ Indices are shifted by one from the sketch. For a gap `k : Fin (n - 1)`,
   `w_S ↦ [k ∈ S] w_{S \ k}`.
 * `frameF_w` : `F_k w_S = w_{{k} Δ S}`.
 * `frameE_eq` : `E_k = lower k + (k + 1) I`.
-* Frame relations `frameE_sq`, `frameF_sq`, `frameE_anticomm_frameF`, and commutation for
-  distinct gaps.
+* Frame relations `frameE_sq` and `frameE_anticomm_frameF`. `frameF_sq` and the commutation of
+  distinct gaps (`frame_commute`, `frameE_commute`) were removed as unused (`REVIEW.md` U6,
+  ham_pairings main 7168bcb). The last version with them is `clifford/Clifford/Frame.lean`
+  (ham-spin ca8c6cf).
 -/
 
 namespace Pairing.PerfectMatching
@@ -103,20 +105,6 @@ theorem symmDiff_single_erase {k : Fin (n - 1)} {S : Finset (Fin (n - 1))}
     simp [h, Finset.mem_symmDiff]
   · simp [hx, Finset.mem_symmDiff]
 
-/-- `k ∈ {l} Δ S ↔ k ∈ S` for `k ≠ l`. -/
-theorem mem_symmDiff_single {k l : Fin (n - 1)} {S : Finset (Fin (n - 1))} (h : k ≠ l) :
-    k ∈ symmDiff {l} S ↔ k ∈ S := by
-  simp [Finset.mem_symmDiff, h]
-
-/-- `({l} Δ S) \ k = {l} Δ (S \ k)` for `k ≠ l`. -/
-theorem symmDiff_single_erase_comm {k l : Fin (n - 1)} {S : Finset (Fin (n - 1))}
-    (h : k ≠ l) : (symmDiff {l} S).erase k = symmDiff {l} (S.erase k) := by
-  ext x
-  by_cases hx : x = k
-  · subst hx
-    simp [Finset.mem_symmDiff, h]
-  · simp [Finset.mem_symmDiff, hx]
-
 theorem lower_sq (k : Fin (n - 1)) : lower n k k.2 * lower n k k.2 = 0 := by
   have hn : 1 ≤ n := by have := k.2; omega
   refine (wBasis n hn).ext fun S ↦ ?_
@@ -137,10 +125,6 @@ theorem lower_anticomm_frameF (k : Fin (n - 1)) :
   · rw [ite_eq_left (by simp [Finset.mem_symmDiff, h]), ite_eq_right h, map_zero, add_zero,
       symmDiff_single_erase_self n h]
 
-/-- `F_k² = I`. -/
-theorem frameF_sq (k : Fin (n - 1)) : frameF n k * frameF n k = 1 := by
-  rw [frameF, ← map_mul, sigma_mul_self, map_one]
-
 /-- `E_k² = (k + 1 mod 2) I`, the sketch's `E_k² = (k mod 2) I`. -/
 theorem frameE_sq (k : Fin (n - 1)) :
     frameE n k * frameE n k = ((k + 1 : ℕ) : F₂) • 1 := by
@@ -155,35 +139,5 @@ theorem frameE_anticomm_frameF (k : Fin (n - 1)) :
     frameE n k * frameF n k + frameF n k * frameE n k = 1 := by
   rw [frameE_eq, add_mul, mul_add, smul_mul_assoc, one_mul, mul_smul_comm, mul_one,
     add_add_add_comm, lower_anticomm_frameF, end_add_self, add_zero]
-
-/-- Frame operators at distinct gaps commute. -/
-theorem frame_commute {k l : Fin (n - 1)} (hkl : k ≠ l) :
-    Commute (lower n k k.2) (lower n l l.2) ∧ Commute (lower n k k.2) (frameF n l) ∧
-      Commute (frameF n k) (frameF n l) := by
-  have hn : 1 ≤ n := by have := k.2; omega
-  refine ⟨?_, ?_, ?_⟩
-  · refine (wBasis n hn).ext fun S ↦ ?_
-    simp only [wBasis_apply, Module.End.mul_apply, lower_w']
-    by_cases hk : k ∈ S <;> by_cases hl : l ∈ S <;>
-      simp [hk, hl, lower_w', Finset.mem_erase, hkl, Ne.symm hkl, Finset.erase_right_comm]
-  · refine (wBasis n hn).ext fun S ↦ ?_
-    simp only [wBasis_apply, Module.End.mul_apply, lower_w', frameF_w]
-    rw [if_congr (mem_symmDiff_single n hkl) rfl rfl]
-    split_ifs
-    · rw [frameF_w, symmDiff_single_erase_comm n hkl]
-    · rw [map_zero]
-  · rw [Commute, SemiconjBy, frameF, frameF, ← map_mul, ← map_mul, sigma_mul, sigma_mul,
-      symmDiff_comm]
-
-theorem frameE_commute {k l : Fin (n - 1)} (hkl : k ≠ l) :
-    Commute (frameE n k) (frameE n l) ∧ Commute (frameE n k) (frameF n l) ∧
-      Commute (frameF n k) (frameF n l) := by
-  obtain ⟨h1, h2, h3⟩ := frame_commute n hkl
-  rw [frameE_eq, frameE_eq]
-  refine ⟨?_, ?_, h3⟩
-  · exact (h1.add_right ((Commute.one_right _).smul_right _)).add_left
-      (((Commute.one_left _).smul_left _).add_right
-        ((Commute.one_left _).smul_left _ |>.smul_right _))
-  · exact h2.add_left ((Commute.one_left _).smul_left _)
 
 end Pairing.PerfectMatching
