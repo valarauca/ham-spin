@@ -1,3 +1,4 @@
+import Pairing
 import Clifford
 import Spin
 
@@ -48,6 +49,12 @@ open Pairing PerfectMatching
 #print axioms exists_valuationSubring_two
 #print axioms exists_lattice
 #print axioms cod105
+#print axioms RoundRobin.factor_injective
+#print axioms RoundRobin.distinct_factors_edge_disjoint
+#print axioms RoundRobin.card_block
+#print axioms RoundRobin.Canonical.card_vertex
+#print axioms RoundRobin.Canonical.card_block
+#print axioms RoundRobin.Canonical.distinct_factors_edge_disjoint
 #print axioms funCongr_H
 #print axioms map_funCongr_W
 #print axioms wCongr_rowW

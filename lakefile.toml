@@ -1,7 +1,7 @@
 name = "ham-spin"
 version = "0.1.0"
 keywords = ["math"]
-defaultTargets = ["PairingBasic", "Clifford", "Spin"]
+defaultTargets = ["Pairing", "Clifford", "Spin"]
 
 [leanOptions]
 pp.unicode.fun = true
@@ -15,9 +15,8 @@ scope = "leanprover-community"
 rev = "v4.35.0"
 
 [[lean_lib]]
-name = "PairingBasic"
+name = "Pairing"
 srcDir = "core"
-roots = ["Pairing.Basic"]
 
 [[lean_lib]]
 name = "Clifford"
