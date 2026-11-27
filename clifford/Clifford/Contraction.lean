@@ -281,7 +281,7 @@ end Contract
 
 /-- `Q ∪ P'` contains a closed cycle, encoded as a nonempty vertex set avoiding `A` and closed
 under `P` and `Q`. -/
-def HasClosedCycle [DecidableEq V] (P Q : PerfectMatching V) (A : Finset V) : Prop :=
+def HasClosedCycle (P Q : PerfectMatching V) (A : Finset V) : Prop :=
   ∃ C : Finset V, C.Nonempty ∧ Disjoint C A ∧ (∀ v ∈ C, P.mate v ∈ C) ∧ ∀ v ∈ C, Q.mate v ∈ C
 
 section Main
