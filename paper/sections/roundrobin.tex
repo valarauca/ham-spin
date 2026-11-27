@@ -116,4 +116,10 @@ Let $n\ge4$ and $R_\rr^\perp={R(\GK_{2n})}^\perp\subseteq W(V_n)$.
 (i) is Theorem~\ref{thm:polarsection}(i) with Theorem~\ref{thm:rr}. (ii) is Theorem~\ref{thm:polarsection}(ii). (iii) An automorphism permutes the factors, and Theorem~\ref{thm:polarsection}(iii) applies. (iv) For prime $q$ each $F_s$ forms a Hamiltonian pair with each of the other $q-1$ factors (proof of Theorem~\ref{thm:rr}), an even number, so $\pr{\sum_t\varphi(F_t),\varphi(F_s)}=0$.
 \end{proof}
 
-By Theorem~\ref{thm:rr} the vector $\sum_t\varphi(F_t)$ is nonzero, so part (iv) shows that for prime $q$ the restriction of $\pr{\,,}$ to $R_\rr$ is degenerate. The zero states of $\GK_{2n}$ are cut out of the fingerprints by an $\AGL(1,\Z/q)$-invariant subspace of codimension $2n-1$. Their further study through this polar section is left to a separate paper.
+By Theorem~\ref{thm:rr} the vector $\sum_t\varphi(F_t)$ is nonzero, so part (iv) shows that for prime $q$ the restriction of $\pr{\,,}$ to $R_\rr$ is degenerate.
+
+\subsection{Further directions}\label{subsec:further}
+
+By Theorem~\ref{thm:slice} the fingerprints of the zero states of $\GK_{2n}$ are cut out of $\Phi$ by an $\AGL(1,\Z/q)$-invariant subspace of codimension $2n-1$. A separate paper, in preparation, will study these zero states further, building on formal proofs in the repository \texttt{valarauca/ham\_pairings} at commit \texttt{949038a}. Those proofs show that $\GK_{2n}$ has a zero state for every $n\ge6$.
+
+The separate paper also treats a repair problem. For $n\ge6$ fix the six vertices $G_0=\{1,\dots,6\}$ of $V_n$, and call a perfect matching of $V_n\setminus G_0$ a tail. Let $N_n$ be the maximum over tails $T$ of the minimum of $|T\setminus P|$ over the zero states $P$ of $\GK_{2n}$. The formal proofs give $1\le N_n\le\min\{n-3,8\lceil\sqrt{2n-1}\rceil\}$ for every $n\ge6$, and the order of growth of $N_n$ is the main question that the separate paper takes up.

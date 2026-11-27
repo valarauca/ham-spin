@@ -10,7 +10,7 @@
 \newcommand{\HS}{\textsf{HS}}
 \newcommand{\HP}{\textsf{HP}}
 
-The table lists, for each numbered statement of Sections~\ref{sec:matchings} to~\ref{sec:roundrobin}, the Lean~4 declarations that formalize it. The repository \HS{} is \texttt{valarauca/ham-spin} at commit \texttt{87df892}, and \HP{} is \texttt{valarauca/ham\_pairings} at commit \texttt{949038a}, which pins \HS{} at the same commit. Both require Mathlib \texttt{v4.35.0}. Names are given without the namespace prefixes \texttt{Pairing}, \texttt{Pairing.PerfectMatching} and \texttt{Pairing.RoundRobin.Canonical}. Greek letters in names are printed as upright Greek letters, and the subscript in \ld{f3\us{}F}\textsubscript{\texttt{2}} is the character for subscript two in the Lean source. An entry ``paper only'' means that the statement, or the part named, has no formal counterpart.
+The table lists, for each numbered statement of Sections~\ref{sec:matchings} to~\ref{sec:roundrobin}, the Lean~4 declarations that formalize it. The repository \HS{} is \texttt{valarauca/ham-spin} at commit \texttt{87df892}, and \HP{} is \texttt{valarauca/ham\_pairings} at commit \texttt{949038a}, which pins \HS{} at the same commit. Both require Mathlib \texttt{v4.35.0}. Names are given without the namespace prefixes \texttt{Pairing}, \texttt{Pairing.PerfectMatching} and \texttt{Pairing.RoundRobin.Canonical}. Greek letters in names are printed as upright Greek letters, and the subscript in \ld{f3\us{}F}\textsubscript{\texttt{2}} is the character for subscript two in the Lean source. An entry ``paper only'' means that the statement, or the part named, has no formal counterpart. The row of Remark~\ref{rem:K10} names a Python script, which is in \HS{} at the later commit \texttt{91357e6}.
 
 The Lean files \texttt{QuadraticForm.lean}, \texttt{RoundRobin.lean}, \texttt{Automorphism.lean} and the files of \HP{} write $m$ for the number written $n$ in this paper, so that the vertex set has $2m$ elements, and the generic round-robin construction writes $n$ for the odd modulus written $q=2n-1$ here.
 
@@ -79,7 +79,7 @@ Rem.~\ref{rem:n3} & paper only & \\
 Thm.~\ref{thm:parity} & \ld{quadraticForm\us{}sum\us{}rowW}, \ld{hamQuad\us{}sum\us{}rowW}, \ld{sum\us{}rowW\us{}ne\us{}zero\us{}of\us{}odd}, \ld{exists\us{}odd\us{}ham\us{}of\us{}odd}, \ld{even\us{}hamPairs\us{}of\us{}sum\us{}rowW\us{}eq\us{}zero} & \HS{} \texttt{87df892}\\
 Cor.~\ref{cor:hc} & paper only & \\
 Thm.~\ref{thm:kotzig} & \ld{ker\us{}fpCoeff\us{}le}, \ld{finrank\us{}fpSpan\us{}of\us{}clique}, \ld{finrank\us{}fpSpan\us{}of\us{}p1f} & \HP{} \texttt{949038a}\\
-Rem.~\ref{rem:K10} & paper only, a computer calculation & \\
+Rem.~\ref{rem:K10} & no Lean declaration. The computation is the Python script \texttt{paper/\allowbreak{}scripts/\allowbreak{}k10\us{}factor\us{}ranks.py} & \HS{} \texttt{91357e6}\\
 Lem.~\ref{lem:localsq} & \ld{localSq}, \ld{localSq\us{}smul}, \ld{localSq\us{}none}, \ld{isMedial\us{}localSq\us{}none}, \ld{localSq\us{}zero}, \ld{not\us{}isMedial\us{}localSq\us{}zero} & \HS{} \texttt{87df892}\\
 Thm.~\ref{thm:aut} & \ld{IsAut}, \ld{isAut\us{}affine}, \ld{affine\us{}smul\us{}factor}, \ld{IsAut.apply\us{}none}, \ld{IsAut.exists\us{}affine}, \ld{isAut\us{}iff}, \ld{card\us{}autGroup}, \ld{autGroupMulEquiv}, \ld{autGroup\us{}two}, \ld{card\us{}autGroup\us{}three}, \ld{isAut\us{}three\us{}moebius} & \HS{} \texttt{87df892}\\
 Lem.~\ref{lem:pairing} & \ld{pairingMatrix}, \ld{rank\us{}pairingMatrix\us{}le} & \HP{} \texttt{949038a}\\
