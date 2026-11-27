@@ -78,3 +78,4 @@ open Pairing PerfectMatching
 #print axioms exists_equivariant_quotRad
 #print axioms reduction_basicSpin_congr
 #print axioms reduction_basicSpin_quotRad
+#print axioms not_ham_of_mate_eq_of_two_lt

@@ -135,6 +135,33 @@ theorem not_ham_of_closed (X Y : PerfectMatching V) (B : Set V) (hX : ∀ v ∈ 
       · exact ih (h' ▸ hY _ ha)
   exact hw (key p hu)
 
+/-- A matching that contains an edge `{a, P a}` of `P` closes the `2`-cycle `{a, P a}` with `P`,
+so `R ∪ P` is not one cycle once some vertex lies off it (`results/hybrid-pair-incoherence.md`,
+Lemma 2, "if `f ∈ R`"). -/
+theorem not_ham_of_mate_eq {P R : PerfectMatching V} {a w : V} (h : R.mate a = P.mate a)
+    (hwa : w ≠ a) (hwb : w ≠ P.mate a) : ¬Ham R P := by
+  have hc : ∀ X : PerfectMatching V, X.mate a = P.mate a →
+      ∀ v ∈ ({a, P.mate a} : Set V), X.mate v ∈ ({a, P.mate a} : Set V) := by
+    intro X hX v hv
+    rcases hv with rfl | hv
+    · exact Or.inr hX
+    · rw [Set.mem_singleton_iff.mp hv, ← hX, mate_mate]
+      exact Or.inl rfl
+  exact not_ham_of_closed R P _ (hc R h) (hc P rfl) (u := a) (w := w) (Or.inl rfl)
+    (by simp [hwa, hwb])
+
+/-- The two neighbours `F₀(v)` and `F₁(v)` are forbidden partners of `v` once `|V| > 2`, from
+`not_ham_of_mate_eq` (`results/k3-counterexample-hunt.md`, Lemma K2). -/
+theorem not_ham_of_mate_eq_of_two_lt [Fintype V] {P F : PerfectMatching V} {v : V}
+    (hV : 2 < Fintype.card V) (h : P.mate v = F.mate v) : ¬Ham P F := by
+  classical
+  have hcard : ({v, F.mate v} : Finset V).card < (Finset.univ : Finset V).card := by
+    rw [Finset.card_univ]
+    exact lt_of_le_of_lt Finset.card_le_two hV
+  obtain ⟨w, -, hw⟩ := Finset.exists_mem_notMem_of_card_lt_card hcard
+  simp only [Finset.mem_insert, Finset.mem_singleton, not_or] at hw
+  exact not_ham_of_mate_eq h hw.1 hw.2
+
 section Congr
 
 variable {V' : Type*}
