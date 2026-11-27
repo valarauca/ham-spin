@@ -18,8 +18,9 @@ automorphism of `𝓕` is a permutation of `V_m` that maps every factor `F_t` to
 * `isAut_iff` : for odd `n ≥ 7`, `Aut(𝓕)` is exactly the affine maps. `autEquiv` is the
   bijection `(ℤ/n)ˣ × ℤ/n ≃ Aut(𝓕)`, `card_autGroup : |Aut(𝓕)| = n φ(n)`, and
   `autGroupMulEquiv : AGL(1, ℤ/n) ≃* Aut(𝓕)`, with `AGL(1, ℤ/n) = ℤ/n ≃ᵃ[ℤ/n] ℤ/n`.
-* `stab_gadget` : for odd `n ≥ 13` the automorphisms fixing `G0 = {1, …, 6}` setwise are the
-  identity and `gadgetFlip`, `x ↦ 7 - x`.
+* `stab_gadget_of_five_le` : for odd `n ≥ 9` the automorphisms fixing `G0 = {1, …, 6}` setwise
+  are the identity and `gadgetFlip`, `x ↦ 7 - x`. `stab_gadget` is the case `n ≥ 13`, and
+  `not_stab_gadget_four` : at `n = 7` the map `x ↦ 2x` fixes `G0` too, so `n ≥ 9` is sharp.
 * `FactorCap.gadget m` : the default gadget `G0 = {1, …, 6}`.
 * Small cases, by `decide +kernel`. `autGroup_two` : at `n = 3` every permutation is an
   automorphism (`S_4`). `card_autGroup_three` : `|Aut(𝓕)| = 120` at `n = 5`, and
@@ -27,7 +28,9 @@ automorphism of `𝓕` is a permutation of `V_m` that maps every factor `F_t` to
   with `PGL(2,5)` is not formalized.
 
 Source: `results/autgroup-spike.md` §3 and §5.1. The second half of the main theorem is
-Cameron 1975, Proposition 4, for `D = ℤ/n`. For prime `n` the result is Anderson 1977.
+Cameron 1975, as stated in Traetta 2013, Proposition 4, for `D = ℤ/n`. For prime `n` the result is
+Anderson 1977. The case `n = 9, 11` of `stab_gadget_of_five_le` is
+`results/symmetry-audit-contra.md` §2 (organize-archive bf3fe60).
 
 Moved from ham_pairings `repair/Repair/Automorphism.lean` (main d1cda40) for COD-259, with
 `FactorCap.gadget` from `repair/Repair/FactorCap/Tail.lean` (main d1cda40), which `stab_gadget`
@@ -263,8 +266,8 @@ theorem IsAut.apply_none (hm : 4 ≤ m) {σ : Equiv.Perm (Vertex m)} (hσ : IsAu
   exact not_isMedial_localSq_zero hm (IsMedial.of_hom π.injective hconj isMedial_localSq_none)
 
 /-- An automorphism of `𝓕` fixing `∞` is affine, `v ↦ a v + b` with `a` a unit, for every odd
-`n = 2m - 1` (`results/autgroup-spike.md` §5.1, and Cameron 1975, Proposition 4, for
-`D = ℤ/n`). -/
+`n = 2m - 1` (`results/autgroup-spike.md` §5.1, and Cameron 1975, as stated in Traetta 2013,
+Proposition 4, for `D = ℤ/n`). -/
 theorem IsAut.exists_affine {σ : Equiv.Perm (Vertex m)} (hσ : IsAut m σ) (hfix : σ none = none) :
     ∃ (a : (ZMod (2 * m - 1))ˣ) (b : ZMod (2 * m - 1)), σ = shift m b * scale m a := by
   obtain ⟨π, hπ⟩ := hσ.exists_perm
@@ -310,7 +313,7 @@ theorem IsAut.exists_affine {σ : Equiv.Perm (Vertex m)} (hσ : IsAut m σ) (hfi
 /-- **`Aut(𝓕) = AGL(1, ℤ/n)`** for odd `n = 2m - 1 ≥ 7`. A permutation of `V_m` is an automorphism
 of the round-robin 1-factorization iff it is `v ↦ a v + b` with `a` a unit, fixing `∞`
 (`results/autgroup-spike.md` §5.1, Theorem, which needs no primality; Anderson 1977 for prime
-`n`, and Cameron 1975, Proposition 4, for the stabiliser of `∞`). -/
+`n`, and Cameron 1975, as stated in Traetta 2013, Proposition 4, for the stabiliser of `∞`). -/
 theorem isAut_iff (hm : 4 ≤ m) {σ : Equiv.Perm (Vertex m)} :
     IsAut m σ ↔
       ∃ (a : (ZMod (2 * m - 1))ˣ) (b : ZMod (2 * m - 1)), σ = shift m b * scale m a :=
@@ -420,10 +423,70 @@ def gadgetFlip (m : ℕ) [NeZero m] : Equiv.Perm (Vertex m) :=
 theorem gadgetFlip_some (x : ZMod (2 * m - 1)) : gadgetFlip m (some x) = some (7 - x) := by
   simp [gadgetFlip, sub_eq_neg_add]
 
-/-- **`Stab(G0) = {id, x ↦ 7 - x}`** for odd `n = 2m - 1 ≥ 13`. An automorphism of `𝓕` maps the
+/-- At `n = 9`, a map `x ↦ a x + b` with `a ≠ 0` sending `{1, …, 6}` into itself is the identity or
+`x ↦ 7 - x` (`results/symmetry-audit-contra.md` §2, organize-archive bf3fe60). -/
+private theorem gadget_affine_five : ∀ x y : ZMod (2 * 5 - 1), x ≠ 0 →
+    (∀ k ∈ Finset.Icc 1 6, ∃ s ∈ Finset.Icc 1 6, ((s : ℕ) : ZMod (2 * 5 - 1)) = x * (k : ℕ) + y) →
+    (x = 1 ∧ y = 0) ∨ (x = -1 ∧ y = 7) := by
+  decide +kernel
+
+/-- At `n = 11`, a map `x ↦ a x + b` with `a ≠ 0` sending `{1, …, 6}` into itself is the identity or
+`x ↦ 7 - x` (`results/symmetry-audit-contra.md` §2, organize-archive bf3fe60). -/
+private theorem gadget_affine_six : ∀ x y : ZMod (2 * 6 - 1), x ≠ 0 →
+    (∀ k ∈ Finset.Icc 1 6, ∃ s ∈ Finset.Icc 1 6, ((s : ℕ) : ZMod (2 * 6 - 1)) = x * (k : ℕ) + y) →
+    (x = 1 ∧ y = 0) ∨ (x = -1 ∧ y = 7) := by
+  decide +kernel
+
+omit [NeZero m] in
+/-- For odd `n = 2m - 1 ≥ 13`, an affine map `x ↦ a x + b` sending `{1, …, 6}` into itself is the
+identity or `x ↦ 7 - x`, since sums of two labels below `13` lift to `ℕ`
+(`results/autgroup-spike.md` §3). -/
+private theorem gadget_affine_cases (hm : 7 ≤ m) {a : (ZMod (2 * m - 1))ˣ} {b : ZMod (2 * m - 1)}
+    (hmem : ∀ k : ℕ, 1 ≤ k → k ≤ 6 →
+      ∃ s : ℕ, 1 ≤ s ∧ s ≤ 6 ∧ (s : ZMod (2 * m - 1)) = a * k + b) :
+    ((a : ZMod (2 * m - 1)) = 1 ∧ b = 0) ∨ ((a : ZMod (2 * m - 1)) = -1 ∧ b = 7) := by
+  obtain ⟨s1, h1a, h1b, e1⟩ := hmem 1 le_rfl (by norm_num)
+  obtain ⟨s2, h2a, h2b, e2⟩ := hmem 2 (by norm_num) (by norm_num)
+  obtain ⟨s3, h3a, h3b, e3⟩ := hmem 3 (by norm_num) (by norm_num)
+  obtain ⟨s4, h4a, h4b, e4⟩ := hmem 4 (by norm_num) (by norm_num)
+  obtain ⟨s5, h5a, h5b, e5⟩ := hmem 5 (by norm_num) (by norm_num)
+  obtain ⟨s6, h6a, h6b, e6⟩ := hmem 6 (by norm_num) (by norm_num)
+  push_cast at e1 e2 e3 e4 e5 e6
+  have step : ∀ k l : ℕ, k ≤ 12 → l ≤ 12 → (k : ZMod (2 * m - 1)) = l → k = l :=
+    fun k l hk hl h ↦ natCast_injOn (by omega) (by omega) h
+  have r3 := step (s3 + s1) (s2 + s2) (by omega) (by omega) (by
+    push_cast
+    linear_combination e3 + e1 - 2 * e2)
+  have r4 := step (s4 + s1) (s2 + s3) (by omega) (by omega) (by
+    push_cast
+    linear_combination e4 + e1 - e2 - e3)
+  have r5 := step (s5 + s1) (s2 + s4) (by omega) (by omega) (by
+    push_cast
+    linear_combination e5 + e1 - e2 - e4)
+  have r6 := step (s6 + s1) (s2 + s5) (by omega) (by omega) (by
+    push_cast
+    linear_combination e6 + e1 - e2 - e5)
+  have ha : (a : ZMod (2 * m - 1)) = s2 - s1 := by linear_combination e1 - e2
+  have hb : b = 2 * s1 - s2 := by linear_combination e2 - 2 * e1
+  have h12 : s1 ≠ s2 := by
+    rintro rfl
+    have h0 : (a : ZMod (2 * m - 1)) * ↑a⁻¹ = 1 := Units.mul_inv a
+    rw [ha, sub_self, zero_mul] at h0
+    have h01 := natCast_ne (m := m) (k := 0) (l := 1) (by omega) (by omega) (by omega)
+    push_cast at h01
+    exact h01 h0
+  have hcase : (s1 = 1 ∧ s2 = 2) ∨ (s1 = 6 ∧ s2 = 5) := by omega
+  rcases hcase with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩
+  · push_cast at ha hb
+    exact Or.inl ⟨by linear_combination ha, by linear_combination hb⟩
+  · push_cast at ha hb
+    exact Or.inr ⟨by linear_combination ha, by linear_combination hb⟩
+
+/-- **`Stab(G0) = {id, x ↦ 7 - x}`** for odd `n = 2m - 1 ≥ 9`. An automorphism of `𝓕` maps the
 gadget `G0 = {1, …, 6}` onto itself iff it is the identity or `x ↦ 7 - x`
-(`results/autgroup-spike.md` §3, proof of `Stab_Aut(G0) = {id, x ↦ 7 - x}`). -/
-theorem stab_gadget (hm : 7 ≤ m) (σ : Equiv.Perm (Vertex m)) :
+(`results/autgroup-spike.md` §3 for `n ≥ 13`, and `results/symmetry-audit-contra.md` §2,
+organize-archive bf3fe60, for `n = 9, 11`, checked here by `decide`). -/
+theorem stab_gadget_of_five_le (hm : 5 ≤ m) (σ : Equiv.Perm (Vertex m)) :
     (σ ∈ autGroup m ∧ (FactorCap.gadget m).map σ.toEmbedding = FactorCap.gadget m) ↔
       σ = 1 ∨ σ = gadgetFlip m := by
   constructor
@@ -440,51 +503,32 @@ theorem stab_gadget (hm : 7 ≤ m) (σ : Equiv.Perm (Vertex m)) :
       rw [Finset.mem_Icc] at hs
       refine ⟨s, hs.1, hs.2, ?_⟩
       simpa using hs'
-    obtain ⟨s1, h1a, h1b, e1⟩ := hmem 1 le_rfl (by norm_num)
-    obtain ⟨s2, h2a, h2b, e2⟩ := hmem 2 (by norm_num) (by norm_num)
-    obtain ⟨s3, h3a, h3b, e3⟩ := hmem 3 (by norm_num) (by norm_num)
-    obtain ⟨s4, h4a, h4b, e4⟩ := hmem 4 (by norm_num) (by norm_num)
-    obtain ⟨s5, h5a, h5b, e5⟩ := hmem 5 (by norm_num) (by norm_num)
-    obtain ⟨s6, h6a, h6b, e6⟩ := hmem 6 (by norm_num) (by norm_num)
-    push_cast at e1 e2 e3 e4 e5 e6
-    have step : ∀ k l : ℕ, k ≤ 12 → l ≤ 12 → (k : ZMod (2 * m - 1)) = l → k = l :=
-      fun k l hk hl h ↦ natCast_injOn (by omega) (by omega) h
-    have r3 := step (s3 + s1) (s2 + s2) (by omega) (by omega) (by
-      push_cast
-      linear_combination e3 + e1 - 2 * e2)
-    have r4 := step (s4 + s1) (s2 + s3) (by omega) (by omega) (by
-      push_cast
-      linear_combination e4 + e1 - e2 - e3)
-    have r5 := step (s5 + s1) (s2 + s4) (by omega) (by omega) (by
-      push_cast
-      linear_combination e5 + e1 - e2 - e4)
-    have r6 := step (s6 + s1) (s2 + s5) (by omega) (by omega) (by
-      push_cast
-      linear_combination e6 + e1 - e2 - e5)
-    have ha : (a : ZMod (2 * m - 1)) = s2 - s1 := by linear_combination e1 - e2
-    have hb : b = 2 * s1 - s2 := by linear_combination e2 - 2 * e1
-    have h12 : s1 ≠ s2 := by
-      rintro rfl
+    have hunit : (a : ZMod (2 * m - 1)) ≠ 0 := fun h ↦ by
       have h0 : (a : ZMod (2 * m - 1)) * ↑a⁻¹ = 1 := Units.mul_inv a
-      rw [ha, sub_self, zero_mul] at h0
+      rw [h, zero_mul] at h0
       have h01 := natCast_ne (m := m) (k := 0) (l := 1) (by omega) (by omega) (by omega)
       push_cast at h01
       exact h01 h0
-    have hcase : (s1 = 1 ∧ s2 = 2) ∨ (s1 = 6 ∧ s2 = 5) := by omega
-    rcases hcase with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩
+    have hmem' : ∀ k ∈ Finset.Icc 1 6, ∃ s ∈ Finset.Icc 1 6,
+        ((s : ℕ) : ZMod (2 * m - 1)) = a * (k : ℕ) + b := fun k hk ↦ by
+      obtain ⟨s, hs1, hs6, hs⟩ := hmem k (Finset.mem_Icc.1 hk).1 (Finset.mem_Icc.1 hk).2
+      exact ⟨s, Finset.mem_Icc.2 ⟨hs1, hs6⟩, hs⟩
+    have hab : ((a : ZMod (2 * m - 1)) = 1 ∧ b = 0) ∨ ((a : ZMod (2 * m - 1)) = -1 ∧ b = 7) := by
+      rcases (by omega : m = 5 ∨ m = 6 ∨ 7 ≤ m) with rfl | rfl | hm7
+      · exact gadget_affine_five _ _ hunit hmem'
+      · exact gadget_affine_six _ _ hunit hmem'
+      · exact gadget_affine_cases hm7 hmem
+    rcases hab with ⟨ha, hb⟩ | ⟨ha, hb⟩
     · left
       refine Equiv.ext fun v ↦ ?_
       rcases v with _ | x
       · rfl
-      · norm_num at ha hb
-        simp [ha, hb]
+      · simp [ha, hb]
     · right
       refine Equiv.ext fun v ↦ ?_
       rcases v with _ | x
       · rfl
-      · norm_num at ha hb
-        rw [gadgetFlip_some, Equiv.Perm.mul_apply, scale_some, shift_some, ha, hb, Units.val_neg,
-          Units.val_one, Option.some_inj]
+      · rw [gadgetFlip_some, Equiv.Perm.mul_apply, scale_some, shift_some, ha, hb, Option.some_inj]
         ring
   · have hmap : ∀ τ : Equiv.Perm (Vertex m), (∀ v ∈ FactorCap.gadget m, τ v ∈ FactorCap.gadget m) →
         (FactorCap.gadget m).map τ.toEmbedding = FactorCap.gadget m := fun τ h ↦
@@ -499,6 +543,24 @@ theorem stab_gadget (hm : 7 ≤ m) (σ : Equiv.Perm (Vertex m)) :
       refine Finset.mem_image.2 ⟨7 - k, Finset.mem_Icc.2 ⟨by omega, by omega⟩, ?_⟩
       rw [gadgetFlip_some, Nat.cast_sub (by omega : k ≤ 7)]
       norm_num
+
+/-- **`Stab(G0) = {id, x ↦ 7 - x}`** for odd `n = 2m - 1 ≥ 13`. An automorphism of `𝓕` maps the
+gadget `G0 = {1, …, 6}` onto itself iff it is the identity or `x ↦ 7 - x`
+(`results/autgroup-spike.md` §3, proof of `Stab_Aut(G0) = {id, x ↦ 7 - x}`). It is the case
+`7 ≤ m` of `stab_gadget_of_five_le`. -/
+theorem stab_gadget (hm : 7 ≤ m) (σ : Equiv.Perm (Vertex m)) :
+    (σ ∈ autGroup m ∧ (FactorCap.gadget m).map σ.toEmbedding = FactorCap.gadget m) ↔
+      σ = 1 ∨ σ = gadgetFlip m :=
+  stab_gadget_of_five_le (by omega) σ
+
+/-- `stab_gadget_of_five_le` fails at `n = 7`. There `G0 = ℤ/7 ∖ {0}`, and the automorphism
+`x ↦ 2x` maps it onto itself without being the identity or `x ↦ 7 - x`
+(`results/autgroup-spike.md` §3, and `results/symmetry-audit-contra.md` row L3, organize-archive
+bf3fe60). -/
+theorem not_stab_gadget_four :
+    ∃ σ : Equiv.Perm (Vertex 4), σ ∈ autGroup 4 ∧
+      (FactorCap.gadget 4).map σ.toEmbedding = FactorCap.gadget 4 ∧ σ ≠ 1 ∧ σ ≠ gadgetFlip 4 :=
+  ⟨scale 4 ⟨2, 4, by decide, by decide⟩, by rw [mem_autGroup]; decide +kernel⟩
 
 /-- At `n = 3` every permutation of `V_2` is an automorphism, so `Aut(𝓕) = S_4`
 (`results/autgroup-spike.md` §1, item 6, and §3). -/

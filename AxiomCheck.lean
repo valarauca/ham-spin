@@ -142,7 +142,9 @@ open Pairing PerfectMatching
 #print axioms RoundRobin.Canonical.card_autGroup
 #print axioms RoundRobin.Canonical.range_affinePerm
 #print axioms RoundRobin.Canonical.autGroupMulEquiv
+#print axioms RoundRobin.Canonical.stab_gadget_of_five_le
 #print axioms RoundRobin.Canonical.stab_gadget
+#print axioms RoundRobin.Canonical.not_stab_gadget_four
 #print axioms RoundRobin.Canonical.autGroup_two
 #print axioms RoundRobin.Canonical.card_autGroup_two
 #print axioms RoundRobin.Canonical.card_autGroup_three
