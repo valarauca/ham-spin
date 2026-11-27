@@ -12,6 +12,7 @@ vertex type is any finite `V` with `|V| = 2n`, and `W V` is described without a 
 * `wCongr` : `W V ≃ W V'` along `e : V ≃ V'`, and `wCongr_ρW` : it carries `ρW σ` to
   `ρW (e.permCongr σ)`.
 * `finrank_W_eq_of_card`, `rank_H_eq_of_card` : `dim W V = rank H = 2^(n-1)`.
+* `cknUpperBound_of_card` : `rank H ≤ 2^(n-1)` for every `n`, including `n = 0`.
 * `hamForm` : the form `B(P, Q) = [P ∪ Q is one cycle]` on `𝔽₂^𝓜`, and `quotRadEquiv` :
   `𝔽₂^𝓜 ⧸ rad B ≃ W V`, sending the class of `P` to the row `r_P`.
 * `finrank_quot_rad` : `dim 𝔽₂^𝓜 ⧸ rad B = 2^(n-1)`.
@@ -105,6 +106,13 @@ theorem finrank_W_eq_of_card {n : ℕ} (hV : Fintype.card V = 2 * n) (hn : 1 ≤
 theorem rank_H_eq_of_card {n : ℕ} (hV : Fintype.card V = 2 * n) (hn : 1 ≤ n) :
     (H (V := V)).rank = 2 ^ (n - 1) := by
   rw [← finrank_W, finrank_W_eq_of_card hV hn]
+
+/-- The CKN upper bound (arXiv:1211.1506, §3.1) for any vertex type: if `|V| = 2n` then
+`rank_{𝔽₂} H ≤ 2^(n-1)`, also at `n = 0`. Transported from `cknUpperBound` along `wCongr`. -/
+theorem cknUpperBound_of_card {n : ℕ} (hV : Fintype.card V = 2 * n) :
+    (H (V := V)).rank ≤ 2 ^ (n - 1) := by
+  rw [← finrank_W, (wCongr (Fintype.equivFinOfCardEq hV)).finrank_eq, finrank_W]
+  exact cknUpperBound n
 
 end Transport
 

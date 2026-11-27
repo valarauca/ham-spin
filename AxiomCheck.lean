@@ -125,3 +125,6 @@ open Pairing PerfectMatching
 #print axioms PerfectMatching.cycleCount_le_contractAt
 #print axioms PerfectMatching.cycleCount_le_contractAt_add_one
 #print axioms PerfectMatching.sum_pow_cycleCount_le
+#print axioms cknUpperBound_of_card
+#print axioms adjoin_ρW_eq_top_of_card
+#print axioms invariant_eq_bot_or_top_of_card
