@@ -217,3 +217,14 @@ open Pairing PerfectMatching
 #print axioms capLin_R3_le
 #print axioms congrLin_R3_le
 #print axioms cupQ_capQ
+#print axioms capLin_ρ_swap_cupLin
+#print axioms R4_le_comap
+#print axioms sym3_mem_R4
+#print axioms sum_sym3_δ_mem_R4
+#print axioms ρΔ_sym3
+#print axioms tlAct
+#print axioms tlAct_f3
+#print axioms f3Delta_eq
+#print axioms deltaQuotEquivW
+#print axioms deltaQuotEquivW_ρ
+#print axioms mk_mem_f3Delta_iff

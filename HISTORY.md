@@ -347,3 +347,36 @@ ones are `TL.e_mul_f3_and`, `TL.f3_mul_self`, `TL.one_add_s_mul_s_add_s_mul_s`, 
 `coeff_one_brauerPairing`, `H_cup`, `hamForm_cupLin`, `R4_le_R3`, `cupLin_capLin_add_mem_R4`,
 `mk_cupLin_capLin`, `cupLin_R3_le`, `capLin_R3_le`, `congrLin_R3_le` and `cupQ_capQ`. None was
 removed.
+
+## Theorem B.3, `W_n ≅ Δ_2n(0) ⧸ ⟨f_3⟩ Δ_2n(0)` (COD-278, branch `spin-b3`)
+
+From 59ff171. Theorem B.3 of `results/presentation-consequences-extend.md` §3.1, verified in item
+10 of `results/presentation-consequences-factcheck-extend.md` (organize-archive 3ba2201).
+`Δ V = 𝔽₂^𝓜 ⧸ R_4` is the four-switch quotient. The missing local lemma is the vanishing of the
+`S_3` sum on three points modulo `R_4`. It is proved from `cap_ab (b c) cup_ab = 1` and C.4, with no
+finite check. The Jantzen identification `M̄² = rad H_n` (`results/tl-jantzen-extend.md` Theorem 3,
+b21b41a) is not formalized.
+
+### New
+
+| name | statement | location |
+|---|---|---|
+| `PM.swap_smul_cup_mate_left`, `PM.boundary_swap_smul_cup`, `PM.capLin_ρ_swap_cupLin` | `cap_ab ∘ (b c) ∘ cup_ab = 1` for `c ∉ {a, b}` | `clifford/Clifford/TLAction.lean` |
+| `PM.smul_smul_eq_conj_smul`, `PM.ρ_fourSum`, `PM.R4_le_comap` | `R_4` is `S_V`-stable | `clifford/Clifford/TLAction.lean` |
+| `PM.sym3_mem_R4`, `PM.sum_sym3_δ_mem_R4` | the local lemma, `∑_{σ ∈ Sym{a,b,c}} e_{σP} ∈ R_4` | `clifford/Clifford/TLAction.lean` |
+| `PM.Δ`, `PM.ρΔ`, `PM.ρΔ_mk`, `PM.ρΔ_swap_mul_self`, `PM.ρΔ_sym3`, `PM.one_add_mul_mul_one_add_of_sym3`, `PM.one_add_ρΔ_braid` | `Δ V = 𝔽₂^𝓜 ⧸ R_4`, its `S_V` action and the local lemma on it | `clifford/Clifford/TLAction.lean` |
+| `PM.one_add_mul_self_F₂`, `PM.adjSwap_commute`, `PM.one_add_ρΔ_adjSwap_braid`, `PM.tlAct`, `PM.tlAct_e`, `PM.tlAct_one_add_e` | `TL_2n(0)` acts on `Δ_2n(0)` by `e_i ↦ 1 + (i, i+1)` | `clifford/Clifford/TLAction.lean` |
+| `PM.closure_adjSwap`, `PM.le_comap_tlAct` | adjacent transpositions generate `S_m`; a submodule stable under them is `TL_2n(0)`-stable | `clifford/Clifford/TLAction.lean` |
+| `PM.f3TL`, `PM.τ₀`, `PM.isThreeCycle_τ₀`, `PM.τ₀_sq`, `PM.tlAct_f3`, `PM.tlAct_f3_mk` | `f_3` acts on `Δ_2n(0)` as `1 + τ₀ + τ₀²`, `τ₀ = (0 1)(1 2)` | `clifford/Clifford/TLAction.lean` |
+| `PM.f3Delta`, `PM.f3Delta_le_comap_tlAct`, `PM.f3Delta_le_comap_ρΔ` | `⟨f_3⟩ Δ_2n(0)`, stable under `TL_2n(0)` and `S_2n` | `clifford/Clifford/TLAction.lean` |
+| `PM.R3Δ`, `PM.R3Δ_le_comap`, `PM.mk_mem_R3Δ_iff`, `PM.orbit_mem_R3` | the image `R_3 ⧸ R_4` of `R_3` in `Δ V` | `clifford/Clifford/TLAction.lean` |
+| `PM.f3Delta_le_R3Δ`, `PM.R3Δ_le_f3Delta`, `PM.f3Delta_eq` | `⟨f_3⟩ Δ_2n(0) = R_3 ⧸ R_4` for `n ≥ 2` | `clifford/Clifford/TLAction.lean` |
+| `PM.deltaQuotEquivW`, `PM.deltaQuotEquivW_mk`, `PM.deltaQuotEquivW_ρ` | B.3, `Δ_2n(0) ⧸ ⟨f_3⟩ Δ_2n(0) ≃ W_n`, `S_2n`-equivariant, `[e_P] ↦ r_P` | `clifford/Clifford/TLAction.lean` |
+| `PM.mk_mem_f3Delta_iff` | `[x] ∈ ⟨f_3⟩ Δ_2n(0)` iff `x` is in the radical of `H` | `clifford/Clifford/TLAction.lean` |
+
+### AxiomCheck
+
+224 endpoints, 219 on `[propext, Classical.choice, Quot.sound]` and 5 on fewer axioms. The 11 new
+ones are `capLin_ρ_swap_cupLin`, `R4_le_comap`, `sym3_mem_R4`, `sum_sym3_δ_mem_R4`, `ρΔ_sym3`,
+`tlAct`, `tlAct_f3`, `f3Delta_eq`, `deltaQuotEquivW`, `deltaQuotEquivW_ρ` and
+`mk_mem_f3Delta_iff`. None was removed.
