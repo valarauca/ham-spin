@@ -195,3 +195,5 @@ open Pairing PerfectMatching
 #print axioms ker_Θ_eq_R3
 #print axioms rowW_eq_sum
 #print axioms mk_δ_eq_sum
+#print axioms matchingStar_firstBlocks_eq_span
+#print axioms finrank_matchingStar_firstBlocks

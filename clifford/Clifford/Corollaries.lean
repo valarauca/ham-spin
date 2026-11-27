@@ -17,7 +17,10 @@ import Mathlib.FieldTheory.Minpoly.Field
 `W_n` is absolutely irreducible (`adjoin_ρW_eq_top`), so it has one composition factor, and the
 facts above hold on that factor.
 
-**C3.** `sum_Γ_matching` : `∑_{e ∈ M} Γ_e = (n mod 2) I` for every perfect matching `M`.
+**C3.** `sum_Γ_matching` : `∑_{e ∈ M} Γ_e = (n mod 2) I` for every perfect matching `M`. The
+proof uses `Γ(𝟙) r_{P0} = n r_{P0}` (`card_filter_lt_mate`) and the spanning rows. It does not use
+`adjoin_ρW_eq_top`, `wBasis` or `eq_smul_one_of_commute_rankOne`
+(`results/presentation-consequences-contra.md` L6, organize-archive 3ba2201).
 -/
 
 namespace Pairing.PerfectMatching
@@ -146,68 +149,65 @@ theorem f2_mul_self (a : F₂) : a * a = a := by
   revert a
   decide
 
-/-- C3. `∑_{e ∈ M} Γ_e = (n mod 2) I`. -/
+/-- A perfect matching of `Fin (2n)` has `n` edges `v < M v`. -/
+theorem card_filter_lt_mate (M : PerfectMatching (Fin (2 * n))) :
+    (Finset.univ.filter (fun v ↦ v < M.mate v)).card = n := by
+  have himg : (Finset.univ.filter (fun v ↦ v < M.mate v)).image M.mate =
+      Finset.univ.filter (fun v ↦ ¬v < M.mate v) := by
+    ext v
+    simp only [Finset.mem_image, Finset.mem_filter, Finset.mem_univ, true_and]
+    constructor
+    · rintro ⟨u, hu, rfl⟩
+      rw [mate_mate]
+      exact lt_asymm hu
+    · intro hv
+      have hlt : M.mate v < v := lt_of_le_of_ne (not_lt.mp hv) (M.mate_ne v)
+      exact ⟨M.mate v, by rwa [mate_mate], mate_mate _ _⟩
+  have hc := Finset.card_image_of_injective
+    (Finset.univ.filter (fun v ↦ v < M.mate v)) M.mate.injective
+  have ht := Finset.card_filter_add_card_filter_not (s := Finset.univ)
+    (fun v : Fin (2 * n) ↦ v < M.mate v)
+  rw [← himg, hc, Finset.card_univ, Fintype.card_fin] at ht
+  omega
+
+/-- C3. `∑_{e ∈ M} Γ_e = (n mod 2) I`. The proof uses `Γ(𝟙) r_{P0} = n r_{P0}` and the spanning
+rows, not T4 or `wBasis` (`results/presentation-consequences-contra.md` L6, organize-archive
+3ba2201). -/
 theorem sum_Γ_matching (hn : 1 ≤ n) (M : PerfectMatching (Fin (2 * n))) :
     ∑ v ∈ Finset.univ.filter (fun v ↦ v < M.mate v), Γ v (M.mate v) = (n : F₂) • 1 := by
-  have := nontrivial_W n hn
-  obtain ⟨o, -⟩ : ∃ o : Fin (2 * n), True := ⟨⟨0, by omega⟩, trivial⟩
-  obtain ⟨Z, hZ⟩ : ∃ Z, Z = gammaL o (ones n) := ⟨_, rfl⟩
-  have hsum : Z = ∑ v ∈ Finset.univ.filter (fun v ↦ v < M.mate v), Γ v (M.mate v) := by
-    rw [hZ, ones_eq_sum n M, map_sum]
-    exact Finset.sum_congr rfl fun v _ ↦ gammaL_v o (M.mate_ne v).symm
-  rw [← hsum]
-  have hcomm_Γ : ∀ i j : Fin (2 * n), Commute Z (Γ i j) := by
-    intro i j
-    by_cases hij : i = j
-    · subst hij
-      rw [Γ, swap_self, ← Perm.one_def, map_one]
-      exact Commute.one_right Z
-    have h := gammaL_anticomm o (ones_mem n) (v_mem i j)
-    rw [gammaL_v o hij, ← hZ] at h
-    have hd : dot (ones n) (v i j) = 0 := by
-      rw [dot_eq_card, supp_v hij]
-      have hs : supp (ones n) = Finset.univ := by
-        ext k
-        simp [supp, ones]
-      rw [hs, Finset.univ_inter, Finset.card_pair hij]
-      decide
-    rw [hd, zero_smul] at h
-    calc Z * Γ i j = Z * Γ i j + (Z * Γ i j + Γ i j * Z) := by rw [h, add_zero]
-      _ = (Z * Γ i j + Z * Γ i j) + Γ i j * Z := by abel
-      _ = Γ i j * Z := by rw [end_add_self, zero_add]
-  have hcomm_ρW : ∀ σ : Perm (Fin (2 * n)), Commute Z (ρW σ) := by
+  set o : Fin (2 * n) := ⟨0, by omega⟩
+  have hsumN : ∀ N : PerfectMatching (Fin (2 * n)), gammaL o (ones n) =
+      ∑ v ∈ Finset.univ.filter (fun v ↦ v < N.mate v), Γ v (N.mate v) := fun N ↦ by
+    rw [ones_eq_sum n N, map_sum]
+    exact Finset.sum_congr rfl fun v _ ↦ gammaL_v o (N.mate_ne v).symm
+  rw [← hsumN M]
+  set Z := gammaL o (ones n)
+  have hcomm : ∀ σ : Perm (Fin (2 * n)), ρW σ * Z = Z * ρW σ := by
     intro σ
-    have hσ : σ ∈ Submonoid.closure {τ : Perm (Fin (2 * n)) | τ.IsSwap} := by
-      rw [Perm.mclosure_isSwap]
-      exact Submonoid.mem_top σ
-    induction hσ using Submonoid.closure_induction with
-    | mem τ hτ =>
-      obtain ⟨i, j, -, rfl⟩ := hτ
-      exact hcomm_Γ i j
-    | one =>
-      rw [map_one]
-      exact Commute.one_right Z
-    | mul τ τ' _ _ h h' =>
-      rw [map_mul]
-      exact h.mul_right h'
-  have hcomm : ∀ f : Module.End F₂ (W (Fin (2 * n))), Commute Z f := by
-    intro f
-    have hf : f ∈ Algebra.adjoin F₂ (Set.range (ρW (V := Fin (2 * n)))) := by
-      rw [adjoin_ρW_eq_top n hn]
-      exact Algebra.mem_top
-    induction hf using Algebra.adjoin_induction with
-    | mem g hg =>
-      obtain ⟨σ, rfl⟩ := hg
-      exact hcomm_ρW σ
-    | algebraMap c => exact Algebra.commute_algebraMap_right c Z
-    | add f g _ _ hf hg => exact hf.add_right hg
-    | mul f g _ _ hf hg => exact hf.mul_right hg
-  have hscalar := eq_smul_one_of_commute_rankOne (wBasis n hn) Z (fun i j ↦ hcomm _) ∅
-  have hidem : Z * Z = Z := by
-    rw [hscalar, smul_mul_smul_comm, one_mul, f2_mul_self]
-  have hsq : Z * Z = (n : F₂) • 1 := by
-    rw [hZ, gammaL_sq o (ones_mem n), qfun_ones n]
-  rw [← hidem, hsq]
+    have h := ρW_conj_gammaL o σ (ones_mem n)
+    have e : (fun k ↦ ones n (σ⁻¹ k)) = ones n := rfl
+    rw [e] at h
+    calc ρW σ * Z = ρW σ * Z * (ρW σ⁻¹ * ρW σ) := by
+          rw [← map_mul, inv_mul_cancel, map_one, mul_one]
+      _ = Z * ρW σ := by rw [← mul_assoc, h]
+  have hP0 : Z (rowW (P0 n)) = (n : F₂) • rowW (P0 n) := by
+    rw [hsumN (P0 n), LinearMap.sum_apply]
+    rw [Finset.sum_congr rfl fun v _ ↦ (by rw [Γ, ρW_rowW, swap_mate_smul] :
+      Γ v ((P0 n).mate v) (rowW (P0 n)) = rowW (P0 n)), Finset.sum_const,
+      card_filter_lt_mate, Nat.cast_smul_eq_nsmul]
+  refine LinearMap.ext fun f ↦ ?_
+  have hf : f ∈ Submodule.span F₂ (Set.range (rowW (V := Fin (2 * n)))) := by
+    rw [span_rowW]
+    trivial
+  induction hf using Submodule.span_induction with
+  | mem g hg =>
+    obtain ⟨P, rfl⟩ := hg
+    obtain ⟨σ, rfl⟩ := exists_smul_eq (n := n) (by simp) (P0 n) P
+    rw [← ρW_rowW, ← Module.End.mul_apply, ← hcomm, Module.End.mul_apply, hP0, map_smul]
+    rfl
+  | zero => simp
+  | add f g _ _ hf hg => rw [map_add, hf, hg, map_add]
+  | smul c f _ hf => rw [map_smul, hf, map_smul]
 
 end Radical
 

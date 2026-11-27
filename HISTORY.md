@@ -252,6 +252,11 @@ The presented module `Q V = 𝔽₂^𝓜 ⧸ R_3` is a second instance, which gi
 | `PM.ΘQ`, `PM.ΘQ_mk`, `PM.ΘQ_ρQ`, `PM.ΘQ_surjective`, `PM.ΘQ_bijective`, `PM.ΘQEquiv`, `PM.ΘQEquiv_mk_δ` | the induced `S_V`-map `Q V → W V` is bijective | `clifford/Clifford/Presentation.lean` |
 | `PM.ker_Θ_eq_R3` | Conjecture 13.2, `ker Θ = R_3` for `|V| = 2n`, `n ≥ 1` | `clifford/Clifford/Presentation.lean` |
 | `PM.rowW_eq_sum`, `PM.mk_δ_eq_sum` | `r_P = ∑_S H[P, X_{G∖S}] w_S`, and the normal form `e_P ≡ ∑_S H[P, X_{G∖S}] e_{X_S}` mod `R_3` | `clifford/Clifford/Presentation.lean` |
+| `PM.firstBlocks`, `PM.mem_matchingStar_firstBlocks` | `E_j`, the first `j` edges of `P0`, and `x ∈ L_{E_j}` iff the block swaps `a < j` fix `x` | `clifford/Clifford/MatchingStarDim.lean` |
+| `PM.completions`, `PM.mem_completions`, `PM.card_completions` | the gap sets with no gap below `j`, `2^(n-1-j)` of them | `clifford/Clifford/MatchingStarDim.lean` |
+| `PM.w_mem_matchingStar_firstBlocks`, `PM.lower_eq_zero_of_mem`, `PM.repr_eq_zero_of_mem` | completion rows lie in `L_{E_j}`, and the lowering operators cut out the rest | `clifford/Clifford/MatchingStarDim.lean` |
+| `PM.matchingStar_firstBlocks_eq_span`, `PM.finrank_matchingStar_firstBlocks` | `L_{E_j} = span{w_S : S ∈ completions j}` and `dim L_{E_j} = 2^(n-1-j)` (extend Corollary A4) | `clifford/Clifford/MatchingStarDim.lean` |
+| `PM.card_filter_lt_mate` | a perfect matching of `Fin (2n)` has `n` edges `v < M v` | `clifford/Clifford/Corollaries.lean` |
 
 ### Same statement, new proof
 
@@ -275,13 +280,20 @@ Each is now a specialization of its `PM.ThreeCycleRep` namesake.
 | `PM.pres_ρW` | `5ecf8a5:clifford/Clifford/Dimension.lean:357` |
 | `PM.span_w_eq_top` | `5ecf8a5:clifford/Clifford/Dimension.lean:375` |
 
+`PM.sum_Γ_matching` (C3) is now proved from `Γ(𝟙) r_{P0} = n r_{P0}` and the spanning rows, without
+T4 (`adjoin_ρW_eq_top`), `wBasis` or `eq_smul_one_of_commute_rankOne`, following the compiled
+prototype `scripts/presentation-consequences-c-c3.lean` (organize-archive 3ba2201). Its last old
+proof is `4dbb915:clifford/Clifford/Corollaries.lean:150`. `eq_smul_one_of_commute_rankOne`,
+`qfun_ones` and `f2_mul_self` keep their statements but have no users left in ham-spin.
+
 ### Moved (private)
 
 `pres_of_gen` (`5ecf8a5:clifford/Clifford/Dimension.lean:292`) is now `PM.ThreeCycleRep.pres_of_gen`.
 
 ### AxiomCheck
 
-191 endpoints, 186 on `[propext, Classical.choice, Quot.sound]` and 5 on fewer axioms. The 12 new
+193 endpoints, 188 on `[propext, Classical.choice, Quot.sound]` and 5 on fewer axioms. The 14 new
 ones are `isThreeCycleRep_ρW`, `ThreeCycleRep.finrank_le`, `finrank_le_of_isThreeCycleRep`,
 `isThreeCycleRep_ρQ`, `finrank_Q_le`, `finrank_Q_eq`, `ΘQ_ρQ`, `ΘQ_bijective`, `ΘQEquiv`,
-`ker_Θ_eq_R3`, `rowW_eq_sum` and `mk_δ_eq_sum`. None was removed.
+`ker_Θ_eq_R3`, `rowW_eq_sum`, `mk_δ_eq_sum`, `matchingStar_firstBlocks_eq_span` and
+`finrank_matchingStar_firstBlocks`. None was removed.

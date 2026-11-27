@@ -18,3 +18,4 @@ import Clifford.BasisFree
 import Clifford.PolarSection
 import Clifford.PolarSectionAGL
 import Clifford.Presentation
+import Clifford.MatchingStarDim
