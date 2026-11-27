@@ -2,7 +2,7 @@
 % chktex-file 36
 \section{Perfect matchings, involution products and contraction}\label{sec:matchings}
 
-Throughout, $V$ is a finite set. Working with an arbitrary vertex set lets us restrict to subsets and contract edges without relabelling. Propositions~\ref{prop:moment} and~\ref{prop:invprod} are not used later.
+Throughout, $V$ is a finite set. Working with an arbitrary vertex set lets us restrict to subsets and contract edges without relabelling. Remark~\ref{rem:moment} and Proposition~\ref{prop:invprod} are not used later.
 
 \subsection{Matchings as involutions and union graphs}
 
@@ -24,16 +24,13 @@ $P$ and $Q$ are a \emph{Hamiltonian pair}, written $\Ham(P,Q)$, if $P\cup Q$ is 
 
 The matrix $H$ is symmetric and $H[\sigma P,\sigma Q]=H[P,Q]$ for $\sigma\in S_V$. On a nonempty vertex set $\Ham(P,Q)$ holds if and only if $\kappa(P\cup Q)=1$. When $|V|=2$ the unique matching $P_0$ satisfies $\Ham(P_0,P_0)$, so $H_2=(1)$. When $|V|>2$ two matchings with a common edge $\{u,v\}$ are never a Hamiltonian pair, because $\{u,v\}$ is then a component of $P\cup Q$ that misses some vertex. In particular $H$ has zero diagonal for $|V|\ge 4$.
 
-\begin{proposition}\label{prop:moment}
-Let $|V|=2n\ge2$, $F\in\M(V)$ and $x\ge 1$ a real number. Then
+\begin{remark}\label{rem:moment}
+Let $|V|=2n$ and $F\in\M(V)$. Then
 \[
-\sum_{P\in\M(V)}x^{\kappa(P\cup F)}\le\prod_{i=0}^{n-1}(x+2i).
+\sum_{P\in\M(V)}x^{\kappa(P\cup F)}=\prod_{i=0}^{n-1}(x+2i).
 \]
-\end{proposition}
-
-\begin{proof}
-For $|V|=2$ both sides equal $x$. Let $|V|\ge4$, fix $u$, put $u'=F(u)$, $V'=V\setminus\{u,u'\}$ and $\bar F=F/uu'$, and for $P\in\M(V)$ write $\bar P=P/uu'$. The component of $P\cup F$ through $u$ also contains $u'$, and every other component of $P\cup F$ is a component of $\bar P\cup\bar F$. If $P(u)\ne u'$, then $P(u)\in V'$, and the component of $\bar P\cup\bar F$ through $P(u)$ is not among those components, so $\kappa(P\cup F)\le\kappa(\bar P\cup\bar F)$. If $P(u)=u'$, then $\kappa(P\cup F)\le\kappa(\bar P\cup\bar F)+1$. For fixed $c=P(u)$ the map $P\mapsto\bar P$ is injective, since $P(u')=\bar P(c)$ when $c\ne u'$. Since $x\ge1$, each of the $2n-2$ values $c\ne u'$ contributes at most $\Sigma'=\sum_{R\in\M(V')}x^{\kappa(R\cup\bar F)}$, and the value $c=u'$ contributes at most $x\Sigma'$. So the sum is at most $(x+2n-2)\Sigma'$, and induction on $n$ gives the bound.
-\end{proof}
+Divided by $|\M(V)|=(2n-1)!!$, this says that for a uniformly random $P\in\M(V)$ the number $\kappa(P\cup F)$ has the distribution of a sum of $n$ independent Bernoulli variables with means $1/(2j-1)$, $1\le j\le n$, which is the form in which Ferber, Jain, Luh and Samotij state it~\cite[proof of Lemma~5.2]{FJLS19}. % chktex 40
+\end{remark}
 
 \subsection{Cycle structure through the involution product}
 

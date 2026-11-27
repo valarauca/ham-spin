@@ -151,19 +151,19 @@ A Hamiltonian cycle of $\mathcal G$ has even length $2n$ and splits in exactly o
 
 Fix an anchor vertex $v$ and a linear order on the edges at $v$. Every perfect matching of $\mathcal G$ contains exactly one edge at $v$, so $f_{\mathcal G}=\sum_{e\ni v}f_{\mathcal G,e}$, where $f_{\mathcal G,e}\in L_e$ is the sum over the perfect matchings of $\mathcal G$ through $e$. By Theorem~\ref{thm:parity}(i), $\QF(f_{\mathcal G,e})=0$, because no two matchings through $e$ are a Hamiltonian pair. So $\QF(f_{\mathcal G})=\sum_{e<e'}\pr{f_{\mathcal G,e},f_{\mathcal G,e'}}$, which is the sum over pairs of edges at the anchor that Cygan, Kratsch and Nederlof evaluate in the proof of~\cite[Lemma~3.6]{CKN18}. Since $\QF$ does not depend on $v$, this sum is the same for every anchor.
 
-A family $(F_1,\dots,F_m)$ is \emph{pairwise Hamiltonian} if $\Ham(F_s,F_t)$ holds exactly for $s\ne t$. Its Gram matrix ${(H[F_s,F_t])}_{s,t}$ then has zero diagonal and all other entries $1$. For $n\ge2$, by the definition in Section~\ref{subsec:main}, a perfect $1$-factorization~\cite{Kotzig64} of the complete graph on $V$ is a pairwise Hamiltonian family of $2n-1$ perfect matchings that partitions its edges.
+A family $(F_1,\dots,F_k)$ is \emph{pairwise Hamiltonian} if $\Ham(F_s,F_t)$ holds exactly for $s\ne t$. Its Gram matrix ${(H[F_s,F_t])}_{s,t}$ then has zero diagonal and all other entries $1$. For $n\ge2$, by the definition in Section~\ref{subsec:main}, a perfect $1$-factorization~\cite{Kotzig64} of the complete graph on $V$ is a pairwise Hamiltonian family of $2n-1$ perfect matchings that partitions its edges.
 
 \begin{theorem}\label{thm:kotzig}
-Let $|V|=2n$ with $n\ge4$ and let $\Fam=(F_1,\dots,F_m)$ be pairwise Hamiltonian.
+Let $|V|=2n$ with $n\ge4$ and let $\Fam=(F_1,\dots,F_k)$ be pairwise Hamiltonian.
 \begin{enumerate}
 \item Every linear relation $\sum_{t}c_t\varphi(F_t)=0$ has constant coefficients.
-\item If $m\equiv2,3\pmod4$, then the $\varphi(F_t)$ are linearly independent and $\dim R(\Fam)=m$.
+\item If $k\equiv2,3\pmod4$, then the $\varphi(F_t)$ are linearly independent and $\dim R(\Fam)=k$.
 \item If $n$ is even and $\Fam$ is a perfect $1$-factorization of the complete graph on $V$, then $\dim R(\Fam)=2n-1$.
 \end{enumerate}
 \end{theorem}
 
 \begin{proof}
-(i) Pair a relation with $\varphi(F_s)$. Since $H[F_s,F_t]=[s\ne t]$, this gives $\sum_{t\ne s}c_t=0$, so $c_s=\sum_{t}c_t$ for every $s$. (ii) By (i) the only possible relation is $\sum_t\varphi(F_t)=0$. Here $\hp(\Fam)=\binom m2$, which is odd exactly when $m\equiv2,3\pmod4$, and Theorem~\ref{thm:parity}(ii) excludes the relation. (iii) A perfect $1$-factorization has $m=2n-1$ pairwise Hamiltonian factors, and $\binom{2n-1}2=(2n-1)(n-1)$ is odd when $n$ is even.
+(i) Pair a relation with $\varphi(F_s)$. Since $H[F_s,F_t]=[s\ne t]$, this gives $\sum_{t\ne s}c_t=0$, so $c_s=\sum_{t}c_t$ for every $s$. (ii) By (i) the only possible relation is $\sum_t\varphi(F_t)=0$. Here $\hp(\Fam)=\binom k2$, which is odd exactly when $k\equiv2,3\pmod4$, and Theorem~\ref{thm:parity}(ii) excludes the relation. (iii) A perfect $1$-factorization has $k=2n-1$ pairwise Hamiltonian factors, and $\binom{2n-1}2=(2n-1)(n-1)$ is odd when $n$ is even.
 \end{proof}
 
 \begin{remark}\label{rem:K10}
