@@ -504,8 +504,13 @@ for `a ≠ 0` and `b ∉ {0, a, -a, a/2, 2a}` the two sides are `a + 2b` and `3a
 
 ## Collinear triples of fingerprints (COD-299, branch `spin-audit`)
 
-Theorem 3.2 of `results/audit-conjectures-extend.md` (organize-archive ad11c88), steps 1 and 3,
-in the new module `Clifford.CollinearTriples` (`clifford/Clifford/CollinearTriples.lean`).
+Theorem 3.2 of `results/audit-conjectures-extend.md` (organize-archive ad11c88), in the new module
+`Clifford.CollinearTriples` (`clifford/Clifford/CollinearTriples.lean`). For `P₁ ≠ P₂`,
+`φ(P₁) + φ(P₂) + φ(P₃) = 0` iff `P₂ = τP₁` and `P₃ = τP₂` for a three-cycle `τ`. Step 6 (two
+4-cycles) is not proved with a test matching. Step 1 fixes `P₃`, and the three-cycle law with
+injectivity of `φ` excludes the case. The corrected witness `Q′ = {15, 28, 36, 47}` of
+`results/audit-conjectures-factcheck-extend.md` (ad11c88) is not used. Proposition 3.3 is not
+formalized.
 
 ### New
 
@@ -517,9 +522,11 @@ in the new module `Clifford.CollinearTriples` (`clifford/Clifford/CollinearTripl
 | `PM.le_finrank_nullE_inf_add_two` | Lemma 3.1, `dim(M_(P₁) ∩ M_(P₂)) ≥ n - 2` in `U ⊕ 𝔽₂ε` | `clifford/Clifford/CollinearTriples.lean` |
 | `PM.finrank_pairCode_inf_le_cycleCount` | `dim(i₂(P) ∩ i₂(Q)) ≤ κ(P ∪ Q)` | `clifford/Clifford/CollinearTriples.lean` |
 | `PM.le_cycleCount_add_two` | step 3, `κ(P₁ ∪ P₂) ≥ n - 2` | `clifford/Clifford/CollinearTriples.lean` |
+| `PM.smul_eq_of_forall_mate` | `σ • P = Q` when `σ (P x) = Q (σ x)` for all `x` | `clifford/Clifford/CollinearTriples.lean` |
+| `PM.exists_isThreeCycle_of_rowW_add_add_eq_zero`, `PM.rowW_add_add_eq_zero_iff` | Theorem 3.2, the collinear triples are the three-cycle orbits | `clifford/Clifford/CollinearTriples.lean` |
 
 `clifford/Clifford.lean` imports the new module.
 
 ### AxiomCheck
 
-312 endpoints, 6 new, all on `[propext, Classical.choice, Quot.sound]`. None was removed.
+315 endpoints, 9 new, all on `[propext, Classical.choice, Quot.sound]`. None was removed.

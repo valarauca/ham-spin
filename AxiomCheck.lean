@@ -316,3 +316,6 @@ open Pairing PerfectMatching
 #print axioms le_finrank_nullE_inf_add_two
 #print axioms finrank_pairCode_inf_le_cycleCount
 #print axioms le_cycleCount_add_two
+#print axioms smul_eq_of_forall_mate
+#print axioms exists_isThreeCycle_of_rowW_add_add_eq_zero
+#print axioms rowW_add_add_eq_zero_iff
