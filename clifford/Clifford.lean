@@ -15,3 +15,4 @@ import Clifford.Corollaries
 import Clifford.BaseChange
 import Clifford.MaasModel
 import Clifford.BasisFree
+import Clifford.PolarSection
