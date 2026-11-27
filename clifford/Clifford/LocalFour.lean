@@ -1,4 +1,4 @@
-import Clifford.Contraction
+import Pairing.Contraction
 
 /-!
 # L-B. Four-point parity (sketch §2)

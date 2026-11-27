@@ -1,4 +1,4 @@
-import Clifford.Contraction
+import Pairing.Contraction
 
 /-!
 # L-C. Six-point parity (sketch §2)

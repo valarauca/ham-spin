@@ -121,3 +121,7 @@ open Pairing PerfectMatching
 #print axioms RoundRobin.Canonical.finrank_rrSpan
 #print axioms RoundRobin.Canonical.zeroCount_eq_card_orthogonal
 #print axioms RoundRobin.Canonical.zeroCount_div_eq
+#print axioms PerfectMatching.ham_iff_cycleCount_eq_one
+#print axioms PerfectMatching.cycleCount_le_contractAt
+#print axioms PerfectMatching.cycleCount_le_contractAt_add_one
+#print axioms PerfectMatching.sum_pow_cycleCount_le
