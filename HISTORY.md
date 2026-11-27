@@ -501,3 +501,25 @@ for `a ≠ 0` and `b ∉ {0, a, -a, a/2, 2a}` the two sides are `a + 2b` and `3a
 284 endpoints at cfe1b55, 306 after. The 22 new ones are the `GK.*` lines at the end of
 `AxiomCheck.lean`. 300 endpoints are on `[propext, Classical.choice, Quot.sound]` and 6 on fewer
 (`GK.affPerm_inj` is on `[propext, Quot.sound]`). None was removed.
+
+## Collinear triples of fingerprints (COD-299, branch `spin-audit`)
+
+Theorem 3.2 of `results/audit-conjectures-extend.md` (organize-archive ad11c88), steps 1 and 3,
+in the new module `Clifford.CollinearTriples` (`clifford/Clifford/CollinearTriples.lean`).
+
+### New
+
+| name | statement | location |
+|---|---|---|
+| `PM.rowW_add_add_eq_zero_of_isThreeCycle` | the "if" half, `φ(P) + φ(τP) + φ(τ²P) = 0` | `clifford/Clifford/CollinearTriples.lean` |
+| `PM.nullE_inf_le_nullE_add` | `N′(f) ∩ N′(g) ≤ N′(f + g)` | `clifford/Clifford/CollinearTriples.lean` |
+| `PM.pairCode_inf_le_of_rowW_eq_add`, `PM.mate_eq_of_rowW_eq_add` | step 1, `φ(P₃) = φ(P₁) + φ(P₂)` gives `i₂(P₁) ∩ i₂(P₂) ⊆ i₂(P₃)`, so a common edge of `P₁, P₂` lies in `P₃` | `clifford/Clifford/CollinearTriples.lean` |
+| `PM.le_finrank_nullE_inf_add_two` | Lemma 3.1, `dim(M_(P₁) ∩ M_(P₂)) ≥ n - 2` in `U ⊕ 𝔽₂ε` | `clifford/Clifford/CollinearTriples.lean` |
+| `PM.finrank_pairCode_inf_le_cycleCount` | `dim(i₂(P) ∩ i₂(Q)) ≤ κ(P ∪ Q)` | `clifford/Clifford/CollinearTriples.lean` |
+| `PM.le_cycleCount_add_two` | step 3, `κ(P₁ ∪ P₂) ≥ n - 2` | `clifford/Clifford/CollinearTriples.lean` |
+
+`clifford/Clifford.lean` imports the new module.
+
+### AxiomCheck
+
+312 endpoints, 6 new, all on `[propext, Classical.choice, Quot.sound]`. None was removed.

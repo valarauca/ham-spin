@@ -25,3 +25,4 @@ import Clifford.TLAction
 import Clifford.QuadraticForm
 import Clifford.SelfDualCode
 import Clifford.PureSpinor
+import Clifford.CollinearTriples

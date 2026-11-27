@@ -310,3 +310,9 @@ open Pairing PerfectMatching
 #print axioms GK.autGroupMulEquiv
 #print axioms GK.factor_zmod
 #print axioms GK.isAut_zmod_iff
+#print axioms rowW_add_add_eq_zero_of_isThreeCycle
+#print axioms pairCode_inf_le_of_rowW_eq_add
+#print axioms mate_eq_of_rowW_eq_add
+#print axioms le_finrank_nullE_inf_add_two
+#print axioms finrank_pairCode_inf_le_cycleCount
+#print axioms le_cycleCount_add_two
