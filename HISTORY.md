@@ -297,3 +297,49 @@ ones are `isThreeCycleRep_ρW`, `ThreeCycleRep.finrank_le`, `finrank_le_of_isThr
 `isThreeCycleRep_ρQ`, `finrank_Q_le`, `finrank_Q_eq`, `ΘQ_ρQ`, `ΘQ_bijective`, `ΘQEquiv`,
 `ker_Θ_eq_R3`, `rowW_eq_sum`, `mk_δ_eq_sum`, `matchingStar_firstBlocks_eq_span` and
 `finrank_matchingStar_firstBlocks`. None was removed.
+
+## Temperley–Lieb and Brauer forms of the presentation (COD-278, branch `spin-tl`)
+
+From 5ecf8a5, merged with 11916af. Theorems B.1, B.2, C.1 to C.4 of
+`results/presentation-consequences-extend.md` §3.1 and §3.2, with items 8 to 14 of
+`results/presentation-consequences-factcheck-extend.md` (organize-archive 3ba2201). The crossing
+`s_i = 1 + e_i` at `δ = -2` is from `results/tl-jantzen-extend.md` (b21b41a). Mathlib v4.35.0
+has no Temperley–Lieb or Brauer algebra, so `TL_N(δ)` is built here as a `RingCon.Quotient` of a
+free algebra, like Mathlib's `CliffordAlgebra`. B.3 and the Brauer-category packaging are not
+formalized.
+
+### New
+
+| name | statement | location |
+|---|---|---|
+| `TL`, `TL.Rel`, `TL.ringCon`, `TL.mk`, `TL.e`, `TL.mk_rel` | `TL_N(δ)` over a commutative ring, generators `e_i`, `i < N - 1` | `clifford/Clifford/TemperleyLieb.lean` |
+| `TL.e_mul_self`, `TL.e_mul_e_mul_e`, `TL.e_mul_e_comm` | the Temperley–Lieb relations | `clifford/Clifford/TemperleyLieb.lean` |
+| `TL.lift`, `TL.lift_e`, `TL.hom_ext` | the universal property | `clifford/Clifford/TemperleyLieb.lean` |
+| `jw`, `jw_comm`, `mul_jw`, `jw_mul`, `jw_mul_self`, `map_jw` | the Jones–Wenzl element `1 - (δ/(δ²-1))(x + y) + (1/(δ²-1))(xy + yx)` and its algebra | `clifford/Clifford/TemperleyLieb.lean` |
+| `TL.e_mul_jw`, `TL.jw_mul_e`, `TL.e_mul_jw'`, `TL.jw_mul_e'`, `TL.jw_e_mul_self` | B.1 on adjacent generators of any `TL_N(δ)` | `clifford/Clifford/TemperleyLieb.lean` |
+| `TL.f3`, `TL.e_mul_f3_and`, `TL.f3_mul_self` | B.1, `e_i f_3 = f_3 e_i = 0` and `f_3² = f_3` in `TL_3(δ)` for `δ² - 1` a unit | `clifford/Clifford/TemperleyLieb.lean` |
+| `one_add_mul_add_mul_eq_three_smul_jw`, `TL.one_add_s_mul_s_add_s_mul_s` | B.1, `1 + s_1 s_2 + s_2 s_1 = 3 f_3` at `δ = -2` when `3` is a unit | `clifford/Clifford/TemperleyLieb.lean` |
+| `jw_zero_F₂`, `TL.f3_F₂` | B.1, `f_3 = 1 + e_1 e_2 + e_2 e_1` over `𝔽₂` at `δ = 0` | `clifford/Clifford/TemperleyLieb.lean` |
+| `TL.JWRel`, `TLJW`, `TLJW.mk`, `TLJW.mk_jw`, `TLJW.mk_surjective`, `TLJW.lift`, `TLJW.lift_mk`, `TLJW.ebar`, `TLJW.hom_ext` | `TL_2n(0) ⧸ ⟨f_3^(i)⟩` over `𝔽₂`, all translates as generators | `clifford/Clifford/TemperleyLieb.lean` |
+| `TLJW.clToTLJW`, `TLJW.tlToCl`, `TLJW.tlJWToCl` | the maps `ι(v_{t,t+1}) ↦ 1 + ē_t` (from `reduceHom`) and `e_t ↦ 1 + ι(v_{t,t+1})` | `clifford/Clifford/TemperleyLieb.lean` |
+| `TLJW.jwQuotEquivCl`, `TLJW.jwQuotEquivCl_ebar`, `TLJW.jwQuotEquivCl_symm_ι` | B.2, `TL_2n(0) ⧸ ⟨f_3^(i)⟩ ≃ₐ Cl(U_n, q)` | `clifford/Clifford/TemperleyLieb.lean` |
+| `PM.brauerPairing`, `PM.H_eq_coeff_X_pow`, `PM.coeff_one_brauerPairing` | C.1, `H(x, y)` is the `δ¹` coefficient of `∑ x_P y_Q δ^{c(P ∪ Q)}` | `clifford/Clifford/Brauer.lean` |
+| `PM.offPair`, `PM.cup`, `PM.cupFun`, `PM.glue_cup`, `PM.capFun`, `PM.boundary`, `PM.contract_cup`, `PM.hasClosedCycle_cup_iff` | `Q ∪ {ab}`, `∂_ab F`, and their relation to `glue` and `contract` | `clifford/Clifford/Brauer.lean` |
+| `PM.H_cup` | C.2 on matchings, `H[Q ∪ ab, F] = [ab ∉ F] H[Q, ∂_ab F]` for `V ∖ {a, b}` nonempty | `clifford/Clifford/Brauer.lean` |
+| `PM.cupLin`, `PM.capLin`, `PM.capVec`, `PM.hamForm_δ`, `PM.hamForm_cupLin` | C.2, the cap is the `H`-adjoint of the cup | `clifford/Clifford/Brauer.lean` |
+| `PM.fourSum`, `PM.R4`, `PM.isThreeCycle_four`, `PM.R4_le_R3` | `R_4`, spanned by four-point orbit sums, lies in `R_3` | `clifford/Clifford/Brauer.lean` |
+| `PM.cup_boundary`, `PM.fourSum_eq`, `PM.cupLin_capLin_add_mem_R4`, `PM.mk_cupLin_capLin` | C.4, cap-cup on `{a, b}` is `1 + (a b)` modulo `R_4` | `clifford/Clifford/Brauer.lean` |
+| `PM.cup_smul`, `PM.cupLin_R3_le`, `PM.coe_Θ`, `PM.mem_R3_iff`, `PM.capLin_R3_le`, `PM.congrLin`, `PM.congrLin_R3_le` | C.3, cups, caps (`|V| = 2n`, `n ≥ 2`) and bijections preserve `R_3`; `R_3` is the radical of `H` | `clifford/Clifford/Brauer.lean` |
+| `PM.cupQ`, `PM.capQ`, `PM.congrQ`, `PM.cupQ_mk`, `PM.capQ_mk`, `PM.cupQ_capQ` | C.3 and C.4 on `Q V = 𝔽₂^𝓜 ⧸ R_3` | `clifford/Clifford/Brauer.lean` |
+
+C.2 needs `V ∖ {a, b}` nonempty. At `|V| = 2` it is false (fact check item 13), and `H_cup` uses
+`H_glue_of_hasClosedCycle`, which needs a nonempty complement.
+
+### AxiomCheck
+
+210 endpoints, 205 on `[propext, Classical.choice, Quot.sound]` and 5 on fewer axioms. The 17 new
+ones are `TL.e_mul_f3_and`, `TL.f3_mul_self`, `TL.one_add_s_mul_s_add_s_mul_s`, `TL.f3_F₂`,
+`TLJW.jwQuotEquivCl`, `TLJW.jwQuotEquivCl_ebar`, `TLJW.jwQuotEquivCl_symm_ι`,
+`coeff_one_brauerPairing`, `H_cup`, `hamForm_cupLin`, `R4_le_R3`, `cupLin_capLin_add_mem_R4`,
+`mk_cupLin_capLin`, `cupLin_R3_le`, `capLin_R3_le`, `congrLin_R3_le` and `cupQ_capQ`. None was
+removed.

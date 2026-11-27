@@ -19,3 +19,5 @@ import Clifford.PolarSection
 import Clifford.PolarSectionAGL
 import Clifford.Presentation
 import Clifford.MatchingStarDim
+import Clifford.TemperleyLieb
+import Clifford.Brauer
