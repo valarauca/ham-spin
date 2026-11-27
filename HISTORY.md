@@ -130,3 +130,57 @@ endpoints that ham_pairings lists (`PM.ham_iff_cycleCount_eq_one`,
 `PM.cycleCount_le_contractAt`, `PM.cycleCount_le_contractAt_add_one`,
 `PM.sum_pow_cycleCount_le`) and `cknUpperBound_of_card`, `adjoin_ρW_eq_top_of_card` and
 `invariant_eq_bot_or_top_of_card`.
+
+## Affine maps and the automorphism group (COD-259, branch `agl`)
+
+Moved from ham_pairings main d1cda40 in c1941cf, with every module-level declaration name and
+namespace unchanged. The AGL instance of the polar section was added in 7f4fd9b. "Last old form"
+is in ham_pairings, so `git show d1cda40:<path>` there shows it. `RRC` abbreviates
+`RoundRobin.Canonical`, and all names are in namespace `Pairing`.
+
+### Moved modules
+
+| old module (ham_pairings) | new module | last old form |
+|---|---|---|
+| `Repair.Automorphism` | `Pairing.Automorphism` (`core/Pairing/Automorphism.lean`) | `d1cda40:repair/Repair/Automorphism.lean` |
+
+ham_pairings keeps `Repair.Automorphism` as a module that imports `Pairing.Automorphism` and
+`Repair.FactorCap.Tail`, its old import, so `import Repair.Automorphism` keeps working. The
+declarations are moved unchanged. The file differs from the old one only in its imports
+(`Mathlib.LinearAlgebra.AffineSpace.AffineEquiv` and `Pairing.Affine` in place of
+`Repair.FactorCap.Tail`), two additions to the module docstring, and the definition of
+`FactorCap.gadget` before `RoundRobin.Canonical`.
+
+### Moved declarations (same full name)
+
+| name | old location (ham_pairings) | new location | last old form |
+|---|---|---|---|
+| `RRC.shift`, `RRC.shift_none`, `RRC.shift_some`, `RRC.shift_inv_none`, `RRC.shift_inv_some`, `RRC.shift_smul_factor` | `suppression/Suppression/HamCount.lean` | `core/Pairing/Affine.lean` | `d1cda40:suppression/Suppression/HamCount.lean:40` to `:66` |
+| `RRC.scale`, `RRC.scale_none`, `RRC.scale_some`, `RRC.scale_inv_none`, `RRC.scale_inv_some`, `RRC.scale_smul_factor`, `RRC.scale_mate_factor`, `RRC.affine_smul_factor`, `RRC.isZeroState_affine_smul_iff` | `repair/Repair/FactorCap/Scale.lean` | `core/Pairing/Affine.lean` | `d1cda40:repair/Repair/FactorCap/Scale.lean:26` to `:73`, `:90` |
+| `RRC.two_mul_natCast_self`, `RRC.natCast_injOn` | `repair/Repair/ZeroState.lean` | `core/Pairing/Affine.lean` | `d1cda40:repair/Repair/ZeroState.lean:94`, `:103` |
+| `FactorCap.gadget` | `repair/Repair/FactorCap/Tail.lean` | `core/Pairing/Automorphism.lean` | `d1cda40:repair/Repair/FactorCap/Tail.lean:49` |
+| `RRC.IsAut` and its `DecidablePred` instance, `RRC.IsAut.exists_perm`, `RRC.autGroup`, `RRC.mem_autGroup`, `RRC.mate_smul_eq`, `RRC.isAut_shift`, `RRC.isAut_affine`, `RRC.edgeLabel`, `RRC.mate_edgeLabel`, `RRC.edgeLabel_eq`, `RRC.mate_ne_mate`, `RRC.edgeLabel_smul`, `RRC.localSq`, `RRC.IsMedial`, `RRC.IsMedial.of_hom`, `RRC.localSq_smul`, `RRC.localSq_none`, `RRC.isMedial_localSq_none`, `RRC.localSq_zero`, `RRC.natCast_ne`, `RRC.not_isMedial_localSq_zero`, `RRC.IsAut.apply_none`, `RRC.IsAut.exists_affine`, `RRC.isAut_iff`, `RRC.affine_inj`, `RRC.autEquiv`, `RRC.card_autGroup`, `RRC.affinePerm`, `RRC.affinePerm_some`, `RRC.affinePerm_injective`, `RRC.affineEquiv_apply`, `RRC.range_affinePerm`, `RRC.autGroupMulEquiv`, `RRC.gadgetFlip`, `RRC.gadgetFlip_some`, `RRC.stab_gadget`, `RRC.autGroup_two`, `RRC.card_autGroup_two`, `RRC.card_autGroup_three`, `RRC.isAut_three_moebius` | `repair/Repair/Automorphism.lean` | `core/Pairing/Automorphism.lean` | `d1cda40:repair/Repair/Automorphism.lean:41` to `:506` |
+
+`Suppression.HamCount`, `Repair.FactorCap.Scale`, `Repair.ZeroState` and `Repair.FactorCap.Tail`
+stay in ham_pairings without these declarations and import `Pairing.Affine` or
+`Pairing.Automorphism`. `RRC.ham_factor_of_isUnit_sub` stays in `Repair.FactorCap.Scale`, since it
+uses `RRC.ham_factor_one` of `Suppression.HamCount`.
+
+### New
+
+| name | statement | location | commit |
+|---|---|---|---|
+| `RRC.affine_mem_fpSpanStab` | `shift m b * scale m a ∈ fpSpanStab (factor m)` | `clifford/Clifford/PolarSectionAGL.lean` | 7f4fd9b |
+| `RRC.rrSpan_map_and_isZeroState_affine_smul` | `v ↦ a v + b` fixes `R_rr` under `ρW` and the zero set | `clifford/Clifford/PolarSectionAGL.lean` | 7f4fd9b |
+| `RRC.autGroup_le_fpSpanStab` | `autGroup m ≤ fpSpanStab (factor m)` | `clifford/Clifford/PolarSectionAGL.lean` | 7f4fd9b |
+| `RRC.rrSpan_map_and_isZeroState_autGroupMulEquiv` | for `4 ≤ m`, `autGroupMulEquiv hm g` fixes `R_rr` under `ρW` and the zero set | `clifford/Clifford/PolarSectionAGL.lean` | 7f4fd9b |
+
+### AxiomCheck
+
+124 endpoints at fd082bf, 143 after c1941cf and 147 after 7f4fd9b. The 19 moved from ham_pairings
+`AxiomCheck.lean` (main d1cda40) are `RRC.shift_smul_factor`, `RRC.scale_smul_factor`,
+`RRC.isZeroState_affine_smul_iff` and the 16 automorphism endpoints from `RRC.isAut_affine` to
+`RRC.isAut_three_moebius`. The 4 new ones are the theorems above.
+
+ham_pairings drops its copies in 760cd71 on branch `agl-main` and records them in its
+`historic_references.md`.
