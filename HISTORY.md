@@ -380,3 +380,32 @@ b21b41a) is not formalized.
 ones are `capLin_ρ_swap_cupLin`, `R4_le_comap`, `sym3_mem_R4`, `sum_sym3_δ_mem_R4`, `ρΔ_sym3`,
 `tlAct`, `tlAct_f3`, `f3Delta_eq`, `deltaQuotEquivW`, `deltaQuotEquivW_ρ` and
 `mk_mem_f3Delta_iff`. None was removed.
+
+## The Hamiltonian-pair quadratic form and the parity theorem (COD-293, branch `spin-q`)
+
+From e88ff2d. The form `Q(u) = ⟨ABu, BAu⟩` with `A = 1 + Γ_vx`, `B = 1 + Γ_vy` is the elementary
+construction of `results/parity-apps-contra.md` §1, verified in
+`results/parity-apps-factcheck-contra.md` (organize-archive d6e5620). It formalizes Theorem A part 1
+and Corollary B of `results/outside-applications-extend.md` §§1–2 and Theorem Q of
+`results/p1f-spin-extend.md` §1.2 (d6e5620), without `ker Θ = R_3`. The vanishing `Q(φ(P)) = 0`
+is proved by one edge of `P` that misses `v, x, y`, in place of the contra's four-case check.
+S_2m-invariance, Witt index and plus type (Theorem A parts 2 to 4) are not formalized.
+
+### New
+
+| name | statement | location |
+|---|---|---|
+| `PM.fpForm_Γ_left`, `PM.one_add_Γ_mul_self`, `PM.fpForm_one_add_Γ_left` | `Γ_e` and `1 + Γ_e` are self-adjoint, `(1 + Γ_e)² = 0` | `clifford/Clifford/QuadraticForm.lean` |
+| `PM.quadT`, `PM.quadS`, `PM.fpForm_quadT_left`, `PM.fpForm_quadS_left`, `PM.quadT_mul_quadS`, `PM.quadS_mul_quadT`, `PM.quadT_add_quadS` | `AB` and `BA` are adjoint, `AB · BA = BA · AB = 0`, `AB + BA = 1` | `clifford/Clifford/QuadraticForm.lean` |
+| `PM.hamQuad`, `PM.hamQuad_apply`, `PM.polar_hamQuad`, `PM.polarBilin_hamQuad`, `PM.quadraticForm_add_of_polarBilin`, `PM.hamQuad_add` | (i) `Q(u) = ⟨ABu, BAu⟩` has polar form `fpForm` | `clifford/Clifford/QuadraticForm.lean` |
+| `PM.hamQuad_rowW` | (ii) `Q(φ(P)) = 0` for `\|V\| ≥ 7` | `clifford/Clifford/QuadraticForm.lean` |
+| `PM.quadraticForm_eq_of_polarBilin`, `PM.existsUnique_quadraticForm`, `PM.hamQuad_eq` | the form is unique, exists for `\|V\| = 2m`, `m ≥ 4`, and does not depend on `(v, x, y)` | `clifford/Clifford/QuadraticForm.lean` |
+| `PM.quadraticForm_sum_rowW`, `PM.hamQuad_sum_rowW` | (iii) `Q(Σ_{i ∈ s} φ(F_i)) = #{i < j : Ham F_i F_j}` mod 2 | `clifford/Clifford/QuadraticForm.lean` |
+| `PM.coe_sum_rowW_apply`, `PM.sum_rowW_ne_zero_of_odd`, `PM.exists_odd_ham_of_odd`, `PM.even_hamPairs_of_sum_rowW_eq_zero` | Corollary B.1 and B.3 | `clifford/Clifford/QuadraticForm.lean` |
+
+### AxiomCheck
+
+234 endpoints, 229 on `[propext, Classical.choice, Quot.sound]` and 5 on fewer axioms. The 10 new
+ones are `quadT_add_quadS`, `polarBilin_hamQuad`, `hamQuad_rowW`, `existsUnique_quadraticForm`,
+`hamQuad_eq`, `quadraticForm_sum_rowW`, `hamQuad_sum_rowW`, `sum_rowW_ne_zero_of_odd`,
+`exists_odd_ham_of_odd` and `even_hamPairs_of_sum_rowW_eq_zero`. None was removed.

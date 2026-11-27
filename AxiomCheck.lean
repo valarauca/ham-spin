@@ -228,3 +228,13 @@ open Pairing PerfectMatching
 #print axioms deltaQuotEquivW
 #print axioms deltaQuotEquivW_ρ
 #print axioms mk_mem_f3Delta_iff
+#print axioms quadT_add_quadS
+#print axioms polarBilin_hamQuad
+#print axioms hamQuad_rowW
+#print axioms existsUnique_quadraticForm
+#print axioms hamQuad_eq
+#print axioms quadraticForm_sum_rowW
+#print axioms hamQuad_sum_rowW
+#print axioms sum_rowW_ne_zero_of_odd
+#print axioms exists_odd_ham_of_odd
+#print axioms even_hamPairs_of_sum_rowW_eq_zero
