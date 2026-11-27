@@ -147,3 +147,7 @@ open Pairing PerfectMatching
 #print axioms RoundRobin.Canonical.card_autGroup_two
 #print axioms RoundRobin.Canonical.card_autGroup_three
 #print axioms RoundRobin.Canonical.isAut_three_moebius
+#print axioms RoundRobin.Canonical.affine_mem_fpSpanStab
+#print axioms RoundRobin.Canonical.rrSpan_map_and_isZeroState_affine_smul
+#print axioms RoundRobin.Canonical.autGroup_le_fpSpanStab
+#print axioms RoundRobin.Canonical.rrSpan_map_and_isZeroState_autGroupMulEquiv
