@@ -218,3 +218,70 @@ proved separately in `core/Pairing/Contraction.lean` (twice, private), in the pr
 
 179 endpoints, 174 on `[propext, Classical.choice, Quot.sound]` and 5 on fewer axioms. None was
 removed.
+
+## Three-cycle presentation, archive Conjecture 13.2 (COD-275, branch `spin-pres`)
+
+From 5ecf8a5. The upper-bound half of the CKN proof (`clifford/Clifford/Dimension.lean`, section
+`Upper`) and the edge relations R1 to R4 used only `1 + τ + τ² = 0`. They are now proved once for
+any `IsThreeCycleRep` in namespace `PM.ThreeCycleRep`, and the `W` statements are specializations.
+The presented module `Q V = 𝔽₂^𝓜 ⧸ R_3` is a second instance, which gives `Q V ≃ W V` and
+`ker Θ = R_3`. The mathematics is Proposition A and Corollary A1 of
+`results/presentation-consequences-contra.md` and Theorem A and Corollary A2 of
+`results/presentation-consequences-extend.md` (organize-archive 3ba2201). Background is
+`results/switch-patterns-extend.md` Theorem 2.1 (3293188).
+
+### New
+
+| name | statement | location |
+|---|---|---|
+| `PM.IsThreeCycleRep` | `1 + ρ(τ) + ρ(τ)² = 0` for every three-cycle `τ` | `clifford/Clifford/EdgeRelations.lean` |
+| `PM.ThreeCycleRep.Γ`, `.Γ_comm`, `.Γ_mul_self`, `.Γ_mul_comm_of_disjoint`, `.Γ_conj`, `.end_add_self` | `Γ_ij = ρ((i j))` and the group relations on any representation | `clifford/Clifford/EdgeRelations.lean` |
+| `PM.ThreeCycleRep.Γ_anticomm_of_adj`, `.Γ_add_Γ_add_Γ`, `.Γ_eq_add` | R3 and R4 on any `IsThreeCycleRep` | `clifford/Clifford/EdgeRelations.lean` |
+| `PM.isThreeCycleRep_ρW` | `W V` is a three-cycle representation (T1) | `clifford/Clifford/EdgeRelations.lean` |
+| `PM.ThreeCycleRep.wv`, `.wv_empty`, `.ρ_sigma_wv`, `.wv_insert` | `w_S = σ_S e` and the gap swaps on it | `clifford/Clifford/Dimension.lean` |
+| `PM.ThreeCycleRep.B`, `.Γ_gap`, `.B_mul_sigma`, `.B_wv`, `.wspan`, `.wv_mem`, `.pres_adj`, `.pres_Γ`, `.pres_ρ`, `.span_wv_eq_top` | section `Upper` for any `IsThreeCycleRep` with a generator fixed by the block swaps | `clifford/Clifford/Dimension.lean` |
+| `PM.ThreeCycleRep.finrank_le` | such a module on `Fin (2n)` has `dim ≤ 2^(n-1)` | `clifford/Clifford/Dimension.lean` |
+| `PM.w_eq_wv`, `PM.Wspan_eq_wspan` | `w_S` and `Wspan` are the generic ones at `e = r_{P0}` | `clifford/Clifford/Dimension.lean` |
+| `PM.isThreeCycle_permCongr`, `PM.permCongr_swap` | relabelling keeps three-cycles and transpositions | `clifford/Clifford/Presentation.lean` |
+| `PM.finrank_le_of_isThreeCycleRep` | `|V| = 2n`, generator fixed by the edges of one matching, gives `dim ≤ 2^(n-1)` | `clifford/Clifford/Presentation.lean` |
+| `PM.δ`, `PM.ρ_δ`, `PM.sum_smul_δ` | the basis vectors `e_P` of `𝔽₂^𝓜` | `clifford/Clifford/Presentation.lean` |
+| `PM.R3`, `PM.orbitSum_mem_R3`, `PM.R3_le_comap` | `R_3`, the span of the orbit sums `e_P + e_{τP} + e_{τ²P}` | `clifford/Clifford/Presentation.lean` |
+| `PM.Q`, `PM.ρQ`, `PM.ρQ_mk`, `PM.isThreeCycleRep_ρQ`, `PM.span_orbit_mk_δ` | `Q V = 𝔽₂^𝓜 ⧸ R_3` with its `S_V` action | `clifford/Clifford/Presentation.lean` |
+| `PM.finrank_Q_le`, `PM.finrank_Q_eq` | `dim Q V ≤ 2^(n-1)`, and `= 2^(n-1)` for `n ≥ 1` | `clifford/Clifford/Presentation.lean` |
+| `PM.Θ`, `PM.Θ_δ`, `PM.R3_le_ker_Θ`, `PM.Θ_surjective`, `PM.Θ_ρ` | the row map `e_P ↦ r_P` | `clifford/Clifford/Presentation.lean` |
+| `PM.ΘQ`, `PM.ΘQ_mk`, `PM.ΘQ_ρQ`, `PM.ΘQ_surjective`, `PM.ΘQ_bijective`, `PM.ΘQEquiv`, `PM.ΘQEquiv_mk_δ` | the induced `S_V`-map `Q V → W V` is bijective | `clifford/Clifford/Presentation.lean` |
+| `PM.ker_Θ_eq_R3` | Conjecture 13.2, `ker Θ = R_3` for `|V| = 2n`, `n ≥ 1` | `clifford/Clifford/Presentation.lean` |
+| `PM.rowW_eq_sum`, `PM.mk_δ_eq_sum` | `r_P = ∑_S H[P, X_{G∖S}] w_S`, and the normal form `e_P ≡ ∑_S H[P, X_{G∖S}] e_{X_S}` mod `R_3` | `clifford/Clifford/Presentation.lean` |
+
+### Same statement, new proof
+
+Each is now a specialization of its `PM.ThreeCycleRep` namesake.
+
+| name | last old proof |
+|---|---|
+| `PM.end_add_self` | `5ecf8a5:clifford/Clifford/EdgeRelations.lean:22` |
+| `PM.Γ_comm` | `5ecf8a5:clifford/Clifford/EdgeRelations.lean:29` |
+| `PM.Γ_mul_self` | `5ecf8a5:clifford/Clifford/EdgeRelations.lean:33` |
+| `PM.Γ_mul_comm_of_disjoint` | `5ecf8a5:clifford/Clifford/EdgeRelations.lean:37` |
+| `PM.Γ_anticomm_of_adj` | `5ecf8a5:clifford/Clifford/EdgeRelations.lean:47` |
+| `PM.Γ_conj` | `5ecf8a5:clifford/Clifford/EdgeRelations.lean:65` |
+| `PM.Γ_add_Γ_add_Γ` | `5ecf8a5:clifford/Clifford/EdgeRelations.lean:70` |
+| `PM.Γ_eq_add` | `5ecf8a5:clifford/Clifford/EdgeRelations.lean:81` |
+| `PM.w_insert` | `5ecf8a5:clifford/Clifford/Dimension.lean:178` |
+| `PM.B_mul_sigma` | `5ecf8a5:clifford/Clifford/Dimension.lean:224` |
+| `PM.B_w` | `5ecf8a5:clifford/Clifford/Dimension.lean:259` |
+| `PM.pres_adj` | `5ecf8a5:clifford/Clifford/Dimension.lean:307` |
+| `PM.pres_Γ` | `5ecf8a5:clifford/Clifford/Dimension.lean:324` |
+| `PM.pres_ρW` | `5ecf8a5:clifford/Clifford/Dimension.lean:357` |
+| `PM.span_w_eq_top` | `5ecf8a5:clifford/Clifford/Dimension.lean:375` |
+
+### Moved (private)
+
+`pres_of_gen` (`5ecf8a5:clifford/Clifford/Dimension.lean:292`) is now `PM.ThreeCycleRep.pres_of_gen`.
+
+### AxiomCheck
+
+191 endpoints, 186 on `[propext, Classical.choice, Quot.sound]` and 5 on fewer axioms. The 12 new
+ones are `isThreeCycleRep_ρW`, `ThreeCycleRep.finrank_le`, `finrank_le_of_isThreeCycleRep`,
+`isThreeCycleRep_ρQ`, `finrank_Q_le`, `finrank_Q_eq`, `ΘQ_ρQ`, `ΘQ_bijective`, `ΘQEquiv`,
+`ker_Θ_eq_R3`, `rowW_eq_sum` and `mk_δ_eq_sum`. None was removed.

@@ -183,3 +183,15 @@ open Pairing PerfectMatching
 #print axioms PerfectMatching.partition_smul_mate_mul_smul_mate
 #print axioms PerfectMatching.cycleCount_smul
 #print axioms PerfectMatching.congr_mate_mul_congr_mate
+#print axioms isThreeCycleRep_ρW
+#print axioms ThreeCycleRep.finrank_le
+#print axioms finrank_le_of_isThreeCycleRep
+#print axioms isThreeCycleRep_ρQ
+#print axioms finrank_Q_le
+#print axioms finrank_Q_eq
+#print axioms ΘQ_ρQ
+#print axioms ΘQ_bijective
+#print axioms ΘQEquiv
+#print axioms ker_Θ_eq_R3
+#print axioms rowW_eq_sum
+#print axioms mk_δ_eq_sum

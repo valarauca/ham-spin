@@ -12,6 +12,12 @@ Vertices are `Fin (2n)`. `P0 = {(2a, 2a+1)}`, and gap `j < n - 1` is `{2j+1, 2j+
 * `H_X` : `H[X_S, X_T] = [S Δ T = univ]`, so the `w_S` are independent (lower bound).
 * `wBasis`, `finrank_W_eq` : `dim W_n = 2^(n-1)`, and `cknUpperBound` discharges
   `CKNUpperBound`.
+
+The upper bound uses only `1 + τ + τ² = 0`. It is proved in namespace `ThreeCycleRep` for any
+`IsThreeCycleRep` on `Fin (2n)` and any vector `e` fixed by the block swaps, with
+`w_S = σ_S e` (`ThreeCycleRep.finrank_le`), and the `W` statements are its specialization to
+`e = r_{P0}`. This is Proposition A of `results/presentation-consequences-contra.md` and step 1 of
+Theorem A of `results/presentation-consequences-extend.md` (organize-archive 3ba2201).
 -/
 
 namespace Pairing.PerfectMatching
@@ -165,19 +171,29 @@ theorem P0_mate_val (v : Fin (2 * n)) : ((P0 n).mate v : ℕ) = p0Nat v :=
 def X (S : Finset (Fin (n - 1))) : PerfectMatching (Fin (2 * n)) :=
   sigma n S • P0 n
 
-/-- The basis vector `w_S = r_{X_S}`. -/
-def w (S : Finset (Fin (n - 1))) : W (Fin (2 * n)) :=
-  rowW (X n S)
+namespace ThreeCycleRep
 
-theorem w_empty : w n ∅ = rowW (P0 n) := by
-  rw [w, X, sigma_empty, one_smul]
+variable {M : Type*} [AddCommGroup M] [Module F₂ M] (ρM : Representation F₂ (Perm (Fin (2 * n))) M)
+  (e : M)
 
-theorem ρW_sigma_w (S T : Finset (Fin (n - 1))) : ρW (sigma n T) (w n S) = w n (symmDiff T S) := by
-  rw [w, w, X, X, ρW_rowW, smul_smul, sigma_mul]
+/-- `w_S = σ_S e` in any representation of `S_{2n}`, the vectors of Theorem A in
+`results/presentation-consequences-extend.md` (organize-archive 3ba2201). -/
+def wv (S : Finset (Fin (n - 1))) : M :=
+  ρM (sigma n S) e
 
-theorem w_insert {g : Fin (n - 1)} {S : Finset (Fin (n - 1))} (hg : g ∉ S) :
-    w n (insert g S) = ρW (sigma n {g}) (w n S) := by
-  rw [ρW_sigma_w]
+/-- `w_∅ = e`. -/
+theorem wv_empty : wv n ρM e ∅ = e := by
+  rw [wv, sigma_empty, map_one, Module.End.one_apply]
+
+/-- Gap swaps permute the `w_S`, `σ_T w_S = w_{T Δ S}`. -/
+theorem ρ_sigma_wv (S T : Finset (Fin (n - 1))) :
+    ρM (sigma n T) (wv n ρM e S) = wv n ρM e (symmDiff T S) := by
+  rw [wv, wv, ← Module.End.mul_apply, ← map_mul, sigma_mul]
+
+/-- `w_{S ∪ {g}} = σ_g w_S` for `g ∉ S`. -/
+theorem wv_insert {g : Fin (n - 1)} {S : Finset (Fin (n - 1))} (hg : g ∉ S) :
+    wv n ρM e (insert g S) = ρM (sigma n {g}) (wv n ρM e S) := by
+  rw [ρ_sigma_wv]
   congr 1
   ext x
   simp only [Finset.mem_insert, Finset.mem_symmDiff, Finset.mem_singleton]
@@ -190,6 +206,28 @@ theorem w_insert {g : Fin (n - 1)} {S : Finset (Fin (n - 1))} (hg : g ∉ S) :
   · rintro (⟨rfl, _⟩ | ⟨hx, _⟩)
     · exact Or.inl rfl
     · exact Or.inr hx
+
+end ThreeCycleRep
+
+/-- The basis vector `w_S = r_{X_S}`. -/
+def w (S : Finset (Fin (n - 1))) : W (Fin (2 * n)) :=
+  rowW (X n S)
+
+theorem w_empty : w n ∅ = rowW (P0 n) := by
+  rw [w, X, sigma_empty, one_smul]
+
+/-- `w_S = r_{X_S}` is the generic `w_S = σ_S e` at `e = r_{P0}`. -/
+theorem w_eq_wv : w n = ThreeCycleRep.wv n ρW (rowW (P0 n)) := by
+  funext S
+  rw [w, X, ThreeCycleRep.wv, ρW_rowW]
+
+theorem ρW_sigma_w (S T : Finset (Fin (n - 1))) : ρW (sigma n T) (w n S) = w n (symmDiff T S) := by
+  rw [w, w, X, X, ρW_rowW, smul_smul, sigma_mul]
+
+theorem w_insert {g : Fin (n - 1)} {S : Finset (Fin (n - 1))} (hg : g ∉ S) :
+    w n (insert g S) = ρW (sigma n {g}) (w n S) := by
+  rw [w_eq_wv]
+  exact ThreeCycleRep.wv_insert n ρW _ hg
 
 end Gaps
 
@@ -204,6 +242,212 @@ def blockLo (a : Fin n) : Fin (2 * n) :=
 /-- The upper end `2a+1` of block `a`. -/
 def blockHi (a : Fin n) : Fin (2 * n) :=
   ⟨2 * a + 1, by have := a.isLt; omega⟩
+
+namespace ThreeCycleRep
+
+variable {M : Type*} [AddCommGroup M] [Module F₂ M] (ρM : Representation F₂ (Perm (Fin (2 * n))) M)
+  (e : M)
+
+/-- `Γ` of the block edge `(2a, 2a+1)` of `P0`, on any representation of `S_{2n}`. -/
+def B (a : Fin n) : Module.End F₂ M :=
+  Γ ρM (blockLo n a) (blockHi n a)
+
+/-- The gap transposition is `σ_{g}`. -/
+theorem Γ_gap (g : Fin (n - 1)) : Γ ρM (gapLo n g) (gapHi n g) = ρM (sigma n {g}) := by
+  rw [sigma_single, Γ]
+
+variable {ρM}
+
+/-- On a three-cycle representation, a block edge and a gap edge anticommute to `I` when adjacent
+and commute otherwise (`results/presentation-consequences-contra.md` Proposition A step 3,
+organize-archive 3ba2201). -/
+theorem B_mul_sigma (h3 : IsThreeCycleRep ρM) (a : Fin n) (g : Fin (n - 1)) :
+    B n ρM a * ρM (sigma n {g}) = ρM (sigma n {g}) * B n ρM a +
+      (if (g : ℕ) = a ∨ (g : ℕ) + 1 = a then 1 else 0) := by
+  have hg := g.isLt
+  have ha := a.isLt
+  rw [← Γ_gap, B]
+  split_ifs with hadj
+  · have hanti : Γ ρM (blockLo n a) (blockHi n a) * Γ ρM (gapLo n g) (gapHi n g) +
+        Γ ρM (gapLo n g) (gapHi n g) * Γ ρM (blockLo n a) (blockHi n a) = 1 := by
+      rcases hadj with h | h
+      · have e : gapLo n g = blockHi n a := Fin.ext (by simp [gapLo, blockHi, h])
+        rw [e]
+        exact Γ_anticomm_of_adj h3 (Fin.ne_of_val_ne (by simp [blockLo, blockHi]))
+          (Fin.ne_of_val_ne (by simp [blockHi, gapHi]; omega))
+          (Fin.ne_of_val_ne (by simp [blockLo, gapHi]; omega))
+      · have e : gapHi n g = blockLo n a := Fin.ext (by simp [gapHi, blockLo]; omega)
+        rw [e, add_comm]
+        exact Γ_anticomm_of_adj h3 (Fin.ne_of_val_ne (by simp [gapLo, blockLo]; omega))
+          (Fin.ne_of_val_ne (by simp [blockLo, blockHi]))
+          (Fin.ne_of_val_ne (by simp [gapLo, blockHi]; omega))
+    calc Γ ρM (blockLo n a) (blockHi n a) * Γ ρM (gapLo n g) (gapHi n g)
+        = Γ ρM (blockLo n a) (blockHi n a) * Γ ρM (gapLo n g) (gapHi n g) +
+          (Γ ρM (gapLo n g) (gapHi n g) * Γ ρM (blockLo n a) (blockHi n a) +
+            Γ ρM (gapLo n g) (gapHi n g) * Γ ρM (blockLo n a) (blockHi n a)) := by
+          rw [end_add_self, add_zero]
+      _ = Γ ρM (gapLo n g) (gapHi n g) * Γ ρM (blockLo n a) (blockHi n a) + 1 := by
+          rw [← hanti]
+          abel
+  · rw [add_zero]
+    apply Γ_mul_comm_of_disjoint
+    simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil, or_false, List.nodup_nil,
+      and_true, not_or, Fin.ext_iff, blockLo, blockHi, gapLo, gapHi, not_false_eq_true]
+    omega
+
+variable {e}
+
+/-- The block swap on the `w_S`, from R3, when `e` is fixed by every block swap
+(`results/presentation-consequences-extend.md` Theorem A.1, organize-archive 3ba2201). -/
+theorem B_wv (h3 : IsThreeCycleRep ρM) (he : ∀ a, B n ρM a e = e) (a : Fin n)
+    (S : Finset (Fin (n - 1))) :
+    B n ρM a (wv n ρM e S) = wv n ρM e S +
+      ∑ g ∈ S.filter (fun g : Fin (n - 1) ↦ (g : ℕ) = a ∨ (g : ℕ) + 1 = a),
+        wv n ρM e (S.erase g) := by
+  induction S using Finset.induction_on with
+  | empty =>
+    rw [wv_empty, he]
+    simp
+  | insert g S hg ih =>
+    have hsum : ∑ h ∈ S.filter (fun g : Fin (n - 1) ↦ (g : ℕ) = a ∨ (g : ℕ) + 1 = a),
+        wv n ρM e ((insert g S).erase h) =
+        ∑ h ∈ S.filter (fun g : Fin (n - 1) ↦ (g : ℕ) = a ∨ (g : ℕ) + 1 = a),
+          ρM (sigma n {g}) (wv n ρM e (S.erase h)) := by
+      refine Finset.sum_congr rfl fun h hh ↦ ?_
+      have hS : h ∈ S := (Finset.mem_filter.mp hh).1
+      have hne : g ≠ h := fun e ↦ hg (e ▸ hS)
+      rw [Finset.erase_insert_of_ne hne,
+        wv_insert n ρM e (fun hm ↦ hg (Finset.mem_of_mem_erase hm))]
+    rw [wv_insert n ρM e hg, ← Module.End.mul_apply, B_mul_sigma n h3, LinearMap.add_apply,
+      Module.End.mul_apply, ih, map_add, map_sum, Finset.filter_insert]
+    split_ifs with hadj
+    · rw [Finset.sum_insert (fun hm ↦ hg (Finset.mem_filter.mp hm).1), Finset.erase_insert hg,
+        hsum, Module.End.one_apply]
+      abel
+    · rw [hsum, LinearMap.zero_apply]
+      abel
+
+variable (ρM e)
+
+/-- The span of the `w_S = σ_S e`. -/
+def wspan : Submodule F₂ M :=
+  Submodule.span F₂ (Set.range (wv n ρM e))
+
+theorem wv_mem (S : Finset (Fin (n - 1))) : wv n ρM e S ∈ wspan n ρM e :=
+  Submodule.subset_span ⟨S, rfl⟩
+
+variable {ρM e}
+
+private theorem pres_of_gen {f : Module.End F₂ M}
+    (h : ∀ S, f (wv n ρM e S) ∈ wspan n ρM e) : ∀ x ∈ wspan n ρM e, f x ∈ wspan n ρM e := by
+  intro x hx
+  induction hx using Submodule.span_induction with
+  | mem y hy =>
+    obtain ⟨S, rfl⟩ := hy
+    exact h S
+  | zero => simp
+  | add a b _ _ ha hb =>
+    rw [map_add]
+    exact add_mem ha hb
+  | smul c a _ ha =>
+    rw [map_smul]
+    exact Submodule.smul_mem _ c ha
+
+/-- Adjacent transpositions preserve the span of the `w_S`. -/
+theorem pres_adj (h3 : IsThreeCycleRep ρM) (he : ∀ a, B n ρM a e = e) (t : ℕ)
+    (ht : t + 1 < 2 * n) :
+    ∀ x ∈ wspan n ρM e, Γ ρM (⟨t, by omega⟩ : Fin (2 * n)) ⟨t + 1, ht⟩ x ∈ wspan n ρM e := by
+  apply pres_of_gen
+  intro S
+  rcases Nat.even_or_odd' t with ⟨a, rfl | rfl⟩
+  · have ha : a < n := by omega
+    have e : Γ ρM (⟨2 * a, by omega⟩ : Fin (2 * n)) ⟨2 * a + 1, ht⟩ = B n ρM ⟨a, ha⟩ := rfl
+    rw [e, B_wv n h3 he]
+    exact add_mem (wv_mem n ρM _ S) (Submodule.sum_mem _ fun g _ ↦ wv_mem n ρM _ _)
+  · have ha : a < n - 1 := by omega
+    have e : Γ ρM (⟨2 * a + 1, by omega⟩ : Fin (2 * n)) ⟨2 * a + 1 + 1, ht⟩ =
+        ρM (sigma n {⟨a, ha⟩}) := by
+      rw [← Γ_gap]
+      rfl
+    rw [e, ρ_sigma_wv]
+    exact wv_mem n ρM _ _
+
+/-- Every transposition preserves the span of the `w_S`, by R4. -/
+theorem pres_Γ (h3 : IsThreeCycleRep ρM) (he : ∀ a, B n ρM a e = e) (i j : Fin (2 * n)) :
+    ∀ x ∈ wspan n ρM e, Γ ρM i j x ∈ wspan n ρM e := by
+  have key : ∀ d i (h : i + d + 1 < 2 * n),
+      ∀ x ∈ wspan n ρM e, Γ ρM (⟨i, by omega⟩ : Fin (2 * n)) ⟨i + d + 1, h⟩ x ∈ wspan n ρM e := by
+    intro d
+    induction d with
+    | zero => exact fun i h ↦ pres_adj n h3 he i h
+    | succ d ih =>
+      intro i h x hx
+      have hsplit : Γ ρM (⟨i, by omega⟩ : Fin (2 * n)) ⟨i + (d + 1) + 1, h⟩ =
+          Γ ρM (⟨i, by omega⟩ : Fin (2 * n)) ⟨i + d + 1, by omega⟩ +
+            Γ ρM (⟨i + d + 1, by omega⟩ : Fin (2 * n)) ⟨i + d + 1 + 1, by omega⟩ :=
+        Γ_eq_add h3 (by simp only [ne_eq, Fin.mk.injEq]; omega)
+          (by simp only [ne_eq, Fin.mk.injEq]; omega) (by simp only [ne_eq, Fin.mk.injEq]; omega)
+      rw [hsplit, LinearMap.add_apply]
+      exact add_mem (ih i (by omega) x hx) (pres_adj n h3 he (i + d + 1) (by omega) x hx)
+  rcases lt_trichotomy i j with h | rfl | h
+  · obtain ⟨i, hi⟩ := i
+    obtain ⟨j, hj⟩ := j
+    have hlt : i < j := h
+    have e : (⟨j, hj⟩ : Fin (2 * n)) = ⟨i + (j - i - 1) + 1, by omega⟩ := Fin.ext (by simp; omega)
+    rw [e]
+    exact key (j - i - 1) i (by omega)
+  · intro x hx
+    rw [Γ, swap_self, ← Perm.one_def, map_one]
+    exact hx
+  · rw [Γ_comm]
+    obtain ⟨i, hi⟩ := i
+    obtain ⟨j, hj⟩ := j
+    have hlt : j < i := h
+    have e : (⟨i, hi⟩ : Fin (2 * n)) = ⟨j + (i - j - 1) + 1, by omega⟩ := Fin.ext (by simp; omega)
+    rw [e]
+    exact key (i - j - 1) j (by omega)
+
+/-- `S_{2n}` preserves the span of the `w_S`. -/
+theorem pres_ρ (h3 : IsThreeCycleRep ρM) (he : ∀ a, B n ρM a e = e) (σ : Perm (Fin (2 * n))) :
+    ∀ x ∈ wspan n ρM e, ρM σ x ∈ wspan n ρM e := by
+  have hσ : σ ∈ Submonoid.closure {τ : Perm (Fin (2 * n)) | τ.IsSwap} := by
+    rw [Perm.mclosure_isSwap]
+    exact Submonoid.mem_top σ
+  induction hσ using Submonoid.closure_induction with
+  | mem τ hτ =>
+    obtain ⟨i, j, -, rfl⟩ := hτ
+    exact pres_Γ n h3 he i j
+  | one =>
+    intro x hx
+    rw [map_one]
+    exact hx
+  | mul τ τ' _ _ h h' =>
+    intro x hx
+    rw [map_mul, Module.End.mul_apply]
+    exact h _ (h' x hx)
+
+/-- Upper bound for any three-cycle representation generated by a vector `e` fixed by the block
+swaps, the `w_S = σ_S e` span. This is Proposition A of
+`results/presentation-consequences-contra.md` (organize-archive 3ba2201). -/
+theorem span_wv_eq_top (h3 : IsThreeCycleRep ρM) (he : ∀ a, B n ρM a e = e)
+    (hgen : Submodule.span F₂ (Set.range fun σ ↦ ρM σ e) = ⊤) : wspan n ρM e = ⊤ := by
+  rw [eq_top_iff, ← hgen, Submodule.span_le]
+  rintro _ ⟨σ, rfl⟩
+  have h := pres_ρ n h3 he σ _ (wv_mem n ρM e ∅)
+  rwa [wv_empty] at h
+
+/-- `dim M ≤ 2^(n-1)` for any three-cycle representation of `S_{2n}` generated by a vector fixed
+by the block swaps (`results/presentation-consequences-contra.md` Proposition A, organize-archive
+3ba2201). -/
+theorem finrank_le (h3 : IsThreeCycleRep ρM) (he : ∀ a, B n ρM a e = e)
+    (hgen : Submodule.span F₂ (Set.range fun σ ↦ ρM σ e) = ⊤) :
+    Module.finrank F₂ M ≤ 2 ^ (n - 1) := by
+  rw [← finrank_top F₂ M, ← span_wv_eq_top n h3 he hgen]
+  calc Module.finrank F₂ (wspan n ρM e) ≤ Fintype.card (Finset (Fin (n - 1))) :=
+        finrank_range_le_card _
+    _ = 2 ^ (n - 1) := by simp
+
+end ThreeCycleRep
 
 /-- `Γ` of the block edge `(2a, 2a+1)` of `P0`. -/
 def B (a : Fin n) : Module.End F₂ (W (Fin (2 * n))) :=
@@ -223,64 +467,15 @@ theorem Γ_gap (g : Fin (n - 1)) : Γ (gapLo n g) (gapHi n g) = ρW (sigma n {g}
 /-- A block edge and a gap edge anticommute to `I` when adjacent and commute otherwise. -/
 theorem B_mul_sigma (a : Fin n) (g : Fin (n - 1)) :
     B n a * ρW (sigma n {g}) = ρW (sigma n {g}) * B n a +
-      (if (g : ℕ) = a ∨ (g : ℕ) + 1 = a then 1 else 0) := by
-  have hg := g.isLt
-  have ha := a.isLt
-  rw [← Γ_gap, B]
-  split_ifs with hadj
-  · have hanti : Γ (blockLo n a) (blockHi n a) * Γ (gapLo n g) (gapHi n g) +
-        Γ (gapLo n g) (gapHi n g) * Γ (blockLo n a) (blockHi n a) = 1 := by
-      rcases hadj with h | h
-      · have e : gapLo n g = blockHi n a := Fin.ext (by simp [gapLo, blockHi, h])
-        rw [e]
-        exact Γ_anticomm_of_adj (Fin.ne_of_val_ne (by simp [blockLo, blockHi]))
-          (Fin.ne_of_val_ne (by simp [blockHi, gapHi]; omega))
-          (Fin.ne_of_val_ne (by simp [blockLo, gapHi]; omega))
-      · have e : gapHi n g = blockLo n a := Fin.ext (by simp [gapHi, blockLo]; omega)
-        rw [e, add_comm]
-        exact Γ_anticomm_of_adj (Fin.ne_of_val_ne (by simp [gapLo, blockLo]; omega))
-          (Fin.ne_of_val_ne (by simp [blockLo, blockHi]))
-          (Fin.ne_of_val_ne (by simp [gapLo, blockHi]; omega))
-    calc Γ (blockLo n a) (blockHi n a) * Γ (gapLo n g) (gapHi n g)
-        = Γ (blockLo n a) (blockHi n a) * Γ (gapLo n g) (gapHi n g) +
-          (Γ (gapLo n g) (gapHi n g) * Γ (blockLo n a) (blockHi n a) +
-            Γ (gapLo n g) (gapHi n g) * Γ (blockLo n a) (blockHi n a)) := by
-          rw [end_add_self, add_zero]
-      _ = Γ (gapLo n g) (gapHi n g) * Γ (blockLo n a) (blockHi n a) + 1 := by
-          rw [← hanti]
-          abel
-  · rw [add_zero]
-    apply Γ_mul_comm_of_disjoint
-    simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil, or_false, List.nodup_nil,
-      and_true, not_or, Fin.ext_iff, blockLo, blockHi, gapLo, gapHi, not_false_eq_true]
-    omega
+      (if (g : ℕ) = a ∨ (g : ℕ) + 1 = a then 1 else 0) :=
+  ThreeCycleRep.B_mul_sigma n isThreeCycleRep_ρW a g
 
 /-- The block swap on the basis, from R3. -/
 theorem B_w (a : Fin n) (S : Finset (Fin (n - 1))) :
     B n a (w n S) = w n S +
       ∑ g ∈ S.filter (fun g : Fin (n - 1) ↦ (g : ℕ) = a ∨ (g : ℕ) + 1 = a), w n (S.erase g) := by
-  induction S using Finset.induction_on with
-  | empty =>
-    rw [w_empty, B_rowW_P0]
-    simp
-  | insert g S hg ih =>
-    have hsum : ∑ h ∈ S.filter (fun g : Fin (n - 1) ↦ (g : ℕ) = a ∨ (g : ℕ) + 1 = a),
-        w n ((insert g S).erase h) =
-        ∑ h ∈ S.filter (fun g : Fin (n - 1) ↦ (g : ℕ) = a ∨ (g : ℕ) + 1 = a),
-          ρW (sigma n {g}) (w n (S.erase h)) := by
-      refine Finset.sum_congr rfl fun h hh ↦ ?_
-      have hS : h ∈ S := (Finset.mem_filter.mp hh).1
-      have hne : g ≠ h := fun e ↦ hg (e ▸ hS)
-      rw [Finset.erase_insert_of_ne hne,
-        w_insert n (fun hm ↦ hg (Finset.mem_of_mem_erase hm))]
-    rw [w_insert n hg, ← Module.End.mul_apply, B_mul_sigma, LinearMap.add_apply,
-      Module.End.mul_apply, ih, map_add, map_sum, Finset.filter_insert]
-    split_ifs with hadj
-    · rw [Finset.sum_insert (fun hm ↦ hg (Finset.mem_filter.mp hm).1), Finset.erase_insert hg,
-        hsum, Module.End.one_apply]
-      abel
-    · rw [hsum, LinearMap.zero_apply]
-      abel
+  rw [w_eq_wv]
+  exact ThreeCycleRep.B_wv n isThreeCycleRep_ρW (B_rowW_P0 n) a S
 
 /-- The span of the `w_S`. -/
 def Wspan : Submodule F₂ (W (Fin (2 * n))) :=
@@ -289,95 +484,30 @@ def Wspan : Submodule F₂ (W (Fin (2 * n))) :=
 theorem w_mem (S : Finset (Fin (n - 1))) : w n S ∈ Wspan n :=
   Submodule.subset_span ⟨S, rfl⟩
 
-private theorem pres_of_gen {f : Module.End F₂ (W (Fin (2 * n)))}
-    (h : ∀ S, f (w n S) ∈ Wspan n) : ∀ x ∈ Wspan n, f x ∈ Wspan n := by
-  intro x hx
-  induction hx using Submodule.span_induction with
-  | mem y hy =>
-    obtain ⟨S, rfl⟩ := hy
-    exact h S
-  | zero => simp
-  | add a b _ _ ha hb =>
-    rw [map_add]
-    exact add_mem ha hb
-  | smul c a _ ha =>
-    rw [map_smul]
-    exact Submodule.smul_mem _ c ha
+theorem Wspan_eq_wspan : Wspan n = ThreeCycleRep.wspan n ρW (rowW (P0 n)) := by
+  rw [Wspan, w_eq_wv, ThreeCycleRep.wspan]
 
 theorem pres_adj (t : ℕ) (ht : t + 1 < 2 * n) :
     ∀ x ∈ Wspan n, Γ (⟨t, by omega⟩ : Fin (2 * n)) ⟨t + 1, ht⟩ x ∈ Wspan n := by
-  apply pres_of_gen
-  intro S
-  rcases Nat.even_or_odd' t with ⟨a, rfl | rfl⟩
-  · have ha : a < n := by omega
-    have e : Γ (⟨2 * a, by omega⟩ : Fin (2 * n)) ⟨2 * a + 1, ht⟩ = B n ⟨a, ha⟩ := rfl
-    rw [e, B_w]
-    exact add_mem (w_mem n S) (Submodule.sum_mem _ fun g _ ↦ w_mem n _)
-  · have ha : a < n - 1 := by omega
-    have e : Γ (⟨2 * a + 1, by omega⟩ : Fin (2 * n)) ⟨2 * a + 1 + 1, ht⟩ =
-        ρW (sigma n {⟨a, ha⟩}) := by
-      rw [← Γ_gap]
-      rfl
-    rw [e, ρW_sigma_w]
-    exact w_mem n _
+  rw [Wspan_eq_wspan]
+  exact ThreeCycleRep.pres_adj n isThreeCycleRep_ρW (B_rowW_P0 n) t ht
 
 theorem pres_Γ (i j : Fin (2 * n)) : ∀ x ∈ Wspan n, Γ i j x ∈ Wspan n := by
-  have key : ∀ d i (h : i + d + 1 < 2 * n),
-      ∀ x ∈ Wspan n, Γ (⟨i, by omega⟩ : Fin (2 * n)) ⟨i + d + 1, h⟩ x ∈ Wspan n := by
-    intro d
-    induction d with
-    | zero => exact fun i h ↦ pres_adj n i h
-    | succ d ih =>
-      intro i h x hx
-      have hsplit : Γ (⟨i, by omega⟩ : Fin (2 * n)) ⟨i + (d + 1) + 1, h⟩ =
-          Γ (⟨i, by omega⟩ : Fin (2 * n)) ⟨i + d + 1, by omega⟩ +
-            Γ (⟨i + d + 1, by omega⟩ : Fin (2 * n)) ⟨i + d + 1 + 1, by omega⟩ :=
-        Γ_eq_add (by simp only [ne_eq, Fin.mk.injEq]; omega)
-          (by simp only [ne_eq, Fin.mk.injEq]; omega) (by simp only [ne_eq, Fin.mk.injEq]; omega)
-      rw [hsplit, LinearMap.add_apply]
-      exact add_mem (ih i (by omega) x hx) (pres_adj n (i + d + 1) (by omega) x hx)
-  rcases lt_trichotomy i j with h | rfl | h
-  · obtain ⟨i, hi⟩ := i
-    obtain ⟨j, hj⟩ := j
-    have hlt : i < j := h
-    have e : (⟨j, hj⟩ : Fin (2 * n)) = ⟨i + (j - i - 1) + 1, by omega⟩ := Fin.ext (by simp; omega)
-    rw [e]
-    exact key (j - i - 1) i (by omega)
-  · intro x hx
-    rw [Γ, swap_self, ← Perm.one_def, map_one]
-    exact hx
-  · rw [Γ_comm]
-    obtain ⟨i, hi⟩ := i
-    obtain ⟨j, hj⟩ := j
-    have hlt : j < i := h
-    have e : (⟨i, hi⟩ : Fin (2 * n)) = ⟨j + (i - j - 1) + 1, by omega⟩ := Fin.ext (by simp; omega)
-    rw [e]
-    exact key (i - j - 1) j (by omega)
+  rw [Wspan_eq_wspan]
+  exact ThreeCycleRep.pres_Γ n isThreeCycleRep_ρW (B_rowW_P0 n) i j
 
 theorem pres_ρW (σ : Perm (Fin (2 * n))) : ∀ x ∈ Wspan n, ρW σ x ∈ Wspan n := by
-  have hσ : σ ∈ Submonoid.closure {τ : Perm (Fin (2 * n)) | τ.IsSwap} := by
-    rw [Perm.mclosure_isSwap]
-    exact Submonoid.mem_top σ
-  induction hσ using Submonoid.closure_induction with
-  | mem τ hτ =>
-    obtain ⟨i, j, -, rfl⟩ := hτ
-    exact pres_Γ n i j
-  | one =>
-    intro x hx
-    rw [map_one]
-    exact hx
-  | mul τ τ' _ _ h h' =>
-    intro x hx
-    rw [map_mul, Module.End.mul_apply]
-    exact h _ (h' x hx)
+  rw [Wspan_eq_wspan]
+  exact ThreeCycleRep.pres_ρ n isThreeCycleRep_ρW (B_rowW_P0 n) σ
 
 /-- Upper bound, the `w_S` span `W`. -/
 theorem span_w_eq_top : Wspan n = ⊤ := by
+  rw [Wspan_eq_wspan]
+  refine ThreeCycleRep.span_wv_eq_top n isThreeCycleRep_ρW (B_rowW_P0 n) ?_
   rw [eq_top_iff, ← span_rowW, Submodule.span_le]
   rintro _ ⟨P, rfl⟩
   obtain ⟨c, rfl⟩ := exists_smul_eq (n := n) (by simp) (P0 n) P
-  rw [← ρW_rowW, ← w_empty]
-  exact pres_ρW n c _ (w_mem n ∅)
+  exact Submodule.subset_span ⟨c, ρW_rowW c (P0 n)⟩
 
 theorem finrank_W_le : Module.finrank F₂ (W (Fin (2 * n))) ≤ 2 ^ (n - 1) := by
   rw [← finrank_top F₂ (W (Fin (2 * n))), ← span_w_eq_top n]
