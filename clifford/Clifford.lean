@@ -23,3 +23,5 @@ import Clifford.TemperleyLieb
 import Clifford.Brauer
 import Clifford.TLAction
 import Clifford.QuadraticForm
+import Clifford.SelfDualCode
+import Clifford.PureSpinor
