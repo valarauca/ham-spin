@@ -67,6 +67,7 @@ def dotForm : LinearMap.BilinForm F₂ (V → F₂) :=
     (fun _ _ _ ↦ by simp [dot, Finset.mul_sum, mul_left_comm])
 
 omit [DecidableEq V] in
+/-- `dotForm V x y = x · y` (`dot`, ham-spin 87df892). -/
 theorem dotForm_apply (x y : V → F₂) : dotForm V x y = dot x y :=
   rfl
 
@@ -80,6 +81,7 @@ omit [DecidableEq V] in
 theorem dot_self (x : V → F₂) : dot x x = ∑ i, x i :=
   Finset.sum_congr rfl fun i _ ↦ f2_mul_self' (x i)
 
+/-- `x · e_i = x_i`. -/
 theorem dot_single (x : V → F₂) (i : V) : dot x (Pi.single i 1) = x i := by
   simp [dot, Pi.single_apply]
 
@@ -88,6 +90,7 @@ theorem dot_v_left (i j : V) (y : V → F₂) : dot (v i j) y = y i + y j := by
   rw [dot_comm, v, ← dotForm_apply, map_add, dotForm_apply, dotForm_apply, dot_single, dot_single]
 
 omit [DecidableEq V] in
+/-- The dot product is reflexive, `x · y = 0 → y · x = 0`. -/
 theorem dotForm_isRefl : (dotForm V).IsRefl := fun x y h ↦ by
   rw [dotForm_apply, dot_comm]
   exact h
@@ -146,10 +149,12 @@ def IsSelfDual (C : Submodule F₂ (V → F₂)) : Prop :=
 variable {C C' : Submodule F₂ (V → F₂)}
 
 omit [DecidableEq V] in
+/-- A self-dual code is self-orthogonal. -/
 theorem IsSelfDual.isSelfOrth (hC : IsSelfDual C) : IsSelfOrth C := by
   rw [IsSelfOrth, hC]
 
 omit [DecidableEq V] in
+/-- A subcode of a self-orthogonal code is self-orthogonal. -/
 theorem IsSelfOrth.mono (hC : IsSelfOrth C) (h : C' ≤ C) : IsSelfOrth C' :=
   le_trans h (le_trans hC (LinearMap.BilinForm.orthogonal_le h))
 
@@ -254,6 +259,7 @@ theorem exists_isSelfOrth_gt (hV : Fintype.card V = 2 * n) (hC : IsSelfOrth C)
       exact Submodule.mem_sup_right (Submodule.mem_span_singleton_self _)
 
 omit [DecidableEq V] in
+/-- `𝟙 ∈ U` when `|V|` is even (`U`, ham-spin 87df892). -/
 theorem one_mem_U (hV : Fintype.card V = 2 * n) : (1 : V → F₂) ∈ U V := by
   rw [mem_U]
   simp only [Pi.one_apply, Finset.sum_const, Finset.card_univ, hV, nsmul_eq_mul, mul_one,
@@ -330,11 +336,13 @@ def pairCode (P : PerfectMatching V) : Submodule F₂ (V → F₂) where
     rw [Pi.smul_apply, Pi.smul_apply, hx i]
 
 omit [Fintype V] [DecidableEq V] in
+/-- `x ∈ i₂(P)` iff `x` is constant on every edge of `P`. -/
 theorem mem_pairCode {P : PerfectMatching V} {x : V → F₂} :
     x ∈ pairCode P ↔ ∀ i, x (P.mate i) = x i :=
   Iff.rfl
 
 omit [Fintype V] [DecidableEq V] in
+/-- `𝟙 ∈ i₂(P)`. -/
 theorem one_mem_pairCode (P : PerfectMatching V) : (1 : V → F₂) ∈ pairCode P :=
   fun _ ↦ rfl
 
@@ -387,6 +395,7 @@ def qE : QuadraticForm F₂ (U V × F₂) :=
   (qForm V).prod QuadraticMap.sq
 
 omit [DecidableEq V] in
+/-- `q̃(x + λε) = q(x) + λ` (`qfun`, ham-spin 87df892). -/
 theorem qE_apply (z : U V × F₂) : qE V z = qfun (z.1 : V → F₂) + z.2 := by
   rw [qE, QuadraticMap.prod_apply, QuadraticMap.sq_apply, qForm_apply, f2_mul_self']
 
@@ -399,6 +408,7 @@ theorem polar_qE (z w : U V × F₂) :
   ring
 
 omit [DecidableEq V] in
+/-- `q̃(z + w) = q̃(z) + q̃(w) + B̃(z, w)`. -/
 theorem qE_add (z w : U V × F₂) :
     qE V (z + w) = qE V z + qE V w + QuadraticMap.polar (qE V) z w := by
   rw [QuadraticMap.polar]
@@ -428,6 +438,7 @@ def IsTotSing (M : Submodule F₂ (U V × F₂)) : Prop :=
 variable {M M' N : Submodule F₂ (U V × F₂)}
 
 omit [DecidableEq V] in
+/-- A subspace of a totally singular subspace is totally singular. -/
 theorem IsTotSing.mono (hM : IsTotSing M) (h : N ≤ M) : IsTotSing N :=
   fun z hz ↦ hM z (h hz)
 
@@ -438,6 +449,7 @@ theorem IsTotSing.polar_eq_zero (hM : IsTotSing M) {z w : U V × F₂} (hz : z �
   rw [QuadraticMap.polar, hM _ (M.add_mem hz hw), hM z hz, hM w hw, sub_zero, sub_zero]
 
 omit [DecidableEq V] in
+/-- On a totally singular subspace the `U`-parts are dot-orthogonal (`dot`, ham-spin 87df892). -/
 theorem IsTotSing.dot_eq_zero (hM : IsTotSing M) {z w : U V × F₂} (hz : z ∈ M) (hw : w ∈ M) :
     dot (z.1 : V → F₂) w.1 = 0 := by
   rw [← polar_qE]
@@ -460,6 +472,7 @@ def projE : U V × F₂ →ₗ[F₂] V → F₂ :=
   (U V).subtype ∘ₗ LinearMap.fst F₂ (U V) F₂
 
 omit [DecidableEq V] in
+/-- `projE (x + λε) = x`. -/
 theorem projE_apply (z : U V × F₂) : projE V z = z.1 :=
   rfl
 
@@ -494,10 +507,12 @@ theorem mem_liftCode (hC : IsSelfOrth C) {z : U V × F₂} :
   exact (Submodule.span_le.mpr (fun z hz ↦ hz) : liftCode C ≤ N) hz
 
 omit [DecidableEq V] in
+/-- `C ≤ C'` gives `M_C ≤ M_C'`. -/
 theorem liftCode_mono (h : C ≤ C') : liftCode C ≤ liftCode C' :=
   Submodule.span_mono fun _ hz ↦ ⟨h hz.1, hz.2⟩
 
 omit [DecidableEq V] in
+/-- `M_C` is totally singular for a self-orthogonal `C`. -/
 theorem isTotSing_liftCode (hC : IsSelfOrth C) : IsTotSing (liftCode C) :=
   fun _ hz ↦ ((mem_liftCode hC).mp hz).2
 
@@ -722,6 +737,7 @@ theorem finrank_liftCode_inf (hC : IsSelfOrth C) (hC' : IsSelfOrth C') :
   rw [← liftCode_inf hC hC', finrank_liftCode (hC.mono inf_le_left)]
 
 omit [DecidableEq V] in
+/-- For self-orthogonal codes, `M_D ≤ M_C` iff `D ≤ C`. -/
 theorem liftCode_le_liftCode_iff (hD : IsSelfOrth D) (hC : IsSelfOrth C) :
     liftCode D ≤ liftCode C ↔ D ≤ C := by
   refine ⟨fun h ↦ ?_, liftCode_mono⟩

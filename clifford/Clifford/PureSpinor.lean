@@ -50,9 +50,10 @@ that `Γ̃` does not depend on `o`, so neither do `annE`, `nullE`, `psiE` and `I
   (`sup_eq_U_of_inf_le`), `F` is `S_V`-stable, so `F = W` by irreducibility
   (`invariant_eq_bot_or_top_of_card`, in place of the simplicity step). Every element of
   `𝔽₂[Γ̃(M')]` acts on the covector `⟨ψ', ·⟩` by a scalar, so `⟨ψ', W⟩ = 0`.
-* `finrank_annE` : part 1, `dim Ann(M) = 1` for every maximal `M`. A nonzero `ψ' ∈ Ann(M)` pairs to
-  `1` with some fingerprint `φ(Q)`, so `M` is opposite `M_Q`, and pairing with `φ(Q)` is injective
-  on `Ann(M)`. `psiE o M = ψ_M` is its nonzero vector, `annE_eq_span_psiE`, `eq_psiE`.
+* `exists_rowW_pairing_injective` : a nonzero `ψ' ∈ Ann(M)` pairs to `1` with some fingerprint
+  `φ(Q)`, so `M` is opposite `M_Q`, and pairing with `φ(Q)` is injective on `Ann(M)`.
+  `finrank_annE` : part 1, `dim Ann(M) = 1` for every maximal `M`. `psiE o M = ψ_M` is its nonzero
+  vector, `eq_psiE` and `annE_eq_span_psiE`.
 * `fpForm_psiE_eq_one_iff` : part 2, `⟨ψ_M, ψ_M'⟩ = 1` iff `M ∩ M' = 0` in `Ũ_n`.
 * `nullE_psiE`, `isPureSpinor_iff` : `N′(ψ_M) = M`, and the pure spinors are the `ψ_M`.
 
@@ -106,9 +107,11 @@ section Clifford
 def gammaE (o : V) : U V × F₂ →ₗ[F₂] Module.End F₂ (W V) :=
   ΓU o ∘ₗ LinearMap.fst F₂ (U V) F₂ + (LinearMap.snd F₂ (U V) F₂).smulRight 1
 
+/-- `Γ̃(x + λε) = Γ(x) + λI` (`ΓU`, ham-spin 87df892). -/
 theorem gammaE_apply (o : V) (z : U V × F₂) : gammaE o z = ΓU o z.1 + z.2 • 1 :=
   rfl
 
+/-- `Γ̃(x + 0ε) = Γ(x)` (`ΓU`, ham-spin 87df892). -/
 theorem gammaE_inl (o : V) (x : U V) : gammaE o (x, 0) = ΓU o x := by
   rw [gammaE_apply, zero_smul, add_zero]
 
@@ -150,6 +153,7 @@ def cliffordRepE (o : V) : CliffordAlgebra (qE V) →ₐ[F₂] Module.End F₂ (
   CliffordAlgebra.lift (qE V)
     ⟨gammaE o, fun z ↦ by rw [gammaE_mul_self, Algebra.algebraMap_eq_smul_one]⟩
 
+/-- `cliffordRepE` sends `ι(z)` to `Γ̃(z)`. -/
 theorem cliffordRepE_ι (o : V) (z : U V × F₂) :
     cliffordRepE o (CliffordAlgebra.ι (qE V) z) = gammaE o z :=
   CliffordAlgebra.lift_ι_apply _ _ _
@@ -250,6 +254,7 @@ organize-archive b47b504). -/
 def annE (o : V) (M : Submodule F₂ (U V × F₂)) : Submodule F₂ (W V) :=
   ⨅ z ∈ M, LinearMap.ker (gammaE o z)
 
+/-- `v ∈ Ann(M)` iff `Γ̃(z) v = 0` for every `z ∈ M`. -/
 theorem mem_annE {o : V} {f : W V} : f ∈ annE o M ↔ ∀ z ∈ M, gammaE o z f = 0 := by
   simp [annE]
 
@@ -258,9 +263,11 @@ b47b504), here in `U ⊕ 𝔽₂ε`, where it always contains `kE` (`kE_mem_null
 def nullE (o : V) (f : W V) : Submodule F₂ (U V × F₂) :=
   LinearMap.ker ((gammaE o).flip f)
 
+/-- `z ∈ N′(v)` iff `Γ̃(z) v = 0`. -/
 theorem mem_nullE {o : V} {f : W V} {z : U V × F₂} : z ∈ nullE o f ↔ gammaE o z f = 0 :=
   Iff.rfl
 
+/-- `M ≤ N′(v)` iff `v ∈ Ann(M)`. -/
 theorem le_nullE_iff {o : V} {f : W V} : M ≤ nullE o f ↔ f ∈ annE o M := by
   rw [mem_annE]
   exact ⟨fun h z hz ↦ h hz, fun h z hz ↦ h z hz⟩
@@ -343,6 +350,7 @@ theorem gammaL_one (hV : Fintype.card V = 2 * n) (o : V) :
   change gammaL o 1 + (n : F₂) • 1 = 0 at h
   exact eq_of_add_eq_zero_F₂ h
 
+/-- `kE = 𝟙 + nε ∈ N′(v)` for every `v`, since `Γ̃(kE) = 0`. -/
 theorem kE_mem_nullE (hV : Fintype.card V = 2 * n) (o : V) (f : W V) : kE hV ∈ nullE o f := by
   rw [mem_nullE, gammaE_kE, LinearMap.zero_apply]
 
@@ -706,5 +714,104 @@ theorem finrank_matchingStar_edgeSet (hV : Fintype.card V = 2 * n) (hn : 1 ≤ n
   rw [matchingStar_edgeSet_eq_span hV hn P, finrank_span_singleton (rowW_ne_zero hV hn P)]
 
 end Opposition
+
+section Codes
+
+variable {C C' : Submodule F₂ (V → F₂)} {n : ℕ}
+
+/-- `ψ_C = ψ_(M_C)`, the pure spinor of a self-dual code (Theorem 1.1.3 of
+`results/spinor-codes.md`, organize-archive d846b99). -/
+noncomputable def psiCode (o : V) (C : Submodule F₂ (V → F₂)) : W V :=
+  psiE o (liftCode C)
+
+/-- Theorem 1.1.4 of `results/spinor-codes.md` (organize-archive d846b99): `ψ_(i₂(P)) = φ(P)`
+(`rowW`, ham-spin 87df892). -/
+theorem psiCode_pairCode (hV : Fintype.card V = 2 * n) (hn : 1 ≤ n) (o : V)
+    (P : PerfectMatching V) : psiCode o (pairCode P) = rowW P :=
+  (eq_psiE hV hn o (maximal_liftCode_pairCode hV P) (rowW_mem_annE o P)
+    (rowW_ne_zero hV hn P)).symm
+
+/-- `ψ_C` is a pure spinor for every self-dual code `C`. -/
+theorem isPureSpinor_psiCode (hV : Fintype.card V = 2 * n) (hn : 1 ≤ n) (o : V)
+    (hC : IsSelfDual C) : IsPureSpinor o n (psiCode o C) :=
+  isPureSpinor_psiE hV hn o (maximal_liftCode hV hC)
+
+/-- `C` is recovered from `ψ_C` as the projection of `N′(ψ_C)` (Theorem 1.1.3 of
+`results/spinor-codes.md`, organize-archive d846b99). -/
+theorem codeOf_nullE_psiCode (hV : Fintype.card V = 2 * n) (hn : 1 ≤ n) (o : V)
+    (hC : IsSelfDual C) : codeOf (nullE o (psiCode o C)) = C := by
+  rw [psiCode, nullE_psiE hV hn o (maximal_liftCode hV hC), codeOf_liftCode hC.isSelfOrth]
+
+/-- Theorem 1.1.3 of `results/spinor-codes.md` (organize-archive d846b99): `C ↦ ψ_C` is a
+bijection from the self-dual codes of length `2n` onto the pure spinors of `Ũ_n` in `W V`, with
+inverse `v ↦ codeOf N′(v)`. The count `|PS_s| = σ_(s-1)` is not formalized. -/
+noncomputable def pureSpinorEquiv (hV : Fintype.card V = 2 * n) (hn : 1 ≤ n) (o : V) :
+    {C : Submodule F₂ (V → F₂) // IsSelfDual C} ≃ {f : W V // IsPureSpinor o n f} where
+  toFun C := ⟨psiCode o C.1, isPureSpinor_psiCode hV hn o C.2⟩
+  invFun f := ⟨codeOf (nullE o f.1), isSelfDual_codeOf hV (maximal_nullE hV f.2)⟩
+  left_inv C := Subtype.ext (codeOf_nullE_psiCode hV hn o C.2)
+  right_inv f := Subtype.ext (by
+    change psiE o (liftCode (codeOf (nullE o f.1))) = f.1
+    rw [liftCode_codeOf (isTotSing_nullE o f.2.1), psiE_nullE hV hn f.2])
+
+/-- Theorem 1.1.6 of `results/spinor-codes.md` (organize-archive d846b99):
+`⟨ψ_C, ψ_C'⟩ = 1` iff `C ∩ C' = ⟨𝟙⟩` (`fpForm`, ham-spin 87df892). -/
+theorem fpForm_psiCode_eq_one_iff (hV : Fintype.card V = 2 * n) (hn : 1 ≤ n) (o : V)
+    (hC : IsSelfDual C) (hC' : IsSelfDual C') :
+    fpForm (psiCode o C) (psiCode o C') = 1 ↔ C ⊓ C' = F₂ ∙ (1 : V → F₂) := by
+  rw [psiCode, psiCode,
+    fpForm_psiE_eq_one_iff hV hn o (maximal_liftCode hV hC) (maximal_liftCode hV hC'),
+    liftCode_inf_le_span_kE_iff hV hC.isSelfOrth hC'.isSelfOrth]
+  exact ⟨fun h ↦ le_antisymm h ((Submodule.span_singleton_le_iff_mem _ _).mpr
+    (Submodule.mem_inf.mpr ⟨hC.one_mem, hC'.one_mem⟩)), le_of_eq⟩
+
+/-- Corollary 1.2 of `results/spinor-codes.md` (organize-archive d846b99), the coordinate formula:
+`ψ_C(Q) = ⟨ψ_C, φ(Q)⟩ = 1` iff no word of `C` other than `0` and `𝟙` is a union of `Q`-edges
+(`fpForm_rowW_right`, ham-spin 87df892). -/
+theorem psiCode_apply_eq_one_iff (hV : Fintype.card V = 2 * n) (hn : 1 ≤ n) (o : V)
+    (hC : IsSelfDual C) (Q : PerfectMatching V) :
+    (psiCode o C : PerfectMatching V → F₂) Q = 1 ↔
+      ∀ x ∈ C, (∀ i, x (Q.mate i) = x i) → x = 0 ∨ x = 1 := by
+  rw [← fpForm_rowW_right, ← psiCode_pairCode hV hn o Q,
+    fpForm_psiCode_eq_one_iff hV hn o hC (isSelfDual_pairCode Q)]
+  constructor
+  · intro h x hx hxQ
+    have hx' : x ∈ C ⊓ pairCode Q := Submodule.mem_inf.mpr ⟨hx, hxQ⟩
+    rw [h] at hx'
+    exact mem_span_one_iff.mp hx'
+  · intro h
+    refine le_antisymm (fun x hx ↦ ?_) ?_
+    · obtain ⟨hxC, hxQ⟩ := Submodule.mem_inf.mp hx
+      exact mem_span_one_iff.mpr (h x hxC (mem_pairCode.mp hxQ))
+    · exact (Submodule.span_singleton_le_iff_mem _ _).mpr
+        (Submodule.mem_inf.mpr ⟨hC.one_mem, one_mem_pairCode Q⟩)
+
+/-- Corollary 1.2 of `results/spinor-codes.md` (organize-archive d846b99), survivor form: `ψ_C`
+lies in `R(F)^⊥ = ⋂_t φ(F_t)^⊥` iff every `F_t` makes some word of `C` other than `0` and `𝟙` a
+union of `F_t`-edges (`fpSpan`, ham-spin 87df892). -/
+theorem psiCode_mem_orthogonal_fpSpan_iff (hV : Fintype.card V = 2 * n) (hn : 1 ≤ n) (o : V)
+    (hC : IsSelfDual C) {ι : Type*} (F : ι → PerfectMatching V) :
+    psiCode o C ∈ fpForm.orthogonal (fpSpan F) ↔
+      ∀ t, ∃ x ∈ C, (∀ i, x ((F t).mate i) = x i) ∧ x ≠ 0 ∧ x ≠ 1 := by
+  rw [mem_orthogonal_fpSpan_iff]
+  refine forall_congr' fun t ↦ ?_
+  have h := psiCode_apply_eq_one_iff hV hn o hC (F t)
+  constructor
+  · intro h0
+    by_contra hne
+    simp only [not_exists, not_and, ne_eq] at hne
+    have h1 := h.mpr fun x hx hxQ ↦ by
+      by_cases hx0 : x = 0
+      · exact Or.inl hx0
+      · exact Or.inr (not_not.mp (hne x hx hxQ hx0))
+    rw [h0] at h1
+    exact zero_ne_one h1
+  · rintro ⟨x, hx, hxQ, hx0, hx1⟩
+    refine (f2_cases' _).resolve_right fun h1 ↦ ?_
+    rcases h.mp h1 x hx hxQ with h2 | h2
+    · exact hx0 h2
+    · exact hx1 h2
+
+end Codes
 
 end Pairing.PerfectMatching

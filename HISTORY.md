@@ -409,3 +409,58 @@ S_2m-invariance, Witt index and plus type (Theorem A parts 2 to 4) are not forma
 ones are `quadT_add_quadS`, `polarBilin_hamQuad`, `hamQuad_rowW`, `existsUnique_quadraticForm`,
 `hamQuad_eq`, `quadraticForm_sum_rowW`, `hamQuad_sum_rowW`, `sum_rowW_ne_zero_of_odd`,
 `exists_odd_ham_of_odd` and `even_hamPairs_of_sum_rowW_eq_zero`. None was removed.
+
+## Pure spinors and the self-dual code dictionary (COD-297, branch `spin-dict`)
+
+From 87df892. Theorems 1 and 2 of `results/spinor-hull-extend.md` (organize-archive b47b504), and
+Theorem 1.1 and Corollary 1.2 of `results/spinor-codes.md` (d846b99), split into layers as in
+`results/spinor-codes-factcheck.md` (4e3fe2d) §6. No quotient type is built. The space is
+`U × 𝔽₂` with `q̃(x, λ) = q(x) + λ`, and `kE = 𝟙 + nε` spans the kernel of the map to
+`Ũ_n = (U ⊕ 𝔽₂ε) ⧸ ⟨𝟙 + nε⟩`. Every maximal totally singular subspace contains `kE`, so dimensions
+in `Ũ_n` are one less than here. Theorem 2 is proved without the Fock basis: `𝔽₂[Γ̃(M')]ψ` is
+`S_V`-stable, hence all of `W` by `invariant_eq_bot_or_top_of_card`, and `𝔽₂[Γ̃(M')]` acts on
+`⟨ψ', ·⟩` by scalars. `Ann(M_P) = ⟨φ(P)⟩` then follows from Theorem 2, not from Lemma 1.1 of
+`results/zero-span-extend.md`. Not formalized: the count `∏(2^i + 1)`, the dual polar distance
+clause of Theorem 1.1.5, the affine-cube generator `M_(A,R)` of Theorem 1.1.4, and the `s mod 4`
+remark.
+
+### New
+
+| name | statement | location |
+|---|---|---|
+| `PM.dotForm`, `PM.dotForm_nondegenerate`, `PM.IsSelfOrth`, `PM.IsSelfDual` | codes `C ≤ 𝔽₂^V`, `C^⊥` | `clifford/Clifford/SelfDualCode.lean` |
+| `PM.IsSelfDual.le_U`, `PM.IsSelfDual.one_mem`, `PM.IsSelfDual.finrank_eq` | spinor-codes Theorem 1.1.1, `dim C = n` | `clifford/Clifford/SelfDualCode.lean` |
+| `PM.pairCode`, `PM.isSelfDual_pairCode`, `PM.span_v_mate` | `i₂(P)` is self-dual and spanned by the `v_e`, `e ∈ P` | `clifford/Clifford/SelfDualCode.lean` |
+| `PM.qE`, `PM.polar_qE`, `PM.epsE`, `PM.kE`, `PM.IsTotSing`, `PM.finrank_U`, `PM.mem_span_kE_of_polar` | `U ⊕ 𝔽₂ε` and `q̃`; `Ũ_n` is nondegenerate of dimension `2n - 1` | `clifford/Clifford/SelfDualCode.lean` |
+| `PM.liftCode`, `PM.codeOf`, `PM.finrank_le_of_isTotSing`, `PM.kE_mem_of_maximal`, `PM.maximal_isTotSing_iff` | `M_C`; Witt index `n - 1` | `clifford/Clifford/SelfDualCode.lean` |
+| `PM.selfDualEquiv`, `PM.maximal_liftCode_pairCode` | spinor-codes Theorem 1.1.2; `M_P` is maximal | `clifford/Clifford/SelfDualCode.lean` |
+| `PM.finrank_liftCode_inf`, `PM.liftCode_inf_le_span_kE_iff`, `PM.sup_eq_U_of_inf_le` | `dim(M_C ∩ M_C') = dim(C ∩ C')` here, opposition in code form | `clifford/Clifford/SelfDualCode.lean` |
+| `PM.gammaE`, `PM.gammaE_mul_self`, `PM.gammaE_anticomm`, `PM.gammaE_indep`, `PM.cliffordRepE` | `Γ̃(x + λε) = Γ(x) + λI` is a Clifford map | `clifford/Clifford/PureSpinor.lean` |
+| `PM.map_even_cliffordRepE`, `PM.cliffordRepE_surjective` | the even Clifford algebra maps onto `End(W)` | `clifford/Clifford/PureSpinor.lean` |
+| `PM.gammaE_kE`, `PM.gammaL_one` | `Γ̃(𝟙 + nε) = 0`; `Γ(𝟙) = nI` for any `V` | `clifford/Clifford/PureSpinor.lean` |
+| `PM.annE`, `PM.nullE`, `PM.IsPureSpinor`, `PM.isTotSing_nullE`, `PM.finrank_nullE_le` | `Ann(M)`, `N′(v)`, pure spinors; `N′(v)` is totally singular | `clifford/Clifford/PureSpinor.lean` |
+| `PM.fpForm_gammaE_left`, `PM.rowW_mem_annE`, `PM.annE_ne_bot` | `Γ̃(z)` is self-adjoint; `φ(P) ∈ Ann(M_P)`; `Ann(M) ≠ 0` | `clifford/Clifford/PureSpinor.lean` |
+| `PM.fpForm_eq_zero_of_mem_inf`, `PM.eq_zero_of_fpForm_eq_zero` | the two cases of Theorem 2 | `clifford/Clifford/PureSpinor.lean` |
+| `PM.finrank_annE`, `PM.psiE`, `PM.eq_psiE`, `PM.annE_eq_span_psiE`, `PM.fpForm_psiE_eq_one_iff` | Theorem 2: `Ann(M) = ⟨ψ_M⟩`, `⟨ψ_M, ψ_M'⟩ = 1` iff `M ∩ M' = 0` | `clifford/Clifford/PureSpinor.lean` |
+| `PM.nullE_psiE`, `PM.isPureSpinor_iff`, `PM.annE_liftCode_pairCode`, `PM.nullE_rowW`, `PM.isPureSpinor_rowW` | Theorem 1 parts 3 and 4 | `clifford/Clifford/PureSpinor.lean` |
+| `PM.annE_liftCode_pairCode_eq_matchingStar`, `PM.matchingStar_edgeSet_eq_span`, `PM.finrank_matchingStar_edgeSet` | `L_P = ⟨φ(P)⟩` for every `P` and `V` | `clifford/Clifford/PureSpinor.lean` |
+| `PM.psiCode`, `PM.pureSpinorEquiv`, `PM.psiCode_pairCode`, `PM.fpForm_psiCode_eq_one_iff` | spinor-codes Theorem 1.1 parts 3, 4 and 6 | `clifford/Clifford/PureSpinor.lean` |
+| `PM.psiCode_apply_eq_one_iff`, `PM.psiCode_mem_orthogonal_fpSpan_iff` | spinor-codes Corollary 1.2 and its survivor form | `clifford/Clifford/PureSpinor.lean` |
+
+### AxiomCheck
+
+284 endpoints, 279 on `[propext, Classical.choice, Quot.sound]` and 5 on fewer axioms. The 50 new
+ones are `dotForm_nondegenerate`, `IsSelfDual.le_U`, `IsSelfDual.one_mem`, `IsSelfDual.finrank_eq`,
+`isSelfDual_pairCode`, `finrank_U`, `sup_eq_U_of_inf_le`, `polar_qE`, `qE_epsE`, `polar_epsE`,
+`mem_span_kE_of_polar`, `finrank_le_of_isTotSing`, `kE_mem_of_maximal`, `maximal_isTotSing_iff`,
+`selfDualEquiv`, `maximal_liftCode_pairCode`, `finrank_liftCode_inf`,
+`liftCode_inf_le_span_kE_iff`, `gammaE_mul_self`, `gammaE_anticomm`, `gammaE_indep`,
+`cliffordRepE`, `cliffordRepE_ι`, `map_even_cliffordRepE`, `cliffordRepE_surjective`,
+`fpForm_gammaE_left`, `gammaE_kE`, `gammaL_one`, `rowW_mem_annE`, `isTotSing_nullE`,
+`finrank_nullE_le`, `annE_ne_bot`, `fpForm_eq_zero_of_mem_inf`, `eq_zero_of_fpForm_eq_zero`,
+`finrank_annE`, `annE_eq_span_psiE`, `fpForm_psiE_eq_one_iff`, `nullE_psiE`, `isPureSpinor_iff`,
+`annE_liftCode_pairCode`, `nullE_rowW`, `isPureSpinor_rowW`,
+`annE_liftCode_pairCode_eq_matchingStar`, `matchingStar_edgeSet_eq_span`,
+`finrank_matchingStar_edgeSet`, `pureSpinorEquiv`, `psiCode_pairCode`,
+`fpForm_psiCode_eq_one_iff`, `psiCode_apply_eq_one_iff` and `psiCode_mem_orthogonal_fpSpan_iff`.
+None was removed.
