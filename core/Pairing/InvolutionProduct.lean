@@ -29,7 +29,7 @@ Mathlib's `Equiv.Perm` cycle API, so that later files can trade hand-rolled walk
   fail, and for `n = 1` the product is `1` with partition `{1, 1}`.
 * `PerfectMatching.ham_iff_cycleType`: the same with `cycleType` once `2 ≤ n`.
 * `PerfectMatching.smul_mate_mul_smul_mate`: `(σ • P)(σ • Q) = σ (P Q) σ⁻¹`, hence the invariance
-  of `cycleType`, `partition` and `cycleCount` under relabelling.
+  of `cycleType` and `partition` under relabelling, and `PerfectMatching.cycleCount_smul`.
 -/
 
 namespace Pairing
@@ -70,7 +70,7 @@ theorem card_quotient_sameCycle (g : Perm α) :
         by_cases hx : x ∈ g.support
         · let c : g.cycleFactorsFinset := ⟨g.cycleOf x, cycleOf_mem_cycleFactorsFinset_iff.mpr hx⟩
           refine ⟨Sum.inr c, ?_⟩
-          show Quotient.mk _ (hne c).choose = Quotient.mk _ x
+          change Quotient.mk _ (hne c).choose = Quotient.mk _ x
           exact Quotient.sound (mem_support_cycleOf_iff.mp (hne c).choose_spec).1.symm
         · exact ⟨Sum.inl ⟨x, hx⟩, rfl⟩
   have h1 : Nat.card {x // x ∉ g.support} = Fintype.card α - #g.support := by
@@ -405,12 +405,11 @@ theorem partition_smul_mate_mul_smul_mate [Fintype V] [DecidableEq V] (σ : Perm
   rw [smul_mate_mul_smul_mate]
   exact (partition_eq_of_isConj.mp (isConj_iff.mpr ⟨σ, rfl⟩)).symm
 
-/-- `κ(σ P ∪ σ Q) = κ(P ∪ Q)`, read off the partition of `P Q`. -/
-theorem cycleCount_smul [Fintype V] [DecidableEq V] (σ : Perm V) (P Q : PerfectMatching V) :
-    cycleCount (σ • P) (σ • Q) = cycleCount P Q := by
-  have h := two_mul_cycleCount (σ • P) (σ • Q)
-  rw [partition_smul_mate_mul_smul_mate, ← two_mul_cycleCount] at h
-  omega
+/-- `κ(σ P ∪ σ Q) = κ(P ∪ Q)`, on any `V`. Relabelling is an isomorphism of union graphs, and
+on a finite `V` this is also `two_mul_cycleCount` with `partition_smul_mate_mul_smul_mate`. -/
+theorem cycleCount_smul (σ : Perm V) (P Q : PerfectMatching V) :
+    cycleCount (σ • P) (σ • Q) = cycleCount P Q :=
+  (Nat.card_congr (unionIso σ P Q).connectedComponentEquiv).symm
 
 /-- Transport along `e : V ≃ V'` carries the product `P Q` to its `e`-conjugate. -/
 theorem congr_mate_mul_congr_mate {V' : Type*} (e : V ≃ V') (P Q : PerfectMatching V) :
